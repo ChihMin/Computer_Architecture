@@ -5,7 +5,9 @@
 #include "IOfunction.h"
 
 namespace Simulator{
+	void initialize();
 	void run();
+	void check_image();
 }
 
 #endif

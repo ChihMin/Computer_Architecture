@@ -1,6 +1,10 @@
 simulator:main.o interpreter.o simulator.o IOfunction.o
 	g++ -o single_cycle IOfunction.o interpreter.o  simulator.o main.o
 
+
+debug:main.o interpreter.o simulator.o IOfunction.o
+	clang++ -g -o debug IOfunction.o interpreter.o  simulator.o main.o
+
 main.o:
 	g++ -c main.cpp
 
@@ -14,4 +18,4 @@ IOfunction.o:
 	g++ -c IOfunction.cpp
 
 clean:
-	rm *.o single_cycle
+	rm *.o single_cycle debug
