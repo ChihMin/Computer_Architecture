@@ -3,10 +3,10 @@
 namespace Simulator{
 	u32 iimage[256];
 	u32 dimage[256];
-	uchar iimagePath = "../testcase/"
-	uchar dimagePath = "../testcase/"
+	char iimagePath[] = "../testcase/";
+	char dimagePath[] = "../testcase/";
 
 	void run(){
-		load_binary(iimage, dimage, );		
+		load_binary(iimage, iimagePath, dimage, dimagePath);		
 	}
 }

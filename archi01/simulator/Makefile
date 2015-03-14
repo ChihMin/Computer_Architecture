@@ -1,5 +1,5 @@
 simulator:main.o interpreter.o simulator.o IOfunction.o
-	g++ -o single_cycle interpreter.o main.o simulator.o IOfunction.o
+	g++ -o single_cycle IOfunction.o interpreter.o  simulator.o main.o
 
 main.o:
 	g++ -c main.cpp
