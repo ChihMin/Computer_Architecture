@@ -27,10 +27,10 @@ namespace Simulator{
 	}
 
 	void check_image(){
-			
-		for(int i = 0; i < 300; ++i){
+		printf("PC = %d %X\n", PC, iimage[0]);	
+		for(int i = 0; i < iimage_words; ++i){
 			printf("opcode = %X ", ins[i].get_opcode());	
-			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i] << std::endl; 
+			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i+2] << std::endl; 
 		}
 	} 
 }
