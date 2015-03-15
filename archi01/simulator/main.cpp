@@ -1,4 +1,3 @@
-#include "interpreter.h"
 #include "simulator.h"
 
 int main(){

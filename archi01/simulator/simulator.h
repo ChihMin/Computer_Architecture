@@ -4,8 +4,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include "interpreter.h"
-#include "definition.h"
 #include "IOfunction.h"
 
 

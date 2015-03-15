@@ -8,4 +8,7 @@
 typedef unsigned int u32;
 typedef unsigned char uchar;
 
+#define INF 0xFFFFFFFF
+
+
 #endif

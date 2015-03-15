@@ -9,4 +9,12 @@ namespace Interpreter{
 	uchar get_opcode(u32 ins);
 }
 
+class Instruction{
+	public:
+		Instruction();
+		void set_opcode( u32 ins );
+		uchar get_opcode();		
+	private:
+		uchar opcode;			
+}; 
 #endif
