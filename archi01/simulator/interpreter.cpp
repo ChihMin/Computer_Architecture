@@ -13,6 +13,30 @@ void Instruction::set_opcode(u32 ins){
 	this->opcode = ( ins & OPCODE_MASK ) >> 26;
 }
 
+void Instruction::set_rs( u32 ins ){
+
+}
+
+void Instruction::set_rt( u32 ins ){
+
+}
+
+void Instruction::set_rd( u32 ins ){
+
+}
+
+void Instruction::set_C_shamt( u32 ins ){
+
+}
+
+void Instruction::set_C_immediate( u32 ins ){
+
+}
+
+void decode( u32 ins ){
+
+}
+
 uchar Instruction::get_opcode(){
 	return this->opcode;
 }
