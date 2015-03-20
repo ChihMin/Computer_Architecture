@@ -14,14 +14,16 @@ void Instruction::set_opcode(u32 ins){
 }
 
 void Instruction::set_rs( u32 ins ){
-
+	this->rs = ( ins & RS_MASK ) >> 21;
 }
 
 void Instruction::set_rt( u32 ins ){
+	this->rt = ( ins & RT_MASK ) >> 16;
 
 }
 
 void Instruction::set_rd( u32 ins ){
+	this->rd = ( ins & RD_MASK ) >> 11;
 
 }
 

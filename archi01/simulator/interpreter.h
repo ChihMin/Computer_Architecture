@@ -2,8 +2,12 @@
 #define INTERPRETER_H
 
 #include "definition.h"
-#define OPCODE_MASK 0xFC000000
-#define RS_MASK 
+
+#define	OPCODE_MASK	0xFC000000
+#define	RS_MASK	0x03F00000
+#define RT_MASK 0x001F0000
+#define RD_MASK 0x0000F800
+#define C_SHAMT_MASK  
 
 namespace Interpreter{
 
@@ -56,6 +60,8 @@ class Instruction{
 		
 		uchar funct;
 		
+		u32 C_address;
+			
 		short C_immediate;	
 }; 
 #endif
