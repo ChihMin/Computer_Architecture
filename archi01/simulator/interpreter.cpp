@@ -1,4 +1,5 @@
 #include "interpreter.h"
+#include <iostream>
 
 namespace Interpreter{
 	uchar get_opcode(u32 ins){
@@ -40,11 +41,32 @@ void Instruction::set_C_immediate(u32 ins){
 }
 
 void Instruction::set_C_address(u32 ins){
+	this->C_address = (ins & C_ADDRESS_MASK);
 }
+
 void Instruction::decode( u32 ins ){
-
+	this->instruction = ins;
+	this->set_opcode(ins);
+	this->set_rs(ins);
+	this->set_rt(ins);
+	this->set_rd(ins);
+	this->set_C_shamt(ins);
+	this->set_funct(ins);
+	this->set_C_immediate(ins);
+	this->set_C_address(ins);
 }
 
+void Instruction::print(){
+	std::cout << instruction << ' '
+	<< opcode << ' '
+	<< rs << ' ' 
+	<< rt << ' '
+	<< rd << ' '
+	<< C_shamt << ' '
+	<< funct << ' '
+	<< C_immediate << ' '
+	<< C_address << std::endl;
+}
 uchar Instruction::get_opcode(){
 	return this->opcode;
 }

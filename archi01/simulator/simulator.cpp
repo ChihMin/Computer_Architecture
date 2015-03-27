@@ -22,15 +22,24 @@ namespace Simulator{
 
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
-				
+	
+		decode_instruction();	
 		check_image();	
 	}
 
 	void check_image(){
+		/*
 		printf("PC = %d %X\n", PC, iimage[0]);	
 		for(int i = 0; i < iimage_words; ++i){
 			printf("opcode = %X ", ins[i].get_opcode());	
 			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i+2] << std::endl; 
-		}
+		}*/
+
+		for(int i = 0; i < iimage_words; ++i)
+			ins[i].print();
 	} 
+	void decode_instruction(){
+		for(int i = 0; i < iimage_words; ++i)
+			ins[i].decode(iimage[i+2]);
+	}
 }

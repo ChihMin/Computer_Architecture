@@ -17,6 +17,7 @@ namespace Simulator{
 
 	void initialize();
 	void run();
+	void decode_instruction();
 	void check_image();
 }
 

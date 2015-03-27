@@ -41,6 +41,8 @@ class Instruction{
 		
 		void decode( u32 ins );
 
+		void print();
+
 		uchar get_opcode();	
 		
 		uchar get_rs();
@@ -56,7 +58,9 @@ class Instruction{
 		short get_C_immediate();
 			
 	private:
-		
+	
+		u32 instruction;
+				
 		u32 opcode;
 		
 		u32 rs, rt, rd;
