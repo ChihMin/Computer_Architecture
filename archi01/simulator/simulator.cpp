@@ -1,5 +1,5 @@
 #include "simulator.h"
-
+#include <iostream>
 namespace Simulator{
 	u32 PC;
 	u32 iimage_words;
@@ -34,9 +34,11 @@ namespace Simulator{
 			printf("opcode = %X ", ins[i].get_opcode());	
 			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i+2] << std::endl; 
 		}*/
-
-		for(int i = 0; i < iimage_words; ++i)
+		std::cout  << "opcode" << '\t' << "rs" << '\t'<< "rt" << '\t' << "rd" << '\t' << "C_shamt" << '\t' << "funct" << std::endl;
+		for(int i = 0; i < iimage_words; ++i){
+			std::cout << i+1 << ' '; 	
 			ins[i].print();
+		}
 	} 
 	void decode_instruction(){
 		for(int i = 0; i < iimage_words; ++i)

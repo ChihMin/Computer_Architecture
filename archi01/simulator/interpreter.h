@@ -12,6 +12,7 @@
 #define C_IMMEDIATE_MASK 0x0000FFFF
 #define C_ADDRESS_MASK 0x03FFFFFF
 
+
 namespace Interpreter{
 
 	uchar get_opcode(u32 ins);
@@ -43,20 +44,21 @@ class Instruction{
 
 		void print();
 
-		uchar get_opcode();	
+		u32 get_opcode();	
 		
-		uchar get_rs();
+		u32 get_rs();
 		
-		uchar get_rt();
+		u32 get_rt();
 		
-		uchar get_rd();
+		u32 get_rd();
 		
-		uchar get_C_shamt();
+		u32 get_C_shamt();
 		
-		uchar get_funct();
+		u32 get_funct();
 		
-		short get_C_immediate();
-			
+		u32 get_C_immediate();
+		
+		u32 get_C_address();	
 	private:
 	
 		u32 instruction;
