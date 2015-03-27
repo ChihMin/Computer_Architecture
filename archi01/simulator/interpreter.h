@@ -4,10 +4,13 @@
 #include "definition.h"
 
 #define	OPCODE_MASK	0xFC000000
-#define	RS_MASK	0x03F00000
+#define	RS_MASK	0x03E00000
 #define RT_MASK 0x001F0000
-#define RD_MASK 0x0000F800
-#define C_SHAMT_MASK  
+#define RD_MASK	0x0000F800
+#define C_SHAMT_MASK 0x000003E0
+#define FUNCT_MASK 0x0000001F
+#define C_IMMEDIATE_MASK 0x0000FFFF
+#define C_ADDRESS_MASK 0x03FFFFFF
 
 namespace Interpreter{
 
@@ -34,6 +37,8 @@ class Instruction{
 		
 		void set_C_immediate( u32 ins );	
 		
+		void set_C_address(u32 ins);
+		
 		void decode( u32 ins );
 
 		uchar get_opcode();	
@@ -52,16 +57,16 @@ class Instruction{
 			
 	private:
 		
-		uchar opcode;
+		u32 opcode;
 		
-		uchar rs, rt, rd;
+		u32 rs, rt, rd;
 		
-		uchar C_shamt;
+		u32 C_shamt;
 		
-		uchar funct;
+		u32 funct;
 		
 		u32 C_address;
 			
-		short C_immediate;	
+		u32 C_immediate;	
 }; 
 #endif

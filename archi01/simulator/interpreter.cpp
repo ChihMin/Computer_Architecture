@@ -28,14 +28,20 @@ void Instruction::set_rd( u32 ins ){
 }
 
 void Instruction::set_C_shamt( u32 ins ){
-
+	this->C_shamt = (ins & C_SHAMT_MASK) >> 6;
 }
 
-void Instruction::set_C_immediate( u32 ins ){
-
+void Instruction::set_funct( u32 ins ){
+	this->funct = (ins & FUNCT_MASK);
 }
 
-void decode( u32 ins ){
+void Instruction::set_C_immediate(u32 ins){
+	this->C_immediate = (ins & C_IMMEDIATE_MASK);
+}
+
+void Instruction::set_C_address(u32 ins){
+}
+void Instruction::decode( u32 ins ){
 
 }
 
