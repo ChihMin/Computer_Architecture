@@ -21,13 +21,17 @@ namespace Simulator{
 	}
 
 	void add_funct(u32 rd, u32 rs, u32 rt){
-		s64 sum = (s64)reg[rs];
-		sum += (s64)reg[rt];
+		s64 sum = (s64)reg[rs] + (s64)reg[rt];;
 		detect_overflow(sum, reg[rs], reg[rt]);
 		reg[rd] = sum;
 	}
 
-	void sub_funct(u32 rd, u32 rs, u32 rt){}
+	void sub_funct(u32 rd, u32 rs, u32 rt){
+		s64 sum = (s64)reg[rs] - (s64)reg[rt];;
+		detect_overflow(sum, reg[rs], reg[rt]);
+		reg[rd] = sum;
+	}
+
 	void and_funct(u32 rd, u32 rs, u32 rt){}
 	void or_funct(u32 rd, u32 rs, u32 rt){}
 	void xor_funct(u32 rd, u32 rs, u32 rt){}
@@ -43,5 +47,10 @@ namespace Simulator{
 			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
 		else if( x > 0 && y > 0 && sum > MAX)
 			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+		else if( x >= 0 && y <= 0 && sum > MAX)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+		else if( x <= 0 && y >= 0 && sum < MIN)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+
 	}
 }
