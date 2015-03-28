@@ -7,9 +7,6 @@ simulator:IOfunction.o main.o interpreter.o \
 	execute.o simulator.o \
 	RType.o main.o
 
-debug:interpreter.o IOfunction.o getins.o simulator.o main.o execute.o
-	g++ -g -o debug IOfunction.o interpreter.o getins.o execute.o simulator.o  main.o
-
 main.o:
 	g++ -c main.cpp
 

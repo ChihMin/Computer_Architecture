@@ -8,8 +8,8 @@
 
 namespace Simulator{
 
-	const int MAX = 2147483647;
-	const int MIN = -2147483648;
+	const s64 MAX = 2147483647;
+	const s64 MIN = -2147483648;
 	
 	/* R Type Instruction */
 	const u32 R_TYPE = 0x00;
@@ -30,10 +30,12 @@ namespace Simulator{
 	extern u32 iimage_words;
 	extern u32 dimage_words;
 	
+	extern FILE *ERR;
+		
 	extern u32 iimage[];
 	extern u32 dimage[]; 
 	
-	extern u32 reg[];
+	extern int reg[];
 	extern Instruction ins[]; 
 
 /******** HOST CPU PROCESS ******/
@@ -67,7 +69,7 @@ namespace Simulator{
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt);
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt);
 	void jr_funct(u32 rs);
-	
+	void detect_overflow(s64 sum, int x, int y);
 /******************************/
 }
 

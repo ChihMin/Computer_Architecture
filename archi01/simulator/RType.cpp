@@ -9,7 +9,8 @@ namespace Simulator{
 		u32 funct = cur_ins.get_funct();
 	
 		printf("funct %d vs %d\n", funct, ADD);
-	
+		
+		
 		switch(funct){
 			case ADD:
 				add_funct(rd, rs, rt);
@@ -20,11 +21,10 @@ namespace Simulator{
 	}
 
 	void add_funct(u32 rd, u32 rs, u32 rt){
-		s64 sum = (s64)reg[rs] + (s64)reg[rt];
+		s64 sum = (s64)reg[rs];
+		sum += (s64)reg[rt];
+		detect_overflow(sum, reg[rs], reg[rt]);
 		reg[rd] = sum;
-		if( sum > MAX || sum < -MIN ){
-			printf("overflow\n");
-		}
 	}
 
 	void sub_funct(u32 rd, u32 rs, u32 rt){}
@@ -37,5 +37,11 @@ namespace Simulator{
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt){}
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt){}
 	void jr_funct(u32 rs){}
-	
+
+	void detect_overflow(s64 sum, int x, int y){
+		if( x < 0 && y < 0 && sum < MIN)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+		else if( x > 0 && y > 0 && sum > MAX)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+	}
 }

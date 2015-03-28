@@ -3,6 +3,7 @@
 namespace IOfunction{
 
 	FILE *snapshot;
+	FILE *error_dump;
 
 	void load_binary(u32 *iimage, const char *iimage_file, u32 *dimage, const char *dimage_file){
 		u32 in;
@@ -30,7 +31,7 @@ namespace IOfunction{
 		iimage_words = iimage[1];
 	}
 
-	void dump_data(u32 &SP, u32 &dimage_words, u32 *dimage){
+	void dump_data(int &SP, u32 &dimage_words, u32 *dimage){
 		SP = dimage[0];
 		dimage_words = dimage[1];
 		for(int i = 0; i < dimage_words; ++i)

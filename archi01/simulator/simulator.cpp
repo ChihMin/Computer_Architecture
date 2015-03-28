@@ -2,7 +2,7 @@
 #include <iostream>
 
 namespace Simulator{
-
+	FILE *ERR;
 	u32 PC, SP, cycle, VPC;
 	u32 iimage_words;
 	u32 dimage_words;
@@ -11,13 +11,16 @@ namespace Simulator{
 	u32 iimage[300];
 	u32 dimage[300];
 
-	u32 reg[40];
+	int reg[40];
 
 	char iimagePath[] = "../testcase/branch/iimage.bin";
 	char dimagePath[] = "../testcase/branch/dimage.bin";
 
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
+		IOfunction::error_dump = fopen("error_dump.rpt", "w");
+		ERR = IOfunction::error_dump;
+		
 		PC = INF;
 		memset(reg, 0, sizeof( reg ) );
 		memset(iimage, 0, sizeof( iimage ) );
