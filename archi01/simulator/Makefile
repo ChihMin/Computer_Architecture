@@ -1,5 +1,9 @@
-simulator:IOfunction.o main.o interpreter.o getins.o execute.o simulator.o
-	g++ -o single_cycle interpreter.o getins.o IOfunction.o execute.o simulator.o main.o
+simulator:IOfunction.o main.o interpreter.o getins.o execute.o simulator.o testbench.o
+	g++ -o single_cycle \
+	interpreter.o getins.o \
+	IOfunction.o testbench.o \
+	execute.o simulator.o \
+	main.o
 
 debug:interpreter.o IOfunction.o getins.o simulator.o main.o execute.o
 	g++ -g -o debug IOfunction.o interpreter.o getins.o execute.o simulator.o  main.o
@@ -21,6 +25,9 @@ getins.o:
 
 execute.o:
 	g++ -c execute.cpp
+
+testbench.o:
+	g++ -c testbench.cpp
 
 clean:
 	rm *.o single_cycle debug

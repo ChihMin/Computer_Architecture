@@ -23,7 +23,7 @@ namespace Simulator{
 	const u32 SRA = 0x03;
 	const u32 JR = 0x08; 
 
-	extern u32 PC, cycle;
+	extern u32 PC, VPC, cycle;
 	extern u32 iimage_words;
 	extern u32 dimage_words;
 	
@@ -35,11 +35,16 @@ namespace Simulator{
 
 	void initialize();
 	void run();
-	void execute();
+	void execute(bool mode);
+	void R_Type_Calculator(Instruction cur_ins);
+	void test_seed();
+	void add_program_counter();
 	void decode_instruction();
 	void check_image();
 	void write_snapshot();
 	void destruct();
+
+	u32 get_VPC();
 }
 
 #endif

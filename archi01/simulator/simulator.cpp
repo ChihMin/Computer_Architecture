@@ -3,7 +3,7 @@
 
 namespace Simulator{
 
-	u32 PC, SP, cycle;
+	u32 PC, SP, cycle, VPC;
 	u32 iimage_words;
 	u32 dimage_words;
 	
@@ -34,7 +34,13 @@ namespace Simulator{
 		check_image();
 
 		write_snapshot();
-		execute();
+		
+	/********** WARNING !!!!! This Block is used to TEST ***********/
+
+		test_seed();  // seed mode 
+		bool test_mode = true;
+	/***************************************************************/
+		execute(test_mode);
 
 		destruct();	
 	}
@@ -54,6 +60,7 @@ namespace Simulator{
 			printf("opcode = %X ", ins[i].get_opcode());	
 			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i+2] << std::endl; 
 		}*/
+		printf("iimage_words = %d\n", iimage_words);
 		printf("PC = %d, SP = %d\n", PC, SP);
 		std::cout  << "opcode" << '\t' 
 					<< "rs" << '\t'
