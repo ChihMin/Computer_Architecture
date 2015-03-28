@@ -1,6 +1,4 @@
 #include "interpreter.h"
-#include <iostream>
-#include <iomanip>
 
 u32 Instruction::get_opcode(){
 	return this->opcode;

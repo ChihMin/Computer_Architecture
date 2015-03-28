@@ -1,6 +1,4 @@
 #include "interpreter.h"
-#include <iostream>
-#include <iomanip>
 
 namespace Interpreter{
 	uchar get_opcode(u32 ins){
@@ -59,13 +57,13 @@ void Instruction::decode( u32 ins ){
 
 void Instruction::print(){
 	//std::cout << instruction << '\t'
-	std::cout << std::hex << opcode << '\t'
-	<< rs << '\t' 
-	<< rt << '\t'
-	<< rd << '\t'
-	<< C_shamt << '\t'
-	<< funct << '\t'
-	<< C_immediate << '\t'
-	<< C_address << std::endl;
+	std::cout << std::hex << get_opcode() << '\t'
+	<< get_rs() << '\t' 
+	<< get_rt() << '\t'
+	<< get_rd() << '\t'
+	<< get_C_shamt() << '\t'
+	<< get_funct() << '\t'
+	<< get_C_immediate() << '\t'
+	<< get_C_address() << std::endl;
 }
 

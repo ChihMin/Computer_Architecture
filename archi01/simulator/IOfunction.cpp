@@ -2,6 +2,8 @@
 
 namespace IOfunction{
 
+	FILE *snapshot;
+
 	void load_binary(u32 *iimage, const char *iimage_file, u32 *dimage, const char *dimage_file){
 		u32 in;
 		FILE *iimageR = fopen(iimage_file, "rb" );
@@ -26,9 +28,14 @@ namespace IOfunction{
 	void dump_instruction(u32 &PC, u32 &iimage_words, const u32 *iimage, Instruction *ins){
 		PC =  iimage[0];
 		iimage_words = iimage[1];
+	}
+
+	void dump_data(u32 &SP, u32 &dimage_words, u32 *dimage){
+		SP = dimage[0];
+		dimage_words = dimage[1];
+		for(int i = 0; i < dimage_words; ++i)
+			dimage[i] = dimage[i+2];
 		
-		for(int i = 0; i < iimage_words; ++i)
-			ins[i].set_opcode( iimage[i+2] );
 	}
 
 	void trans_small_to_big_endian(u32 &in){
