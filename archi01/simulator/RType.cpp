@@ -15,8 +15,29 @@ namespace Simulator{
 			case ADD:
 				add_funct(rd, rs, rt);
 				break;
+
 			case SUB:
 				sub_funct(rd, rs, rt);
+				break;
+			
+			case AND:
+				and_funct(rd, rs, rt);
+				break;
+
+			case OR:
+				or_funct(rd, rs, rt);
+				break;
+		
+			case XOR:
+				xor_funct(rd, rs, rt);
+				break;
+		
+			case NOR:
+				nor_funct(rd, rs, rt);
+				break;
+			
+			case NAND:
+				nand_funct(rd, rs, rt); 
 		}
 	}
 
@@ -32,11 +53,26 @@ namespace Simulator{
 		reg[rd] = sum;
 	}
 
-	void and_funct(u32 rd, u32 rs, u32 rt){}
-	void or_funct(u32 rd, u32 rs, u32 rt){}
-	void xor_funct(u32 rd, u32 rs, u32 rt){}
-	void nor_funct(u32 rd, u32 rs, u32 rt){}
-	void nand_funct(u32 rd, u32 rs, u32 rt){}
+	void and_funct(u32 rd, u32 rs, u32 rt){
+		reg[rd] = reg[rs] & reg[rt];	
+	}
+
+	void or_funct(u32 rd, u32 rs, u32 rt){
+		reg[rd] = reg[rs] | reg[rt];	
+	}
+
+	void xor_funct(u32 rd, u32 rs, u32 rt){
+		reg[rd] = reg[rs] ^ reg[rt];	
+	}
+
+	void nor_funct(u32 rd, u32 rs, u32 rt){	
+		reg[rd] = ~(reg[rs] | reg[rt]);	
+	}
+
+	void nand_funct(u32 rd, u32 rs, u32 rt){
+		reg[rd] = ~(reg[rs] & reg[rt]);	
+	}
+
 	void slt_funct(u32 rd, u32 rt, u32 C_shamt){}
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt){}
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt){}
