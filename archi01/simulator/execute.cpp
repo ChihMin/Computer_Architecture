@@ -19,7 +19,7 @@ namespace Simulator{
 
 			switch(opcode){
 				case R_TYPE:
-					//R_Type_Calculator(cur_ins);				
+					R_Type_Calculator(cur_ins);				
 					break;
 				default:
 					printf("opcode = 0x%02X\n", opcode); 

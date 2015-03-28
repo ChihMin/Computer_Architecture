@@ -7,6 +7,9 @@
 #include "IOfunction.h"
 
 namespace Simulator{
+
+	const int MAX = 2147483647;
+	const int MIN = -2147483648;
 	
 	/* R Type Instruction */
 	const u32 R_TYPE = 0x00;
@@ -33,18 +36,39 @@ namespace Simulator{
 	extern u32 reg[];
 	extern Instruction ins[]; 
 
+/******** HOST CPU PROCESS ******/
 	void initialize();
 	void run();
 	void execute(bool mode);
-	void R_Type_Calculator(Instruction cur_ins);
 	void test_seed();
-	void add_program_counter();
 	void decode_instruction();
 	void check_image();
 	void write_snapshot();
 	void destruct();
+/*******************************/
 
+
+/******* EXEXUTION PROCESS *****/
+	void R_Type_Calculator(Instruction cur_ins);
+	void add_program_counter();
 	u32 get_VPC();
+/******************************/
+
+
+/******* R_TYPE_FUNCTION ******/
+	void add_funct(u32 rd, u32 rs, u32 rt);
+	void sub_funct(u32 rd, u32 rs, u32 rt);
+	void and_funct(u32 rd, u32 rs, u32 rt);
+	void or_funct(u32 rd, u32 rs, u32 rt);
+	void xor_funct(u32 rd, u32 rs, u32 rt);
+	void nor_funct(u32 rd, u32 rs, u32 rt);
+	void nand_funct(u32 rd, u32 rs, u32 rt);
+	void slt_funct(u32 rd, u32 rt, u32 C_shamt);
+	void srl_funct(u32 rd, u32 rt, u32 C_shamt);
+	void sra_funct(u32 rd, u32 rt, u32 C_shamt);
+	void jr_funct(u32 rs);
+	
+/******************************/
 }
 
 #endif

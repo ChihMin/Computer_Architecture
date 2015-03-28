@@ -23,6 +23,8 @@ class Instruction{
 	public:
 		
 		Instruction();
+
+	/****** INSTRUCTION DECODE AND SET ******/
 		
 		void set_opcode( u32 ins );
 		
@@ -39,11 +41,13 @@ class Instruction{
 		void set_C_immediate( u32 ins );	
 		
 		void set_C_address(u32 ins);
-		
+	/**************************************/	
 		void decode( u32 ins );
 
 		void print();
 
+	/*********** GET CONTENT **************/ 
+	
 		u32 get_opcode();	
 		
 		u32 get_rs();
@@ -58,8 +62,11 @@ class Instruction{
 		
 		u32 get_C_immediate();
 		
-		u32 get_C_address();	
-	private:
+		u32 get_C_address();
+	
+	/*************************************/
+
+//	private:
 	
 		u32 instruction;
 				

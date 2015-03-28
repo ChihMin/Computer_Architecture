@@ -19,6 +19,7 @@ namespace Simulator{
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
 		PC = INF;
+		memset(reg, 0, sizeof( reg ) );
 		memset(iimage, 0, sizeof( iimage ) );
 		memset(dimage, 0, sizeof( dimage ) );
 	}
@@ -33,13 +34,13 @@ namespace Simulator{
 		decode_instruction();	
 		check_image();
 
-		write_snapshot();
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
 
 		test_seed();  // seed mode 
 		bool test_mode = true;
 	/***************************************************************/
+		write_snapshot();
 		execute(test_mode);
 
 		destruct();	
