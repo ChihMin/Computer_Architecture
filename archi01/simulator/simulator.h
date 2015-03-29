@@ -65,7 +65,8 @@ namespace Simulator{
 	void xor_funct(u32 rd, u32 rs, u32 rt);
 	void nor_funct(u32 rd, u32 rs, u32 rt);
 	void nand_funct(u32 rd, u32 rs, u32 rt);
-	void slt_funct(u32 rd, u32 rt, u32 C_shamt);
+	void slt_funct(u32 rd, u32 rs, u32 rt);
+	void sll_funct(u32 rd, u32 rt, u32 C_shamt);
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt);
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt);
 	void jr_funct(u32 rs);

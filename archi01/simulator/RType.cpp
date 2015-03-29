@@ -82,9 +82,21 @@ namespace Simulator{
 		reg[rd] = (reg[rs] < reg[rt]);
 	}
 		
-	void srl_funct(u32 rd, u32 rt, u32 C_shamt){}
-	void sra_funct(u32 rd, u32 rt, u32 C_shamt){}
-	void jr_funct(u32 rs){}
+	void sll_funct(u32 rd, u32 rt, u32 C_shamt){
+		reg[rd] = (reg[rt] << C_shamt); 	
+	}
+
+	void srl_funct(u32 rd, u32 rt, u32 C_shamt){
+		reg[rd] = ((u32)reg[rt] >> C_shamt);
+	}
+
+	void sra_funct(u32 rd, u32 rt, u32 C_shamt){
+		reg[rd] = (reg[rt] >> C_shamt);	
+	}
+
+	void jr_funct(u32 rs){
+		PC = reg[rs];		
+	}
 
 	void detect_overflow(s64 sum, int x, int y){
 		if( x < 0 && y < 0 && sum < MIN)

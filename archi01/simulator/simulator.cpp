@@ -36,11 +36,11 @@ namespace Simulator{
 		IOfunction::dump_data(reg[29], dimage_words, dimage);	
 			
 		decode_instruction();	
-		check_image();
 
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
-		testbench();
+		//check_image();
+		//testbench();
 		test_seed();  // seed mode 
 		bool test_mode = true;
 	/***************************************************************/
