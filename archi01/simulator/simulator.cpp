@@ -1,4 +1,5 @@
 #include "simulator.h"
+#include "testbench.h"
 #include <iostream>
 
 namespace Simulator{
@@ -39,7 +40,7 @@ namespace Simulator{
 
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
-
+		testbench();
 		test_seed();  // seed mode 
 		bool test_mode = true;
 	/***************************************************************/

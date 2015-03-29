@@ -37,7 +37,12 @@ namespace Simulator{
 				break;
 			
 			case NAND:
-				nand_funct(rd, rs, rt); 
+				nand_funct(rd, rs, rt);
+				break;
+
+			case SLT:
+				slt_funct(rd, rs, rt);
+				break; 
 		}
 	}
 
@@ -73,7 +78,10 @@ namespace Simulator{
 		reg[rd] = ~(reg[rs] & reg[rt]);	
 	}
 
-	void slt_funct(u32 rd, u32 rt, u32 C_shamt){}
+	void slt_funct(u32 rd, u32 rs, u32 rt){
+		reg[rd] = (reg[rs] < reg[rt]);
+	}
+		
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt){}
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt){}
 	void jr_funct(u32 rs){}
