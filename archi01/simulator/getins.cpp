@@ -31,3 +31,7 @@ u32 Instruction::get_C_immediate(){
 u32 Instruction::get_C_address(){
 	return this->C_address;
 }
+
+u32 Instruction::get_instruction(){
+	return this->instruction;
+}

@@ -47,7 +47,9 @@ class Instruction{
 		void print();
 
 	/*********** GET CONTENT **************/ 
-	
+		
+		u32 get_instruction();
+			
 		u32 get_opcode();	
 		
 		u32 get_rs();
@@ -63,10 +65,31 @@ class Instruction{
 		u32 get_C_immediate();
 		
 		u32 get_C_address();
-	
+			
 	/*************************************/
 
-//	private:
+	/***** TEST DIRECT SET INSTRUCTION ***/
+	
+		void set_opcode_t( u32 opcode );
+		
+		void set_rs_t( u32 rs );
+
+		void set_rt_t( u32 rt );
+
+		void set_rd_t( u32 rd );
+		
+		void set_C_shamt_t( u32 C_shamt );
+		
+		void set_funct_t( u32 funct );
+		
+		void set_C_immediate_t( u32 C_immediate );	
+		
+		void set_C_address_t(u32 C_address);
+	
+
+	/*************************************/
+
+	private:
 	
 		u32 instruction;
 				

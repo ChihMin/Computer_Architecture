@@ -70,8 +70,13 @@ namespace Simulator{
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt);
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt);
 	void jr_funct(u32 rs);
+/******************************/
+
+/********** ERROR DETECT ******/
+	bool write_to_reg_zero_detect(Instruction ins);
 	void detect_overflow(s64 sum, int x, int y);
 /******************************/
+
 }
 
 #endif

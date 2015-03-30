@@ -9,7 +9,7 @@ namespace Simulator{
 		u32 funct = cur_ins.get_funct();
 	
 		printf("funct %d vs %d\n", funct, ADD);
-		
+		if( write_to_reg_zero_detect(cur_ins) )	return;
 		
 		switch(funct){
 			case ADD:
@@ -42,7 +42,23 @@ namespace Simulator{
 
 			case SLT:
 				slt_funct(rd, rs, rt);
-				break; 
+				break;
+
+			case SLL:
+				sll_funct(rd, rt, C_shamt);
+				break;
+			
+			case SRL:
+				srl_funct(rd, rt, C_shamt);
+				break;
+				
+			case SRA:
+				sra_funct(rd, rt, C_shamt);
+				break;
+				
+			case JR:
+				jr_funct(rs);
+				break;	 
 		}
 	}
 
@@ -96,17 +112,5 @@ namespace Simulator{
 
 	void jr_funct(u32 rs){
 		PC = reg[rs];		
-	}
-
-	void detect_overflow(s64 sum, int x, int y){
-		if( x < 0 && y < 0 && sum < MIN)
-			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
-		else if( x > 0 && y > 0 && sum > MAX)
-			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
-		else if( x >= 0 && y <= 0 && sum > MAX)
-			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
-		else if( x <= 0 && y >= 0 && sum < MIN)
-			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
-
 	}
 }

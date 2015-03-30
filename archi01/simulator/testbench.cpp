@@ -3,14 +3,25 @@
 
 namespace Simulator{
 	void test_seed(){
-		iimage_words = 1;
-		ins[0].opcode = 0;
-		ins[0].rs = 8;
-		ins[0].rt = 9;
-		ins[0].rd = 9;
-		ins[0].funct = ADD;
-		reg[9] = -1;
-		reg[8] = -2147483647;
+		iimage_words = 5;
+		ins[0].set_opcode_t(0);
+		ins[0].set_rs_t(8);
+		ins[0].set_rt_t(9);
+		ins[0].set_rd_t(0);
+		ins[0].set_funct_t(AND);
+		reg[8] = 256;
+		reg[9] = 512 + 256;
+
+		for(int i =1; i <iimage_words; ++i)	ins[i] = ins[i-1];
+
+		ins[1].set_funct_t(SLL);
+		ins[2].set_funct_t(JR);
+		ins[3].set_funct_t(NOR);
+
+		ins[4].set_rs_t(0);
+		ins[4].set_rt_t(0);
+		ins[4].set_rd_t(0);
+		ins[4].set_funct_t(SLL);
 	}
 
 	void testbench(){

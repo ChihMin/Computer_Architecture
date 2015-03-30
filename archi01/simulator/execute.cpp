@@ -36,4 +36,35 @@ namespace Simulator{
 		PC = PC + 4;	// Program Counter Point to next location
 		VPC = get_VPC();
 	}
+
+	void detect_overflow(s64 sum, int x, int y){
+		if( x < 0 && y < 0 && sum < MIN)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+		else if( x > 0 && y > 0 && sum > MAX)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+		else if( x >= 0 && y <= 0 && sum > MAX)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+		else if( x <= 0 && y >= 0 && sum < MIN)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+
+	}
+	
+	bool write_to_reg_zero_detect(Instruction cur_ins){
+		u32 opcode = cur_ins.get_opcode();
+		u32 rs = cur_ins.get_rs();
+		u32 rt = cur_ins.get_rt();
+		u32 rd = cur_ins.get_rd();
+		u32 C_shamt = cur_ins.get_C_shamt();
+		
+		u32 funct = cur_ins.get_funct();
+		if( rd == 0 ){
+			if(opcode == 0 && funct == JR)	return false;
+			if( opcode == 0 && rt == 0 && rs == 0 )
+				return false;
+				 
+			fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
+			return true;
+		}
+		return false;
+	}
 }

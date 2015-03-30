@@ -19,12 +19,10 @@ void Instruction::set_rs( u32 ins ){
 
 void Instruction::set_rt( u32 ins ){
 	this->rt = ( ins & RT_MASK ) >> 16;
-
 }
 
 void Instruction::set_rd( u32 ins ){
 	this->rd = ( ins & RD_MASK ) >> 11;
-
 }
 
 void Instruction::set_C_shamt( u32 ins ){
@@ -41,6 +39,39 @@ void Instruction::set_C_immediate(u32 ins){
 
 void Instruction::set_C_address(u32 ins){
 	this->C_address = (ins & C_ADDRESS_MASK);
+}
+
+
+void Instruction::set_opcode_t( u32 opcode ){
+	this->opcode = opcode;
+}
+		
+void Instruction::set_rs_t( u32 rs ){
+	this->rs = rs;
+}
+
+void Instruction::set_rt_t( u32 rt ){
+	this->rt = rt;
+}
+
+void Instruction::set_rd_t( u32 rd ){
+	this->rd = rd;
+}
+		
+void Instruction::set_C_shamt_t( u32 C_shamt ){
+	this->C_shamt = C_shamt;
+}
+		
+void Instruction::set_funct_t( u32 funct ){
+	this->funct = funct;
+}
+		
+void Instruction::set_C_immediate_t( u32 C_immediate ){
+	this->C_immediate = C_immediate;
+}
+		
+void Instruction::set_C_address_t(u32 C_address){
+	this->C_address = C_address;
 }
 
 void Instruction::decode( u32 ins ){
