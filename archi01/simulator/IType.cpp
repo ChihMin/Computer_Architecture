@@ -12,7 +12,10 @@ namespace Simulator{
 			case ADDI:
 				addi_funct(rt, rs, C);
 				break;
-				
+			
+			case LW:
+				lw_funct(rt, rs, C);
+				break;			
 		}
 	}
 
@@ -20,5 +23,18 @@ namespace Simulator{
 		s64 sum = (s64)reg[rs] + (s64)C;
 		detect_overflow(sum, reg[rs], (int)C);
 		if( rt != 0 )	reg[rt] = sum; 	
+	}
+
+	void lw_funct(u32 rt, u32 rs, short C){
+		int s = reg[rs];
+		s64 sum = (s64)s + (s64)C;
+		detect_overflow(sum, s, (int)C);
+		detect_memory_address_overflow(sum);
+		
+		if( sum % 4 != 0 )	
+			data_misaligned(sum);
+		
+		if( is_halt )	return;
+		if( rt != 0 )	reg[rt] = dimage[sum/4];			
 	}
 }

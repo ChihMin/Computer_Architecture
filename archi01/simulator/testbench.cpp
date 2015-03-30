@@ -3,20 +3,31 @@
 
 namespace Simulator{
 	void test_seed(){
-	
+		
+		
+		for(int i = 0; i < 300; ++i)	dimage[i] = 0;
+
+		dimage[0] = 0xFFFFFFFF;
+			
 		PC = 0;
-		iimage_words = 2;
+		iimage_words = 3;
 		ins[0].set_opcode_t(ADDI);
 		ins[0].set_rs_t(8);
 		ins[0].set_rt_t(9);
 		ins[0].set_C_immediate_t(-1);
-		reg[8] = -2147483648;
+		reg[8] = 0;
 		reg[9] = -1;
 		
 		
-		ins[1] = ins[0];
+		for(int i = 1; i < dimage_words; ++i)
+			ins[i] = ins[i-1];
 		ins[1].set_rt_t(0);
-	
+		
+		ins[2].set_opcode_t(LW);
+		ins[2].set_C_immediate_t(-1);
+		ins[2].set_rs_t(0);
+		ins[2].set_rt_t(8);
+			
 	/*	
 		PC = 0;
 		iimage_words = 6;
