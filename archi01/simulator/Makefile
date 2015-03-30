@@ -1,11 +1,11 @@
 simulator:IOfunction.o main.o interpreter.o \
 			getins.o execute.o simulator.o \
-			testbench.o RType.o
+			testbench.o RType.o IType.o
 	g++ -o single_cycle \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
-	RType.o main.o
+	RType.o IType.o main.o
 
 test:IOfunction.o test.o interpreter.o \
 			getins.o execute.o simulator.o \
@@ -14,7 +14,7 @@ test:IOfunction.o test.o interpreter.o \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
-	RType.o test.o
+	RType.o IType.o test.o
 
 test.o:
 	g++ -c test.cpp
@@ -42,6 +42,9 @@ testbench.o:
 
 RType.o:
 	g++ -c RType.cpp
+
+IType.o:
+	g++ -c IType.cpp
 
 clean:
 	rm *.o single_cycle test

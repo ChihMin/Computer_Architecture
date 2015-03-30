@@ -18,14 +18,20 @@ namespace Simulator{
 			add_program_counter();
 
 			switch(opcode){
+				case HALT:
+					return;
+					break;
+
 				case R_TYPE:
 					R_Type_Calculator(cur_ins);				
 					break;
+					
 				default:
+					I_Type_and_J_Type_Calculator(cur_ins);
 					printf("opcode = 0x%02X\n", opcode); 
 			}
 			write_snapshot();
-			VPC = get_VPC();	// update VPC
+			update_VPC();
 		}
 	}
 	
@@ -35,6 +41,9 @@ namespace Simulator{
 
 	void add_program_counter(){
 		PC = PC + 4;	// Program Counter Point to next location
+	}
+
+	void update_VPC(){
 		VPC = get_VPC();
 	}
 

@@ -3,16 +3,32 @@
 
 namespace Simulator{
 	void test_seed(){
+	
 		PC = 0;
-		iimage_words = 7;
-		ins[0].set_opcode_t(0);
+		iimage_words = 2;
+		ins[0].set_opcode_t(ADDI);
+		ins[0].set_rs_t(8);
+		ins[0].set_rt_t(9);
+		ins[0].set_C_immediate_t(-1);
+		reg[8] = -2147483648;
+		reg[9] = -1;
+		
+		
+		ins[1] = ins[0];
+		ins[1].set_rt_t(0);
+	
+	/*	
+		PC = 0;
+		iimage_words = 6;
+		ins[0].set_opcode_t(R_TYPE);
 		ins[0].set_rs_t(8);
 		ins[0].set_rt_t(9);
 		ins[0].set_rd_t(0);
-		ins[0].set_funct_t(AND);
+		ins[0].set_funct_t(ADD);
 		reg[8] = 2147483647;
 		reg[9] = 1;
-
+		
+	
 		for(int i =1; i <iimage_words; ++i)	ins[i] = ins[i-1];
 
 		ins[1].set_funct_t(SLL);
@@ -30,10 +46,9 @@ namespace Simulator{
 
 		reg[11] = 0;
 		reg[12] = -2147483648;
-		ins[5].set_funct_t(SUB);
-
-		ins[6].set_funct_t(JR);
-		ins[6].set_rs_t(11);
+		ins[5].set_funct_t(JR);
+		ins[5].set_rs_t(11);
+	*/
 	}
 
 	void testbench(){

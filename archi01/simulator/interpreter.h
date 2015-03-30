@@ -62,7 +62,7 @@ class Instruction{
 		
 		u32 get_funct();
 		
-		u32 get_C_immediate();
+		short get_C_immediate();
 		
 		u32 get_C_address();
 			
@@ -82,7 +82,7 @@ class Instruction{
 		
 		void set_funct_t( u32 funct );
 		
-		void set_C_immediate_t( u32 C_immediate );	
+		void set_C_immediate_t( short C_immediate );	
 		
 		void set_C_address_t(u32 C_address);
 	
@@ -103,6 +103,6 @@ class Instruction{
 		
 		u32 C_address;
 			
-		u32 C_immediate;	
+		short C_immediate;	
 }; 
 #endif

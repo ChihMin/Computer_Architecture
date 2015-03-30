@@ -66,7 +66,7 @@ void Instruction::set_funct_t( u32 funct ){
 	this->funct = funct;
 }
 		
-void Instruction::set_C_immediate_t( u32 C_immediate ){
+void Instruction::set_C_immediate_t( short C_immediate ){
 	this->C_immediate = C_immediate;
 }
 		

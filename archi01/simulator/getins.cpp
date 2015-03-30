@@ -24,7 +24,7 @@ u32 Instruction::get_funct(){
 	return this->funct;
 }
 		
-u32 Instruction::get_C_immediate(){
+short Instruction::get_C_immediate(){
 	return this->C_immediate;
 }
 

@@ -51,7 +51,8 @@ namespace Simulator{
 	const u32 JAL = 0x03;
 	const u32 HALT = 0x3F;
 /****************************************/
-	
+
+/********* REQUIRE COMPONENT ************/	
 	extern u32 PC, VPC, cycle;
 	extern u32 iimage_words;
 	extern u32 dimage_words;
@@ -63,6 +64,8 @@ namespace Simulator{
 	
 	extern int reg[];
 	extern Instruction ins[]; 
+	extern bool isHalt;
+/***************************************/
 
 /******** HOST CPU PROCESS ******/
 	void initialize();
@@ -78,7 +81,9 @@ namespace Simulator{
 
 /******* EXEXUTION PROCESS *****/
 	void R_Type_Calculator(Instruction cur_ins);
+	void I_Type_and_J_Type_Calculator(Instruction cur_ins);
 	void add_program_counter();
+	void update_VPC();
 	u32 get_VPC();
 /******************************/
 
@@ -97,6 +102,31 @@ namespace Simulator{
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt);
 	void jr_funct(u32 rs);
 /******************************/
+
+/******* I_TYPE_FUNCTION ******/
+	void addi_funct(u32 rt, u32 rs, short C);	
+	void lw_funct(u32 rt, u32 rs, short C);	
+	void lh_funct(u32 rt, u32 rs, short C);	
+	void lhu_funct(u32 rt, u32 rs, short C);	
+	void lb_funct(u32 rt, u32 rs, short C);	
+	void lbu_funct(u32 rt, u32 rs, short C);	
+	void sw_funct(u32 rt, u32 rs, short C);	
+	void sh_funct(u32 rt, u32 rs, short C);	
+	void sb_funct(u32 rt, u32 rs, short C);	
+	void lui_funct(u32 rt, short C);	
+	void andi_funct(u32 rt, u32 rs, short C);	
+	void ori_funct(u32 rt, u32 rs, short C);	
+	void nori_funct(u32 rt, u32 rs, short C);	
+	void slti_funct(u32 rt, u32 rs, short C);	
+	void beq_funct(u32 rs, u32 rt, short C);	
+	void bne_funct(u32 rs, u32 rt, short C);	
+/******************************/
+
+/****** J_TYPE_FUNCTION *******/
+	void j_funct(u32 C_address);
+	void jal_funct(u32 C_address);
+/******************************/
+
 
 /********** ERROR DETECT ******/
 	bool write_to_reg_zero_detect(Instruction ins);
