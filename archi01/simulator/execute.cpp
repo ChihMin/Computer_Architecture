@@ -25,6 +25,7 @@ namespace Simulator{
 					printf("opcode = 0x%02X\n", opcode); 
 			}
 			write_snapshot();
+			VPC = get_VPC();	// update VPC
 		}
 	}
 	
@@ -57,14 +58,28 @@ namespace Simulator{
 		u32 C_shamt = cur_ins.get_C_shamt();
 		
 		u32 funct = cur_ins.get_funct();
-		if( rd == 0 ){
-			if(opcode == 0 && funct == JR)	return false;
-			if( opcode == 0 && rt == 0 && rs == 0 )
-				return false;
-				 
+	
+		if( opcode == 0 ){
+			if( funct == JR )	return false;
+			if( rd == 0 ){
+				if( funct == SLL && rt == 0 && rs == 0 )
+					return false;
+				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
+				return true;
+			}
+		}
+		if( opcode == SW )	return false;
+		if( opcode == SH )	return false;
+		if( opcode == SB )	return false;	
+		if( opcode == BEQ )	return false;
+		if( opcode == BNE )	return false; 
+		if( opcode == J )	return false;
+		if( opcode == JAL )	return false;
+	
+		if( rt == 0 ){
 			fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
 			return true;
 		}
 		return false;
 	}
-}
+}	

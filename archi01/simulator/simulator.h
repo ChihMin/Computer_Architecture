@@ -11,7 +11,7 @@ namespace Simulator{
 	const s64 MAX = 2147483647;
 	const s64 MIN = -2147483648;
 	
-	/* R Type Instruction */
+/*********** R Type Instruction ***********/
 	const u32 R_TYPE = 0x00;
 	const u32 ADD = 0x20;
 	const u32 SUB = 0x22;
@@ -25,7 +25,33 @@ namespace Simulator{
 	const u32 SRL = 0x02;
 	const u32 SRA = 0x03;
 	const u32 JR = 0x08; 
+/*****************************************/
 
+/*********** I Type Instruction **********/
+	const u32 ADDI = 0x08;
+	const u32 LW = 0x23;
+	const u32 LH = 0x21;
+	const u32 LHU = 0x25;
+	const u32 LB = 0x20;
+	const u32 LBU = 0x24;
+	const u32 SW = 0x2B;
+	const u32 SH = 0x29;
+	const u32 SB = 0x28;
+	const u32 LUI = 0x0F;
+	const u32 ANDI = 0x0C;
+	const u32 ORI = 0x0D;
+	const u32 NORI = 0x0E;
+	const u32 SLTI = 0x0A;
+	const u32 BEQ = 0x04;
+	const u32 BNE = 0x05;
+/*****************************************/
+
+/************* J TYPE & HALT ************/
+	const u32 J = 0x02;
+	const u32 JAL = 0x03;
+	const u32 HALT = 0x3F;
+/****************************************/
+	
 	extern u32 PC, VPC, cycle;
 	extern u32 iimage_words;
 	extern u32 dimage_words;

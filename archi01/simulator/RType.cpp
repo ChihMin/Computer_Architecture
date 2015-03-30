@@ -8,18 +8,23 @@ namespace Simulator{
 		u32 C_shamt = cur_ins.get_C_shamt();
 		u32 funct = cur_ins.get_funct();
 	
-		printf("funct %d vs %d\n", funct, ADD);
-		if( write_to_reg_zero_detect(cur_ins) )	return;
+		printf("funct %02X vs %d\n", funct, ADD);
 		
+		bool isChecked = (funct == ADD || funct == SUB )
+						 && write_to_reg_zero_detect(cur_ins);
 		switch(funct){
 			case ADD:
 				add_funct(rd, rs, rt);
 				break;
 
 			case SUB:
-				sub_funct(rd, rs, rt);
+				sub_funct(rd ,rs, rt);
 				break;
-			
+		}
+
+		if( !isChecked && write_to_reg_zero_detect(cur_ins) )	return;
+		printf("here!!!!!\n");
+		switch(funct){
 			case AND:
 				and_funct(rd, rs, rt);
 				break;
@@ -65,13 +70,13 @@ namespace Simulator{
 	void add_funct(u32 rd, u32 rs, u32 rt){
 		s64 sum = (s64)reg[rs] + (s64)reg[rt];;
 		detect_overflow(sum, reg[rs], reg[rt]);
-		reg[rd] = sum;
+		if( rd != 0 )	reg[rd] = sum;
 	}
 
 	void sub_funct(u32 rd, u32 rs, u32 rt){
 		s64 sum = (s64)reg[rs] - (s64)reg[rt];;
 		detect_overflow(sum, reg[rs], reg[rt]);
-		reg[rd] = sum;
+		if( rd != 0 )	reg[rd] = sum;
 	}
 
 	void and_funct(u32 rd, u32 rs, u32 rt){
