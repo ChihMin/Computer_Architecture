@@ -4,10 +4,11 @@
 namespace Simulator{
 	void test_seed(){
 		
-		
+		dimage_words = 256;	
 		for(int i = 0; i < 300; ++i)	dimage[i] = 0;
 
 		dimage[0] = 0xFFFFFFFF;
+		dimage[1] = 0x00001111;
 			
 		PC = 0;
 		iimage_words = 3;
@@ -15,18 +16,21 @@ namespace Simulator{
 		ins[0].set_rs_t(8);
 		ins[0].set_rt_t(9);
 		ins[0].set_C_immediate_t(-1);
-		reg[8] = 0;
+		reg[8] = 2147483647;
 		reg[9] = -1;
 		
 		
-		for(int i = 1; i < dimage_words; ++i)
+		for(int i = 1; i < iimage_words; ++i)
 			ins[i] = ins[i-1];
 		ins[1].set_rt_t(0);
 		
+
+		reg[10] = 0;
+		dimage[255] = 0x12345678;	
 		ins[2].set_opcode_t(LW);
-		ins[2].set_C_immediate_t(-1);
-		ins[2].set_rs_t(0);
-		ins[2].set_rt_t(8);
+		ins[2].set_C_immediate_t(1020);
+		ins[2].set_rs_t(10);
+		ins[2].set_rt_t(11);
 			
 	/*	
 		PC = 0;

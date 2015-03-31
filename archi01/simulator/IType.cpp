@@ -34,6 +34,7 @@ namespace Simulator{
 		if( sum % 4 != 0 )	
 			data_misaligned(sum);
 		
+		printf("cycle %d address sum = %lld\n", cycle, sum);
 		if( is_halt )	return;
 		if( rt != 0 )	reg[rt] = dimage[sum/4];			
 	}
