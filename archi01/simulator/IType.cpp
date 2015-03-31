@@ -40,6 +40,10 @@ namespace Simulator{
 			case SH:
 				sh_funct(rt, rs ,C);
 				break;
+			
+			case SB:
+				sb_funct(rt, rs, C);
+				break;
 		}	
 	}
 	
@@ -76,6 +80,30 @@ namespace Simulator{
 		}
 	}
 		
+	void save_char(s64 sum, u32 rt){
+		int ans = reg[rt] & 0x000000FF;
+		int tar = sum / 4;
+		if( sum % 4 == 0){
+			dimage[tar] &= 0x00FFFFFF;
+			ans = ans << 24;
+			dimage[tar] |= ans;
+		}
+		else if( sum % 4 == 1){
+			dimage[tar] &= 0xFF00FFFF;
+			ans = ans << 16;
+			dimage[tar] |= ans;
+		}
+		else if( sum % 4 == 2 ){
+			dimage[tar] &= 0xFFFF00FF;
+			ans = ans << 8;
+			dimage[tar] |= ans;
+		}
+		else{
+			dimage[tar] &= 0xFFFFFF00;
+			dimage[tar] |= ans;
+		}
+	}
+
 	s64 compute_location(u32 rt, u32 rs, short C){
 		int s = reg[rs];
 		s64 sum = (s64)s + (s64)C;
@@ -147,4 +175,11 @@ namespace Simulator{
 		if( is_halt )	return;
 		save_short(sum, rt);
 	}
+
+	void sb_funct(u32 rt, u32 rs, short C){
+		s64 sum = compute_location(rt, rs, C);
+		if( is_halt )	return;
+		save_char(sum, rt);	
+	}
+	
 }

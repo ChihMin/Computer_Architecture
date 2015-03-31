@@ -6,12 +6,11 @@ namespace Simulator{
 		
 		dimage_words = 256;	
 		for(int i = 0; i < 300; ++i)	dimage[i] = 0;
-
-		dimage[0] = 0xFFFFFFFF;
+		dimage[0] = 0x11111111;
 		dimage[1] = 0x00001111;
 			
 		PC = 0;
-		iimage_words = 4;
+		iimage_words = 5;
 		ins[0].set_opcode_t(ADDI);
 		ins[0].set_rs_t(8);
 		ins[0].set_rt_t(9);
@@ -28,16 +27,21 @@ namespace Simulator{
 		reg[10] = 1020;
 		
 		dimage[255] = 0xC234F678;	
-		ins[2].set_opcode_t(LBU);
+		ins[2].set_opcode_t(LW);
 		ins[2].set_C_immediate_t(0);
 		ins[2].set_rs_t(10);
 		ins[2].set_rt_t(11);
 		
 		reg[12] = 0;
-		ins[3].set_opcode_t(SW);
-		ins[3].set_C_immediate_t(0);
+		ins[3].set_opcode_t(SB);
+		ins[3].set_C_immediate_t(3);
 		ins[3].set_rs_t(12);
 		ins[3].set_rt_t(11);
+
+		ins[4].set_opcode_t(LW);
+		ins[4].set_C_immediate_t(0);
+		ins[4].set_rs_t(12);
+		ins[4].set_rt_t(1);
 		
 			
 	/*	
