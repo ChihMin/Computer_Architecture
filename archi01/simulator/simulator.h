@@ -88,6 +88,7 @@ namespace Simulator{
 /******************************/
 
 
+
 /******* R_TYPE_FUNCTION ******/
 	void add_funct(u32 rd, u32 rs, u32 rt);
 	void sub_funct(u32 rd, u32 rs, u32 rt);
@@ -127,6 +128,11 @@ namespace Simulator{
 	void jal_funct(u32 C_address);
 /******************************/
 
+/**** ANORTHER CALCULATION ***/
+	s64 compute_location(u32 rt, u32 rs, short C);
+	short get_short(s64 address); 
+	char  get_char(s64 address);
+/*****************************/
 
 /********** ERROR DETECT ******/
 	bool write_to_reg_zero_detect(Instruction ins);

@@ -25,12 +25,13 @@ namespace Simulator{
 		ins[1].set_rt_t(0);
 		
 
-		reg[10] = 0;
-		dimage[255] = 0x12345678;	
-		ins[2].set_opcode_t(LW);
-		ins[2].set_C_immediate_t(1020);
+		reg[10] = 2147483647;
+		
+		dimage[255] = 0xC234F678;	
+		ins[2].set_opcode_t(LB);
+		ins[2].set_C_immediate_t(1);
 		ins[2].set_rs_t(10);
-		ins[2].set_rt_t(11);
+		ins[2].set_rt_t(0);
 			
 	/*	
 		PC = 0;

@@ -10,6 +10,7 @@
 typedef unsigned int u32;
 typedef unsigned char uchar;
 typedef long long int s64;
+typedef unsigned short u16;
 
 #define INF 0xFFFFFFFF
 
