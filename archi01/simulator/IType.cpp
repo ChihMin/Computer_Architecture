@@ -28,7 +28,11 @@ namespace Simulator{
 			case LB:
 				lb_funct(rt, rs, C);
 				break;
-		}
+			
+			case LBU:
+				lbu_funct(rt, rs, C);
+				break;
+		}	
 	}
 	
 	char get_char(s64 address){
@@ -95,5 +99,11 @@ namespace Simulator{
 		s64 sum = compute_location(rt, rs, C);
 		if( is_halt )	return;
 		if( rt != 0 )	reg[rt] = get_char(sum);	
+	}
+
+	void lbu_funct(u32 rt, u32 rs, short C){
+		s64 sum = compute_location(rt, rs, C);
+		if( is_halt )	return;
+		if( rt != 0 )	reg[rt] = (uchar)get_char(sum);	
 	}
 }
