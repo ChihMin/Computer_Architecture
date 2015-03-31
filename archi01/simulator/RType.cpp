@@ -8,7 +8,7 @@ namespace Simulator{
 		u32 C_shamt = cur_ins.get_C_shamt();
 		u32 funct = cur_ins.get_funct();
 	
-		printf("funct %02X vs %d\n", funct, ADD);
+//		printf("funct %02X vs %d\n", funct, ADD);
 		
 		bool isChecked = (funct == ADD || funct == SUB )
 						 && write_to_reg_zero_detect(cur_ins);
@@ -23,7 +23,7 @@ namespace Simulator{
 		}
 
 		if( !isChecked && write_to_reg_zero_detect(cur_ins) )	return;
-		printf("here!!!!!\n");
+//		printf("here!!!!!\n");
 		switch(funct){
 			case AND:
 				and_funct(rd, rs, rt);

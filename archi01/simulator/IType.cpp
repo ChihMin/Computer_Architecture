@@ -64,6 +64,23 @@ namespace Simulator{
 			case SLTI:
 				slti_funct(rt, rs, C);
 				break;
+			
+			case BEQ:
+				beq_funct(rs, rt, C);
+				break;
+
+			case BNE:
+				bne_funct(rs, rt, C);
+				break;
+			/* J TYPE */
+			
+			case J:
+				j_funct(C);
+				break;
+
+			case JAL:
+				jal_funct(C);
+				break;
 		}	
 	}
 	
@@ -164,5 +181,25 @@ namespace Simulator{
 
 	void slti_funct(u32 rt, u32 rs, short C){
 		if(rt != 0)	reg[rt] = reg[rs] < C;
+	}
+	
+	void beq_funct(u32 rs, u32 rt, short C){
+		if(reg[rs] == reg[rt])
+			PC = PC + 4 * (int)C;
+	}
+
+	void bne_funct(u32 rs, u32 rt, short C){
+		if(reg[rs] != reg[rt])
+			PC = PC + 4 * (int)C;
+	}
+
+	void j_funct(u32 C){
+		PC &= 0xF0000000;	
+		PC = PC | (C << 2);
+	}
+
+	void jal_funct(u32 C){
+		reg[31] = PC;
+		j_funct(C);
 	}
 }

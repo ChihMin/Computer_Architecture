@@ -42,21 +42,24 @@ namespace Simulator{
 			if( rd == 0 ){
 				if( funct == SLL && rt == 0 && rs == 0 )
 					return false;
+				printf("ZERO DUMP ~~~ cycle %d : rd = %d\n", cycle, rd);
 				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
 				return true;
 			}
 		}
-		if( opcode == SW )	return false;
-		if( opcode == SH )	return false;
-		if( opcode == SB )	return false;	
-		if( opcode == BEQ )	return false;
-		if( opcode == BNE )	return false; 
-		if( opcode == J )	return false;
-		if( opcode == JAL )	return false;
+		else{
+			if( opcode == SW )	return false;
+			if( opcode == SH )	return false;
+			if( opcode == SB )	return false;	
+			if( opcode == BEQ )	return false;
+			if( opcode == BNE )	return false; 
+			if( opcode == J )	return false;
+			if( opcode == JAL )	return false;
 	
-		if( rt == 0 ){
-			fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
-			return true;
+			if( rt == 0 ){
+				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
+				return true;
+			}
 		}
 		return false;
 	}

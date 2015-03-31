@@ -9,11 +9,16 @@ namespace Simulator{
 		VPC = get_VPC();
 		while( VPC < iimage_words && PC < 1024){
 
-			printf("PC = 0x%08X\n",PC);
+			//printf("PC = 0x%08X\n",PC);
 
 			cycle++ ;	// CPU Cycle
 			
 			Instruction cur_ins = ins[VPC];
+			//if(mode){
+		//		fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct());	
+		//	}
+
+
 			u32 opcode = cur_ins.get_opcode();
 			add_program_counter();
 
@@ -28,7 +33,7 @@ namespace Simulator{
 					
 				default:
 					I_Type_and_J_Type_Calculator(cur_ins);
-					printf("opcode = 0x%02X\n", opcode); 
+					//printf("opcode = 0x%02X\n", opcode); 
 			}
 			if( is_halt )	return;
 			

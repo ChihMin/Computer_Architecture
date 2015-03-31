@@ -42,8 +42,8 @@ namespace Simulator{
 	/********** WARNING !!!!! This Block is used to TEST ***********/
 		//check_image();
 		//testbench();
-		test_seed();  // seed mode 
-		bool test_mode = true;
+		//test_seed();  // seed mode 
+		bool test_mode = false;
 	/***************************************************************/
 		write_snapshot();
 		execute(test_mode);
@@ -67,7 +67,7 @@ namespace Simulator{
 			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i+2] << std::endl; 
 		}*/
 		printf("iimage_words = %d\n", iimage_words);
-		printf("PC = %d, SP = %d\n", PC, SP);
+		printf("PC = %d, SP = %d\n", PC, reg[29]);
 		std::cout  << "opcode" << '\t' 
 					<< "rs" << '\t'
 					<< "rt" << '\t' 
