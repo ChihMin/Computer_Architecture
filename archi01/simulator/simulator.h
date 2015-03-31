@@ -133,7 +133,7 @@ namespace Simulator{
 	short get_short(s64 address); 
 	char get_char(s64 address);
 	void save_char(s64 address, u32 rt);
-	void set_short(s64 address, u32 rt);
+	void save_short(s64 address, u32 rt);
 /*****************************/
 
 /********** ERROR DETECT ******/
