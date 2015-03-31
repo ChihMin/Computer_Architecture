@@ -44,6 +44,10 @@ namespace Simulator{
 			case SB:
 				sb_funct(rt, rs, C);
 				break;
+
+			case LUI:
+				lui_funct(rt, C);
+				break;
 		}	
 	}
 	
@@ -126,4 +130,7 @@ namespace Simulator{
 		save_char(sum, rt);	
 	}
 	
+	void lui_funct(u32 rt, short C){
+		if( rt != 0)	reg[rt] = C << 16;
+	}
 }

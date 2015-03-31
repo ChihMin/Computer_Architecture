@@ -13,6 +13,7 @@ namespace Simulator{
 		
 		return (char)((dimage[address/4] & 0x000000FF));
 	}
+
 	short get_short(s64 address){
 		if( address % 4 == 0)	
 			return (short)((dimage[address/4] & 0xFFFF0000) >> 16);	
@@ -32,6 +33,7 @@ namespace Simulator{
 			dimage[tar] |= ans;	
 		}
 	}
+
 	void save_char(s64 sum, u32 rt){
 		int ans = reg[rt] & 0x000000FF;
 		int tar = sum / 4;
