@@ -31,7 +31,8 @@ namespace Simulator{
 					printf("opcode = 0x%02X\n", opcode); 
 			}
 			if( is_halt )	return;
-
+			
+			print_dimage(mode);
 			write_snapshot();
 			update_VPC();
 		}

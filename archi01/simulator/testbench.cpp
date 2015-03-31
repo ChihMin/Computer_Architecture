@@ -11,7 +11,7 @@ namespace Simulator{
 		dimage[1] = 0x00001111;
 			
 		PC = 0;
-		iimage_words = 3;
+		iimage_words = 4;
 		ins[0].set_opcode_t(ADDI);
 		ins[0].set_rs_t(8);
 		ins[0].set_rt_t(9);
@@ -32,6 +32,13 @@ namespace Simulator{
 		ins[2].set_C_immediate_t(0);
 		ins[2].set_rs_t(10);
 		ins[2].set_rt_t(11);
+		
+		reg[12] = 0;
+		ins[3].set_opcode_t(SW);
+		ins[3].set_C_immediate_t(0);
+		ins[3].set_rs_t(12);
+		ins[3].set_rt_t(11);
+		
 			
 	/*	
 		PC = 0;
@@ -101,5 +108,13 @@ namespace Simulator{
 	void judge(int x, int y){
 		if( x == y )	printf(" same\n");
 		else	printf("%d vs %d is different\n", x, y);
+	}
+
+	void print_dimage(bool mode){
+		if( !mode )	return;
+
+		for(int i = 0; i < 4; ++i){
+			printf("dimage[%d] = 0x%08X\n", i, dimage[i]);
+		}
 	}
 }

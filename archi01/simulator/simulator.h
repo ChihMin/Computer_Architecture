@@ -131,7 +131,8 @@ namespace Simulator{
 /**** ANORTHER CALCULATION ***/
 	s64 compute_location(u32 rt, u32 rs, short C);
 	short get_short(s64 address); 
-	char  get_char(s64 address);
+	char get_char(s64 address);
+	void set_short(s64 address, u32 rt);
 /*****************************/
 
 /********** ERROR DETECT ******/
@@ -140,7 +141,12 @@ namespace Simulator{
 	bool detect_memory_address_overflow(s64 address);
 	void data_misaligned(s64 address);
 /******************************/
-	
+
+
+/******* PRINT CONTENT ********/
+	void print_dimage(bool mode);	
+/******************************/
+
 }
 
 #endif

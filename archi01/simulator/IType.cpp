@@ -32,6 +32,14 @@ namespace Simulator{
 			case LBU:
 				lbu_funct(rt, rs, C);
 				break;
+			
+			case SW:
+				sw_funct(rt, rs, C);
+				break;
+
+			case SH:
+				sh_funct(rt, rs ,C);
+				break;
 		}	
 	}
 	
@@ -54,6 +62,20 @@ namespace Simulator{
 		return (short)(dimage[address/4] & 0x0000FFFF);
 	}
 	
+	void save_short(s64 sum, u32 rt){
+		int ans = reg[rt] & 0x0000FFFF;
+		int tar = sum / 4;
+		if( sum % 4 == 0 ){
+			dimage[tar] &= 0x0000FFFF;
+			ans = ans << 16;
+			dimage[tar] |= ans;
+		}
+		else{
+			dimage[tar] &= 0xFFFF0000;
+			dimage[tar] |= ans;	
+		}
+	}
+		
 	s64 compute_location(u32 rt, u32 rs, short C){
 		int s = reg[rs];
 		s64 sum = (s64)s + (s64)C;
@@ -105,5 +127,24 @@ namespace Simulator{
 		s64 sum = compute_location(rt, rs, C);
 		if( is_halt )	return;
 		if( rt != 0 )	reg[rt] = (uchar)get_char(sum);	
+	}
+	
+	void sw_funct(u32 rt, u32 rs, short C){
+		s64 sum = compute_location(rt, rs, C);
+		if( sum % 4 != 0 )	
+			data_misaligned(sum);
+		
+		if( is_halt )	return;
+		dimage[sum/4] = reg[rt];
+	}
+
+// here is used to save half world	
+	void sh_funct(u32 rt, u32 rs, short C){
+		s64 sum = compute_location(rt, rs, C);
+		if( sum % 2 != 0 )	
+			data_misaligned(sum);
+		
+		if( is_halt )	return;
+		save_short(sum, rt);
 	}
 }
