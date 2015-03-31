@@ -48,6 +48,22 @@ namespace Simulator{
 			case LUI:
 				lui_funct(rt, C);
 				break;
+
+			case ANDI:
+				andi_funct(rt, rs, C);
+				break;
+
+			case ORI:
+				ori_funct(rt, rs, C);
+				break;
+			
+			case NORI:
+				nori_funct(rt, rs, C);
+				break;
+
+			case SLTI:
+				slti_funct(rt, rs, C);
+				break;
 		}	
 	}
 	
@@ -131,6 +147,22 @@ namespace Simulator{
 	}
 	
 	void lui_funct(u32 rt, short C){
-		if( rt != 0)	reg[rt] = C << 16;
+		if(rt != 0)	reg[rt] = C << 16;
+	}
+
+	void andi_funct(u32 rt, u32 rs, short C){
+		if(rt != 0)	reg[rt] = reg[rs] & (u16)C;
+	}
+
+	void ori_funct(u32 rt, u32 rs, short C){
+		if(rt != 0)	reg[rt] = reg[rs] | (u16)C;
+	}
+
+	void nori_funct(u32 rt, u32 rs, short C){
+		if(rt != 0)	reg[rt] = ~(reg[rs] | (u16)C);
+	}
+
+	void slti_funct(u32 rt, u32 rs, short C){
+		if(rt != 0)	reg[rt] = reg[rs] < C;
 	}
 }

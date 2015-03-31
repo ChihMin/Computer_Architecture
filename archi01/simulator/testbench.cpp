@@ -10,17 +10,18 @@ namespace Simulator{
 		dimage[1] = 0x00001111;
 			
 		PC = 0;
-		iimage_words = 1;
-		ins[0].set_opcode_t(LUI);
+		iimage_words = 2;
+		ins[0].set_opcode_t(SLTI);
 		ins[0].set_rs_t(8);
 		ins[0].set_rt_t(9);
-		ins[0].set_C_immediate_t(0xC543);
-		reg[8] = 2147483647;
-		reg[9] = -1;
+		ins[0].set_C_immediate_t(0x8000);
+		reg[8] = 1000000;
+		reg[9] = -100;
 		
 		
 		for(int i = 1; i < iimage_words; ++i)
 			ins[i] = ins[i-1];
+		ins[1].set_opcode_t(NORI);
 	/*	ins[1].set_rt_t(0);
 		
 
