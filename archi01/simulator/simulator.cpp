@@ -15,8 +15,8 @@ namespace Simulator{
 
 	int reg[40];
 
-	char iimagePath[] = "../testcase/iimage.bin";
-	char dimagePath[] = "../testcase/dimage.bin";
+	char iimagePath[] = "iimage.bin";
+	char dimagePath[] = "dimage.bin";
 
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
