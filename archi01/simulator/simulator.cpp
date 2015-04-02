@@ -40,7 +40,7 @@ namespace Simulator{
 
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
-		//check_image();
+		check_image();
 		//testbench();
 		//test_seed();  // seed mode 
 		bool test_mode = false;
@@ -79,7 +79,7 @@ namespace Simulator{
 			std::cout << i+1 << ' '; 	
 			ins[i].print();
 		}
-		for(int i = 0; i < dimage_words; ++i)
+		for(int i = 0; i < dimage_words + 10; ++i)
 			printf("%d -> 0x%08X\n",i, dimage[i]);
 	}
 	 

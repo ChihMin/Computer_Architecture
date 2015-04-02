@@ -24,8 +24,8 @@ namespace IOfunction{
 			if( i == 1 )
 				dimage_words = in;
 			
-			dimage[i++] = in;
 			if( i > 1 )	j++; 
+			dimage[i++] = in;
 		}
 		printf("dimage_words = %d\n", dimage_words);
 		fclose( iimageR );	
