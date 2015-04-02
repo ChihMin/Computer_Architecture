@@ -17,11 +17,17 @@ namespace IOfunction{
 		}
 			
 		i = 0;
-		while( i < 300 && fread(&in, sizeof(u32), 1, dimageR) ){
+		int j = 0;
+		int dimage_words = 300;
+		while( j < dimage_words && fread(&in, sizeof(u32), 1, dimageR) ){
 			trans_small_to_big_endian( in );
+			if( i == 1 )
+				dimage_words = in;
+			
 			dimage[i++] = in;
+			if( i > 1 )	j++; 
 		}
-	
+		printf("dimage_words = %d\n", dimage_words);
 		fclose( iimageR );	
 		fclose( dimageR );
 	}
