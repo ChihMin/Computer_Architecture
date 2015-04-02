@@ -42,7 +42,8 @@ namespace IOfunction{
 		dimage_words = dimage[1];
 		for(int i = 0; i < dimage_words; ++i)
 			dimage[i] = dimage[i+2];
-		
+		dimage[dimage_words] = 0;
+		dimage[dimage_words+1] = 0;	
 	}
 
 	void trans_small_to_big_endian(u32 &in){
