@@ -98,7 +98,7 @@ int main(){
 	iimage = fopen("iimage.bin", "wb");
 	dimage = fopen("dimage.bin", "wb");
 	u32 PC = 0, SP = 400;
-	u32 iimage_words = 79;
+	u32 iimage_words = 256;
 	u32 dimage_words = 5;
 
 	write_data(SP);
@@ -156,6 +156,8 @@ int main(){
 	IType(LB, 0, 9, 13);
 	IType(LBU, 0, 9, 15);
 	IType(LUI, 0, 9, 0xABCD);
+	IType(ADDI, 0, 10,-1);
+	IType(ADDI, 0, 11, 1);
 	IType(ANDI, 0, 12, 0xFFFF);
 	IType(ORI, 0, 12, 0xFFFF);
 	IType(NORI, 0, 12, 0xFFFF);
@@ -181,6 +183,8 @@ int main(){
 	IType(LB, 13, 9, 15);
 	IType(LBU, 13, 9, 15);
 	IType(LUI, 13, 9, 0xABCD);
+	IType(ADDI, 13, 10,-1);
+	IType(ADDI, 13, 11, 1);
 	IType(ANDI, 13, 8, 0xFFFF);
 	IType(LUI, 14, 8, 0xABCD);
 	IType(ANDI, 14, 8, 0xFFFF);
@@ -196,6 +200,8 @@ int main(){
 	IType(LW, 16, 9, 20);
 	IType(LW, 17, 9, 24);
 	IType(LW, 18, 9, 28);
+	for(int i = 255; i >= 83; --i)
+		IType(LW, 19, 9, i * 4);
 	IType(LW, 0, 10, -1);  //halt
 
 	for(int i = 0; i < 100000; ++i){
