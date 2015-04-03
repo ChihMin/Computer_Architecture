@@ -40,7 +40,7 @@ namespace Simulator{
 		if( opcode == 0 ){
 			if( funct == JR )	return false;
 			if( rd == 0 ){
-				if( funct == SLL && rt == 0 && rs == 0 )
+				if( funct == SLL && rt == 0 && rd == 0 && C_shamt == 0)
 					return false;
 				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
 				return true;

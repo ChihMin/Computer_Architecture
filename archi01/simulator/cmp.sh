@@ -1,2 +1,4 @@
 #!/bin/bash
-vimdiff snapshot.rpt ../testcase/branch/snapshot.rpt
+vimdiff snapshot.rpt ~/Downloads/snapshot.rpt
+vimdiff error_dump.rpt ~/Downloads/error_dump.rpt
+rm ~/Downloads/*.rpt
