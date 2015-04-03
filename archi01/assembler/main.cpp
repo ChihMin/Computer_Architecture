@@ -98,7 +98,7 @@ int main(){
 	iimage = fopen("iimage.bin", "wb");
 	dimage = fopen("dimage.bin", "wb");
 	u32 PC = 0, SP = 400;
-	u32 iimage_words = 57;
+	u32 iimage_words = 79;
 	u32 dimage_words = 5;
 
 	write_data(SP);
@@ -119,12 +119,14 @@ int main(){
 	write_ins(iimage_words);
 	
 	IType(LW, 10, 9, 0);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	IType(LW, 11, 9, 4);
 	IType(LW, 8 , 9, 8);
 	rtype(R_TYPE, 0, 11, (u32)11, ADD);
 	rtype(R_TYPE, 0, 11, (u32)10, SUB);
 	rtype(R_TYPE, 0, 10, (u32)11, SUB);
 	rtype(R_TYPE, 0, 10, (u32)10, AND);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	rtype(R_TYPE, 0, 10, (u32)10, OR);
 	rtype(R_TYPE, 0, 10, (u32)10, XOR);
 	rtype(R_TYPE, 0, 10, (u32)10, NOR);
@@ -132,12 +134,15 @@ int main(){
 	rtype(R_TYPE, 0, 10, (u32)10, SLT);
 	rtype(R_TYPE, 0, 10, (short)31, SRL);
 	rtype(R_TYPE, 0, 10, (short)31, SRA);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	rtype(R_TYPE, 12, 11, (u32)11, ADD);
 	rtype(R_TYPE, 12, 11, (u32)10, SUB);
 	rtype(R_TYPE, 12, 10, (u32)11, SUB);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	rtype(R_TYPE, 12, 10, (u32)11, AND);
 	rtype(R_TYPE, 12, 10, (u32)11, OR);
 	rtype(R_TYPE, 12, 10, (u32)11, XOR);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	rtype(R_TYPE, 12, 10, (u32)11, NOR);
 	rtype(R_TYPE, 12, 10, (u32)11, NAND);
 	rtype(R_TYPE, 12, 10, (u32)11, SLT);	
@@ -146,6 +151,7 @@ int main(){
 	rtype(R_TYPE, 12, 10, (short)31, SRA);
 	IType(LW, 0, 9, 16);
 	IType(LH, 0, 9, 18);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	IType(LHU, 0, 9, 14);
 	IType(LB, 0, 9, 13);
 	IType(LBU, 0, 9, 15);
@@ -153,8 +159,10 @@ int main(){
 	IType(ANDI, 0, 12, 0xFFFF);
 	IType(ORI, 0, 12, 0xFFFF);
 	IType(NORI, 0, 12, 0xFFFF);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	IType(SLTI, 13, 9, -1);
 	IType(SLTI, 13, 9, 0);
+	rtype(R_TYPE, 0, 0, (short)0, SLL); // NOP INSTRUCTION
 	IType(SLTI, 13, 9, 1);
 	IType(SLTI, 13, 9, 0x8000);
 	IType(SLTI, 13, 9, 0x7999);
@@ -173,9 +181,22 @@ int main(){
 	IType(LB, 13, 9, 15);
 	IType(LBU, 13, 9, 15);
 	IType(LUI, 13, 9, 0xABCD);
-	IType(ANDI, 13, 12, 0xFFFF);
-	halt();
-
+	IType(ANDI, 13, 8, 0xFFFF);
+	IType(LUI, 14, 8, 0xABCD);
+	IType(ANDI, 14, 8, 0xFFFF);
+	IType(ORI, 14, 8, 0xFFFF);
+	IType(NORI, 14, 8, 0xFFFF);
+	IType(SW, 15, 9, 20);
+	IType(SH, 15, 9, 24);
+	IType(SH, 15, 9, 26);
+	IType(SB, 15, 9, 28);
+	IType(SB, 15, 9, 29);
+	IType(SB, 15, 9, 30);
+	IType(SB, 15, 9, 31);
+	IType(LW, 16, 9, 20);
+	IType(LW, 17, 9, 24);
+	IType(LW, 18, 9, 28);
+	IType(LW, 0, 10, -1);  //halt
 
 	for(int i = 0; i < 100000; ++i){
 		u32 tmp = rand();
