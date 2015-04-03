@@ -54,4 +54,4 @@ alloc.o:
 	g++ -c alloc.cpp
 
 clean:
-	rm *.o single_cycle test
+	rm *.o single_cycle test *.rpt *.bin
