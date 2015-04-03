@@ -98,8 +98,8 @@ int main(){
 	iimage = fopen("iimage.bin", "wb");
 	dimage = fopen("dimage.bin", "wb");
 	u32 PC = 0, SP = 400;
-	u32 iimage_words = 41;
-	u32 dimage_words = 4;
+	u32 iimage_words = 57;
+	u32 dimage_words = 5;
 
 	write_data(SP);
 	write_data(dimage_words);
@@ -107,7 +107,8 @@ int main(){
 	write_data(0x80000000);
 	write_data(0x7FFFFFFF);
 	write_data(0xABCDEF12);
-	write_data(0x12348678);	
+	write_data(0x12348678);
+	write_data(0x1234ABCD);	
 	for(int i = 0; i < 100000; ++i){
 		u32 tmp = rand() + rand(); 
 		write_data(tmp);
@@ -117,7 +118,6 @@ int main(){
 	write_ins(PC);
 	write_ins(iimage_words);
 	
-
 	IType(LW, 10, 9, 0);
 	IType(LW, 11, 9, 4);
 	IType(LW, 8 , 9, 8);
@@ -151,10 +151,26 @@ int main(){
 	IType(LBU, 0, 9, 15);
 	IType(LUI, 0, 9, 0xABCD);
 	IType(ANDI, 0, 12, 0xFFFF);
-	IType(LW, 13, 9, 16);
+	IType(ORI, 0, 12, 0xFFFF);
+	IType(NORI, 0, 12, 0xFFFF);
+	IType(SLTI, 13, 9, -1);
+	IType(SLTI, 13, 9, 0);
+	IType(SLTI, 13, 9, 1);
+	IType(SLTI, 13, 9, 0x8000);
+	IType(SLTI, 13, 9, 0x7999);
+	IType(SLTI, 0, 9, 0x7999);
+	IType(LW, 15, 9, 16);
 	IType(LH, 13, 9, 18);
+	IType(LHU, 13, 9, 18);
+	IType(LH, 13, 9, 14);
 	IType(LHU, 13, 9, 14);
+	IType(LB, 13, 9, 12);
+	IType(LBU, 13, 9, 12);
 	IType(LB, 13, 9, 13);
+	IType(LBU, 13, 9, 13);
+	IType(LB, 13, 9, 14);
+	IType(LBU, 13, 9, 14);
+	IType(LB, 13, 9, 15);
 	IType(LBU, 13, 9, 15);
 	IType(LUI, 13, 9, 0xABCD);
 	IType(ANDI, 13, 12, 0xFFFF);
