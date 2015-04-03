@@ -85,11 +85,11 @@ namespace Simulator{
 	}
 	
 		
-	s64 compute_location(u32 rt, u32 rs, short C){
+	s64 compute_location(u32 rt, u32 rs, short C, s64 bytes){
 		int s = reg[rs];
 		s64 sum = (s64)s + (s64)C;
 		detect_overflow(sum, s, (int)C);
-		detect_memory_address_overflow(sum);
+		detect_memory_address_overflow(sum + bytes - 1);
 		return sum;
 	}
 		
@@ -100,7 +100,7 @@ namespace Simulator{
 	}
 
 	void lw_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 4);
 		if( sum % 4 != 0 )	
 			data_misaligned(sum);
 		
@@ -109,7 +109,7 @@ namespace Simulator{
 	}
 
 	void lh_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 2);
 		if( sum % 2 != 0 )	
 			data_misaligned(sum);
 		
@@ -118,7 +118,7 @@ namespace Simulator{
 	}
 
 	void lhu_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 2);
 		if( sum % 2 != 0 )	
 			data_misaligned(sum);
 		
@@ -127,19 +127,19 @@ namespace Simulator{
 	}
 	
 	void lb_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 1);
 		if( is_halt )	return;
 		if( rt != 0 )	reg[rt] = get_char(sum);	
 	}
 
 	void lbu_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 1);
 		if( is_halt )	return;
 		if( rt != 0 )	reg[rt] = (uchar)get_char(sum);	
 	}
 	
 	void sw_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 4);
 		if( sum % 4 != 0 )	
 			data_misaligned(sum);
 		
@@ -149,7 +149,7 @@ namespace Simulator{
 
 // here is used to save half world	
 	void sh_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 2);
 		if( sum % 2 != 0 )	
 			data_misaligned(sum);
 		
@@ -158,7 +158,7 @@ namespace Simulator{
 	}
 
 	void sb_funct(u32 rt, u32 rs, short C){
-		s64 sum = compute_location(rt, rs, C);
+		s64 sum = compute_location(rt, rs, C, 1);
 		if( is_halt )	return;
 		save_char(sum, rt);	
 	}
