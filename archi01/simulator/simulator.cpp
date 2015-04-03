@@ -40,7 +40,7 @@ namespace Simulator{
 
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
-		check_image();
+		//check_image();
 		//testbench();
 		//test_seed();  // seed mode 
 		bool test_mode = false;

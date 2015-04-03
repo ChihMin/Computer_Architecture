@@ -42,7 +42,6 @@ namespace Simulator{
 			if( rd == 0 ){
 				if( funct == SLL && rt == 0 && rs == 0 )
 					return false;
-				printf("ZERO DUMP ~~~ cycle %d : rd = %d\n", cycle, rd);
 				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
 				return true;
 			}
