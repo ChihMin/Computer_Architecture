@@ -15,7 +15,7 @@ namespace Simulator{
 	}
 
 	bool detect_memory_address_overflow(s64 address){
-		if( address >= 1024 ||  address < 0 ){
+		if( address + (s64)3 >= 1024 ||  address < 0 ){
 			fprintf(ERR, "In cycle %d: Address Overflow\n", cycle);
 			is_halt = true;
 			return true;
