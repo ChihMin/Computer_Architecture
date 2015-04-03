@@ -7,3 +7,5 @@
 4. Type './single_cycle' to execute the program.
 
 5. 'snapshot.rpt' & 'error_dump.rpt' are the output files.
+
+6. Type 'make clean' to remove garbage files.
