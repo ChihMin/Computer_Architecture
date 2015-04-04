@@ -7,12 +7,18 @@ namespace Simulator{
 			
 		PC_Begin = PC;		
 		VPC = get_VPC();
-		while( VPC < iimage_words && PC < 1024){
+		while( PC < 1024){
 
 			//printf("PC = 0x%08X\n",PC);
 
 			cycle++ ;	// CPU Cycle
 			
+			if( PC < PC_Begin){
+				add_program_counter();
+				write_snapshot();
+				update_VPC();
+				continue;
+			}
 			Instruction cur_ins = ins[VPC];
 			//if(mode){
 		//		fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct());	

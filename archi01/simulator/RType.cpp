@@ -74,8 +74,9 @@ namespace Simulator{
 	}
 
 	void sub_funct(u32 rd, u32 rs, u32 rt){
-		s64 sum = (s64)reg[rs] - (s64)reg[rt];;
-		detect_overflow(sum, reg[rs], reg[rt]);
+		s64 sum = (s64)reg[rs] - (s64)reg[rt];
+		if(reg[rt] != 0x80000000)
+			detect_overflow(sum, reg[rs], reg[rt]);
 		if( rd != 0 )	reg[rd] = sum;
 	}
 
