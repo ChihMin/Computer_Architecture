@@ -139,6 +139,7 @@ namespace Simulator{
 /********** ERROR DETECT ******/
 	bool write_to_reg_zero_detect(Instruction ins);
 	void detect_overflow(s64 sum, int x, int y);
+	void detect_overflow(int A, int B);
 	bool detect_memory_address_overflow(s64 address);
 	void data_misaligned(s64 address);
 /******************************/

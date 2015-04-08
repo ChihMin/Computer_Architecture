@@ -13,6 +13,14 @@ namespace Simulator{
 			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
 
 	}
+	
+	void detect_overflow(int A, int B){
+		int sum = A + B;
+		int mask = (1<<31);
+		if( (A & mask) == (B & mask) )
+			if((sum & mask) != (A & mask))
+				fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);	 
+	}
 
 	bool detect_memory_address_overflow(s64 address){
 		if( address >= 1024 ||  address < 0 ){

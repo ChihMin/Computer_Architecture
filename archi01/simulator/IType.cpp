@@ -95,7 +95,7 @@ namespace Simulator{
 		
 	void addi_funct(u32 rt, u32 rs, short C){
 		s64 sum = (s64)reg[rs] + (s64)C;
-		detect_overflow(sum, reg[rs], (int)C);
+		detect_overflow(reg[rs], (int)C);
 		if( rt != 0 )	reg[rt] = sum; 	
 	}
 
