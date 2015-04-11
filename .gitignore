@@ -6,4 +6,6 @@
 *.txt
 *.smw
 *.swn
+*.bin
+*.rpt
 .DS_Store
