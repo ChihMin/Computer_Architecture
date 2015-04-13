@@ -90,6 +90,8 @@ namespace Simulator{
 		s64 sum = (s64)s + (s64)C;
 		detect_overflow(sum, s, (int)C);
 		detect_memory_address_overflow(sum + bytes - 1);
+		if(!is_halt)
+			detect_memory_address_overflow(sum);
 		return sum;
 	}
 		
