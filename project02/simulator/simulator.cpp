@@ -27,6 +27,7 @@ namespace Simulator{
 		memset(reg, 0, sizeof( reg ) );
 		memset(iimage, 0, sizeof( iimage ) );
 		memset(dimage, 0, sizeof( dimage ) );
+		memset(ins, 0, sizeof(Instruction));
 	}
 
 	void run(){
@@ -43,7 +44,7 @@ namespace Simulator{
 		//check_image();
 		//testbench();
 		//test_seed();  // seed mode 
-		bool test_mode = true;
+		bool test_mode = false;
 	/***************************************************************/
 		write_snapshot();
 		execute(test_mode);
@@ -84,8 +85,9 @@ namespace Simulator{
 	}
 	 
 	void decode_instruction(){
+		int current = PC / 4;
 		for(int i = 0; i < iimage_words; ++i)
-			ins[i].decode(iimage[i+2]);
+			ins[current++].decode(iimage[i+2]);
 	}
 
 	void destruct(){
