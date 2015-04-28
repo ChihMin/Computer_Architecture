@@ -10,8 +10,7 @@ namespace Simulator{
 	
 //		printf("funct %02X vs %d\n", funct, ADD);
 		
-		bool isChecked = (funct == ADD || funct == SUB )
-						 && write_to_reg_zero_detect(cur_ins);
+		write_to_reg_zero_detect(cur_ins);
 		switch(funct){
 			case ADD:
 				add_funct(rd, rs, rt);
@@ -20,11 +19,6 @@ namespace Simulator{
 			case SUB:
 				sub_funct(rd ,rs, rt);
 				break;
-		}
-
-		if( !isChecked && write_to_reg_zero_detect(cur_ins) )	return;
-//		printf("here!!!!!\n");
-		switch(funct){
 			case AND:
 				and_funct(rd, rs, rt);
 				break;
@@ -80,38 +74,47 @@ namespace Simulator{
 	}
 
 	void and_funct(u32 rd, u32 rs, u32 rt){
+		if(rd == 0)	return;
 		reg[rd] = reg[rs] & reg[rt];	
 	}
 
 	void or_funct(u32 rd, u32 rs, u32 rt){
+		if(rd == 0)	return;
 		reg[rd] = reg[rs] | reg[rt];	
 	}
 
 	void xor_funct(u32 rd, u32 rs, u32 rt){
+		if(rd == 0)	return;
 		reg[rd] = reg[rs] ^ reg[rt];	
 	}
 
 	void nor_funct(u32 rd, u32 rs, u32 rt){	
+		if(rd == 0)	return;
 		reg[rd] = ~(reg[rs] | reg[rt]);	
 	}
 
 	void nand_funct(u32 rd, u32 rs, u32 rt){
+		if(rd == 0)	return;
 		reg[rd] = ~(reg[rs] & reg[rt]);	
 	}
 
 	void slt_funct(u32 rd, u32 rs, u32 rt){
+		if(rd == 0)	return;
 		reg[rd] = (reg[rs] < reg[rt]);
 	}
 		
 	void sll_funct(u32 rd, u32 rt, u32 C_shamt){
+		if(rd == 0)	return;
 		reg[rd] = (reg[rt] << C_shamt); 	
 	}
 
 	void srl_funct(u32 rd, u32 rt, u32 C_shamt){
+		if(rd == 0)	return;
 		reg[rd] = ((u32)reg[rt] >> C_shamt);
 	}
 
 	void sra_funct(u32 rd, u32 rt, u32 C_shamt){
+		if(rd == 0)	return;
 		reg[rd] = (reg[rt] >> C_shamt);	
 	}
 
