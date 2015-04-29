@@ -46,7 +46,6 @@ namespace Simulator{
 		//test_seed();  // seed mode 
 		bool test_mode = false;
 	/***************************************************************/
-		write_snapshot();
 		execute(test_mode);
 
 		destruct();	

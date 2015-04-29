@@ -8,7 +8,8 @@ namespace Simulator{
 		PC_Begin = PC;		
 		VPC = get_VPC();
 		while( PC < 1024){
-
+			
+			write_snapshot();
 			//printf("PC = 0x%08X\n",PC);
 
 			cycle++ ;	// CPU Cycle
@@ -37,7 +38,6 @@ namespace Simulator{
 			if( is_halt )	return;
 			
 			print_dimage(mode);
-			write_snapshot();
 			update_VPC();
 		}
 	}
