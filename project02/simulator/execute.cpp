@@ -8,7 +8,7 @@ namespace Simulator{
 		PC_Begin = PC;		
 		VPC = get_VPC();
 		while( PC < 1024){
-			
+			memset(error, 0, sizeof(error));	
 			write_snapshot();
 			//printf("PC = 0x%08X\n",PC);
 
@@ -35,6 +35,11 @@ namespace Simulator{
 					I_Type_and_J_Type_Calculator(cur_ins);
 					//printf("opcode = 0x%02X\n", opcode); 
 			}
+			/**** PRINT ERROR DUMP ****/	
+			for(int i = 0; i < 4; ++i)
+				error_dump_output(i);
+			/**************************/
+
 			if( is_halt )	return;
 			
 			print_dimage(mode);
@@ -52,5 +57,20 @@ namespace Simulator{
 
 	void update_VPC(){
 		VPC = get_VPC();
+	}
+	
+	void error_dump_output(int i){
+		if(!error[i])	return;
+		if(i == 0)	
+			fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);		
+		
+		if(i == 1)
+			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
+
+		if(i == 2)
+			fprintf(ERR, "In cycle %d: Address Overflow\n", cycle);
+
+		if(i == 3)
+			fprintf(ERR, "In cycle %d: Misalignment Error\n", cycle);
 	}
 }	

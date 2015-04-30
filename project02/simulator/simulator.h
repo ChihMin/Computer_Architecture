@@ -65,6 +65,7 @@ namespace Simulator{
 	extern int reg[];
 	extern Instruction ins[]; 
 	extern bool is_halt;
+	extern bool error[4];
 /***************************************/
 
 /******** HOST CPU PROCESS ******/
@@ -146,7 +147,8 @@ namespace Simulator{
 
 
 /******* PRINT CONTENT ********/
-	void print_dimage(bool mode);	
+	void print_dimage(bool mode);
+	void error_dump_output(int i);	
 /******************************/
 
 }

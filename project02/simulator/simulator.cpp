@@ -5,6 +5,7 @@
 namespace Simulator{
 	FILE *ERR;
 	bool is_halt = 0;
+	bool error[4] = {0};
 	u32 PC, SP, cycle, VPC;
 	u32 iimage_words;
 	u32 dimage_words;
