@@ -20,17 +20,6 @@ Entry::Entry(Instruction _ins, const int _reg[], const bool _error[]){
 
 Entry::Entry(){}
 
-void Entry::operator=(Entry TEMP){
-	
-	int *_reg = TEMP.get_reg();
-	for(int i = 0; i < 32; ++i)
-		this->reg[i] = _reg[i];
-	
-	for(int i = 0; i < 5; ++i)
-		this->error[i] = TEMP.get_error(i);
-	
-	this->ins = TEMP.get_ins();
-}
 
 Instruction Entry::get_ins(){
 	return this->ins;
@@ -118,8 +107,3 @@ Instruction Stage::get_NOP(){
 	return this->NOP;
 }
 
-void Stage::operator=(Stage TEMP){
-	for(int i = 0; i < 5; ++i)
-		this->stage[i] = TEMP.get_entry(i);
-	this->NOP = get_NOP();
-}

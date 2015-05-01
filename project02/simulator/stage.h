@@ -18,7 +18,6 @@ public :
 	void set_error(const bool _error[]);
 	void set_ins(Instruction ins);
 	void set_fake_ins(u32 ins);
-	void operator=(Entry TEMP);
 private :
 	
 	Instruction ins;
@@ -39,7 +38,6 @@ public :
 	void insert_nop();
 	void flush_replace(const Entry &ins);
 	Entry get_entry(int current);
-	void operator=(Stage TEMP);
 	Instruction get_NOP();
 private :
 	

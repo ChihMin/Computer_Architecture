@@ -87,7 +87,6 @@ class Instruction{
 		
 		void set_C_address_t(u32 C_address);
 	
-		void operator=(Instruction TEMP) ;
 	/*************************************/
 
 	private:
