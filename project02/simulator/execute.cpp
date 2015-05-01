@@ -18,19 +18,22 @@ namespace Simulator{
 		while( PC < 1024){
 			memset(error, 0, sizeof(error));
 			int *output_reg = stage.get_entry(4).get_reg();
-			write_snapshot(reg);
-			//printf("PC = 0x%08X\n",PC);
+			write_snapshot(output_reg);
 
 			cycle++ ;	// CPU Cycle
-			Instruction cur_ins = ins[VPC];
+				
+			/* Push the instruction to IF*/	
+			stage.push_ins(Entry(ins[VPC], reg, error));
 			
-			if(mode){
-				fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
-			}
-
+			/* Execute the instruction in ID */ 
+			Instruction cur_ins = stage.get_entry(1).get_ins();
 			u32 opcode = cur_ins.get_opcode();
 			add_program_counter();
 
+			if(mode){
+				fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
+			}
+		
 			switch(opcode){
 				case HALT:
 					return;
@@ -45,7 +48,7 @@ namespace Simulator{
 					//printf("opcode = 0x%02X\n", opcode); 
 			}
 
-			
+			print_stage_state();
 			/**** PRINT ERROR DUMP ****/	
 			for(int i = 0; i < 4; ++i)
 				error_dump_output(i);
@@ -84,4 +87,5 @@ namespace Simulator{
 		if(i == 3)
 			fprintf(ERR, "In cycle %d: Misalignment Error\n", cycle);
 	}
+
 }	

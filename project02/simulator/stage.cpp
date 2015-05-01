@@ -1,8 +1,17 @@
 #include "stage.h"
 
+/*********** Entry Class **************/
+
 Entry::Entry(const Instruction &_ins, u32 _fake_ins, const int _reg[], const bool _error[]){
 	this->ins = _ins;
 	this->fake_ins = _fake_ins;
+	for(int i = 0; i < 32; ++i)
+		this->reg[i] = _reg[i];
+	for(int i = 0; i < 4; ++i)
+		this->error[i] = _error[i];
+}
+Entry::Entry(const Instruction &_ins, const int _reg[], const bool _error[]){
+	this->ins = _ins;
 	for(int i = 0; i < 32; ++i)
 		this->reg[i] = _reg[i];
 	for(int i = 0; i < 4; ++i)
@@ -32,6 +41,11 @@ void Entry::set_reg(const int _reg[]){
 		this->reg[i] = _reg[i];
 }
 
+void Entry::set_error(const bool _error[]){
+	for(int i = 0; i < 4; ++i)
+		this->error[i] = _error[i];
+}
+
 void Entry::set_ins(const Instruction &ins){
 	this->ins = ins;
 }
@@ -40,6 +54,8 @@ void Entry::set_ins(const Instruction &ins){
 void Entry::set_fake_ins(u32 ins){
 	this->fake_ins = ins;
 }
+
+/********** STAGE CLASS ***********/
 
 Stage::Stage(){}
 
@@ -70,6 +86,16 @@ void Stage::flush_replace(const Entry &ins){
 	);
 }
 
+void Stage::update_reg(const int reg[]){
+	stage[1].set_reg(reg);
+}
+
+void Stage::update_error(const bool error[]){
+	stage[1].set_error(error);
+}
+
 Entry Stage::get_entry(int current){
 	return stage[current];
 }
+
+

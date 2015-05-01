@@ -64,7 +64,8 @@ namespace Simulator{
 	extern u32 dimage[]; 
 	
 	extern int reg[];
-	extern Instruction ins[]; 
+	extern Instruction ins[];
+	extern Stage stage; 
 	extern bool is_halt;
 	extern bool error[4];
 /***************************************/
@@ -149,7 +150,8 @@ namespace Simulator{
 
 /******* PRINT CONTENT ********/
 	void print_dimage(bool mode);
-	void error_dump_output(int i);	
+	void error_dump_output(int i);
+	void print_stage_state();
 /******************************/
 
 }
