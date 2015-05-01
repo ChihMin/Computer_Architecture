@@ -8,8 +8,9 @@ namespace Simulator{
 		PC_Begin = PC;		
 		VPC = get_VPC();
 		while( PC < 1024){
-			memset(error, 0, sizeof(error));	
-			write_snapshot();
+			memset(error, 0, sizeof(error));
+				
+			write_snapshot(reg);
 			//printf("PC = 0x%08X\n",PC);
 
 			cycle++ ;	// CPU Cycle

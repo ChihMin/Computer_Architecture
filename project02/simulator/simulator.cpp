@@ -16,6 +16,7 @@ namespace Simulator{
 
 	int reg[40];
 
+
 	char iimagePath[] = "iimage.bin";
 	char dimagePath[] = "dimage.bin";
 
@@ -52,11 +53,11 @@ namespace Simulator{
 		destruct();	
 	}
 	
-	void write_snapshot(){
+	void write_snapshot(const int output_reg[]){
 		FILE *W = IOfunction::snapshot;
 		fprintf(W, "cycle %d\n", cycle);
 		for(int i = 0; i < 32; ++i)
-			fprintf(W, "$%02d: 0x%08X\n",i, reg[i]);
+			fprintf(W, "$%02d: 0x%08X\n",i, output_reg[i]);
 		fprintf(W, "PC: 0x%08X\n\n\n", PC);		
 	}
 
@@ -92,5 +93,6 @@ namespace Simulator{
 
 	void destruct(){
 		fclose(IOfunction::snapshot);	
+		fclose(IOfunction::error_dump);
 	}
 }

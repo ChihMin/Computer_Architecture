@@ -75,7 +75,7 @@ namespace Simulator{
 	void test_seed();
 	void decode_instruction();
 	void check_image();
-	void write_snapshot();
+	void write_snapshot(const int output_reg[]);
 	void destruct();
 /*******************************/
 
