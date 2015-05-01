@@ -7,13 +7,15 @@ class Entry{
 
 public :
 	
-	Entry(const Instruction &_ins, u32 _fake_ins, bool _error[]);
+	Entry();	
+	Entry(const Instruction &_ins, u32 _fake_ins, const int _reg[], const bool _error[]);
 	Instruction get_ins();
 	u32 get_fake_ins();
 	bool get_error(int i);
 	int *get_reg();
 	void set_reg(const int reg[]);
-	void set_instruciton(const Instruction &ins);
+	void set_ins(const Instruction &ins);
+	void set_fake_ins(u32 ins);
 
 private :
 	
@@ -27,14 +29,16 @@ class Stage{
 
 public :
 	
-	Stage(const Instruction &NOP);
-	void push_ins(const Instruction &ins);
+	Stage();	
+	Stage(const Entry &NOP);
+	void push_ins(const Entry &ins);
 	void insert_nop();
-	void flush_replace(const Instruction &ins);
-
+	void flush_replace(const Entry &ins);
+	Entry get_entry(int current);
 private :
 	
 	Entry stage[6];
+	Instruction NOP;
 };
 
 #endif

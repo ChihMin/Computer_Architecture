@@ -16,9 +16,11 @@ namespace Simulator{
 
 	int reg[40];
 
-
+	
 	char iimagePath[] = "iimage.bin";
 	char dimagePath[] = "dimage.bin";
+	
+	Stage stage;
 
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
@@ -26,10 +28,11 @@ namespace Simulator{
 		ERR = IOfunction::error_dump;
 		
 		PC = INF;
-		memset(reg, 0, sizeof( reg ) );
-		memset(iimage, 0, sizeof( iimage ) );
-		memset(dimage, 0, sizeof( dimage ) );
+		memset(reg, 0, sizeof( reg ));
+		memset(iimage, 0, sizeof( iimage ));
+		memset(dimage, 0, sizeof( dimage ));
 		memset(ins, 0, sizeof(Instruction));
+		memset(error, 0, sizeof(error));
 	}
 
 	void run(){
@@ -40,7 +43,6 @@ namespace Simulator{
 		IOfunction::dump_data(reg[29], dimage_words, dimage);	
 			
 		decode_instruction();	
-
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
 		//check_image();
@@ -52,7 +54,7 @@ namespace Simulator{
 
 		destruct();	
 	}
-	
+		
 	void write_snapshot(const int output_reg[]){
 		FILE *W = IOfunction::snapshot;
 		fprintf(W, "cycle %d\n", cycle);

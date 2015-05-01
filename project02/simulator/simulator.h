@@ -5,6 +5,7 @@
 #include <iomanip>
 
 #include "IOfunction.h"
+#include "stage.h"
 
 namespace Simulator{
 

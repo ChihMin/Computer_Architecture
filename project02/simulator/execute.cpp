@@ -7,18 +7,26 @@ namespace Simulator{
 			
 		PC_Begin = PC;		
 		VPC = get_VPC();
+		
+		Instruction ins_nop;
+		ins_nop.decode(0);
+
+		/* Initialize five stages */
+		Stage stage = Stage(Entry(ins_nop, 0, reg, error));
+
+
 		while( PC < 1024){
 			memset(error, 0, sizeof(error));
-				
+			int *output_reg = stage.get_entry(4).get_reg();
 			write_snapshot(reg);
 			//printf("PC = 0x%08X\n",PC);
 
 			cycle++ ;	// CPU Cycle
 			Instruction cur_ins = ins[VPC];
+			
 			if(mode){
 				fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
 			}
-
 
 			u32 opcode = cur_ins.get_opcode();
 			add_program_counter();
@@ -36,6 +44,8 @@ namespace Simulator{
 					I_Type_and_J_Type_Calculator(cur_ins);
 					//printf("opcode = 0x%02X\n", opcode); 
 			}
+
+			
 			/**** PRINT ERROR DUMP ****/	
 			for(int i = 0; i < 4; ++i)
 				error_dump_output(i);
