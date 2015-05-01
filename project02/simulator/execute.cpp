@@ -12,7 +12,7 @@ namespace Simulator{
 		ins_nop.decode(0);
 
 		/* Initialize five stages */
-		Stage stage = Stage(Entry(ins_nop, 0, reg, error));
+		stage = Stage(Entry(ins_nop, 0, reg, error));
 
 
 		while( PC < 1024){
@@ -49,10 +49,6 @@ namespace Simulator{
 			}
 
 			print_stage_state();
-			/**** PRINT ERROR DUMP ****/	
-			for(int i = 0; i < 4; ++i)
-				error_dump_output(i);
-			/**************************/
 
 			if( is_halt )	return;
 			
@@ -73,19 +69,5 @@ namespace Simulator{
 		VPC = get_VPC();
 	}
 	
-	void error_dump_output(int i){
-		if(!error[i])	return;
-		if(i == 0)	
-			fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);		
-		
-		if(i == 1)
-			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
-
-		if(i == 2)
-			fprintf(ERR, "In cycle %d: Address Overflow\n", cycle);
-
-		if(i == 3)
-			fprintf(ERR, "In cycle %d: Misalignment Error\n", cycle);
-	}
 
 }	

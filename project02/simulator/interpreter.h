@@ -65,7 +65,8 @@ class Instruction{
 		short get_C_immediate();
 		
 		u32 get_C_address();
-			
+	
+		bool is_nop();		
 	/*************************************/
 
 	/***** TEST DIRECT SET INSTRUCTION ***/
@@ -86,7 +87,7 @@ class Instruction{
 		
 		void set_C_address_t(u32 C_address);
 	
-
+		void operator=(Instruction TEMP) ;
 	/*************************************/
 
 	private:

@@ -74,6 +74,18 @@ void Instruction::set_C_address_t(u32 C_address){
 	this->C_address = C_address;
 }
 
+void Instruction::operator=(Instruction TEMP){
+	this->instruction = TEMP.get_instruction();
+	this->opcode = TEMP.get_opcode();
+	this->rs = TEMP.get_rs();
+	this->rt = TEMP.get_rt();
+	this->rd = TEMP.get_rd();
+	this->C_shamt = TEMP.get_C_shamt();
+	this->funct = TEMP.get_funct();
+	this->C_address = TEMP.get_C_address();
+	this->C_immediate = TEMP.get_C_immediate();
+}
+
 void Instruction::decode( u32 ins ){
 	this->instruction = ins;
 	this->set_opcode(ins);

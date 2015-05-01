@@ -35,3 +35,12 @@ u32 Instruction::get_C_address(){
 u32 Instruction::get_instruction(){
 	return this->instruction;
 }
+
+bool Instruction::is_nop(){
+	return 
+		this->opcode == 0 &&
+		this->rd == 0 &&
+		this->rt == 0 &&
+		this->C_shamt == 0 &&
+		this->funct == 0; 
+}

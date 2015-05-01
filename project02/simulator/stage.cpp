@@ -10,7 +10,7 @@ Entry::Entry(const Instruction &_ins, u32 _fake_ins, const int _reg[], const boo
 	for(int i = 0; i < 4; ++i)
 		this->error[i] = _error[i];
 }
-Entry::Entry(const Instruction &_ins, const int _reg[], const bool _error[]){
+Entry::Entry(Instruction _ins, const int _reg[], const bool _error[]){
 	this->ins = _ins;
 	for(int i = 0; i < 32; ++i)
 		this->reg[i] = _reg[i];
@@ -19,6 +19,18 @@ Entry::Entry(const Instruction &_ins, const int _reg[], const bool _error[]){
 }
 
 Entry::Entry(){}
+
+void Entry::operator=(Entry TEMP){
+	
+	int *_reg = TEMP.get_reg();
+	for(int i = 0; i < 32; ++i)
+		this->reg[i] = _reg[i];
+	
+	for(int i = 0; i < 5; ++i)
+		this->error[i] = TEMP.get_error(i);
+	
+	this->ins = TEMP.get_ins();
+}
 
 Instruction Entry::get_ins(){
 	return this->ins;
@@ -46,7 +58,7 @@ void Entry::set_error(const bool _error[]){
 		this->error[i] = _error[i];
 }
 
-void Entry::set_ins(const Instruction &ins){
+void Entry::set_ins(Instruction ins){
 	this->ins = ins;
 }
 
@@ -59,16 +71,19 @@ void Entry::set_fake_ins(u32 ins){
 
 Stage::Stage(){}
 
-Stage::Stage(const Entry &NOP){
+Stage::Stage(Entry NOP){
 	for(int i = 0; i < 5; ++i)
 		this->stage[i] = NOP;	// Set NOP Entry
 	this->NOP.decode(0);		// Set NOP Instruction
 }
 
-void Stage::push_ins(const Entry &ins){
+void Stage::push_ins(Entry ins){
+	Instruction tmp = ins.get_ins();
 	for(int i = 4; i >= 1; i--)
 		this->stage[i] = this->stage[i-1];	// Shift the state
 	this->stage[0] = ins;					// push ins
+	for(int i = 0; i < 5; ++i)
+		printf("%d -> %X & %p\n", i, this->stage[i].get_ins().get_opcode(), &this->stage[i]);
 }
 
 void Stage::insert_nop(){
@@ -95,7 +110,16 @@ void Stage::update_error(const bool error[]){
 }
 
 Entry Stage::get_entry(int current){
-	return stage[current];
+	printf("get_entry_location : %d -----> %p\n",current,  &this->stage[current]);
+	return this->stage[current];
 }
 
+Instruction Stage::get_NOP(){
+	return this->NOP;
+}
 
+void Stage::operator=(Stage TEMP){
+	for(int i = 0; i < 5; ++i)
+		this->stage[i] = TEMP.get_entry(i);
+	this->NOP = get_NOP();
+}

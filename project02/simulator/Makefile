@@ -18,6 +18,17 @@ test:IOfunction.o test.o interpreter.o \
 	execute.o simulator.o \
 	error.o alloc.o RType.o IType.o test.o
 
+debug:IOfunction.o main.o interpreter.o \
+			getins.o execute.o simulator.o \
+			error.o testbench.o RType.o \
+			alloc.o IType.o stage.o report.o
+	g++ -o debug -g \
+	interpreter.o getins.o \
+	IOfunction.o testbench.o \
+	execute.o simulator.o \
+	error.o alloc.o RType.o IType.o \
+	stage.o report.o main.o
+
 test.o:
 	g++ -c test.cpp
 
