@@ -186,21 +186,31 @@ namespace Simulator{
 	}
 	
 	void beq_funct(u32 rs, u32 rt, short C){
-		if(reg[rs] == reg[rt])
+		if(reg[rs] == reg[rt]){
 			PC = PC + 4 * (int)C;
+			to_be_flushed = true;
+		}
+		else
+			to_be_flushed = false;
 	}
 
 	void bne_funct(u32 rs, u32 rt, short C){
-		if(reg[rs] != reg[rt])
+		if(reg[rs] != reg[rt]){
 			PC = PC + 4 * (int)C;
+			to_be_flushed = true;
+		}
+		else
+			to_be_flushed = false;
 	}
 
 	void j_funct(u32 C){
+		to_be_flushed = true;
 		PC &= 0xF0000000;	
 		PC = PC | (C << 2);
 	}
 
 	void jal_funct(u32 C){
+		to_be_flushed = true;
 		reg[31] = PC;
 		j_funct(C);
 	}

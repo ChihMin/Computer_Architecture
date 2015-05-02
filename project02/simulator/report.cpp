@@ -4,24 +4,30 @@ namespace Simulator{
 	void print_stage_state(){
 		stage.update_error(error);
 		stage.update_reg(reg);
-		for(int i = 0; i < 4; ++i)
-			if(error[i])
-				error_dump_output(i);
+	
+		u32 opcode = stage.get_entry(1).get_ins().get_opcode();
+		u32 funct = stage.get_entry(1).get_ins().get_opcode();
+		
 
+		Instruction cur_ins = stage.get_entry(4).get_ins();
+		fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
+		
+		//printf("cicle = %d\n", cycle);	
 		for(int i = 0; i < 5; ++i){
-			Entry entry = stage.get_entry(i);
-			printf("stage %d ::::: ", i);
-			stage.get_entry(i).get_ins().print(); 
+			u32 opcode = stage.get_entry(i).get_ins().get_opcode();
+			u32 funct = stage.get_entry(i).get_ins().get_funct();
+			fprintf(IOfunction::snapshot, "stage %d = op : %X, funct : %X\n", i, opcode, funct);
 		}
-/*
+	
+	/*********** DETECT ERRORS *************/
 		for(int i = 4; i >= 2; i--){
-			
+			Entry entry = stage.get_entry(i);	
 			Instruction temp = entry.get_ins();
 			if(temp.is_nop()){	
 				//printf("stage = %d, opcode = %d\n", i, temp.get_opcode());
 				continue;
 			}
-			printf("cycle %d\n", cycle);	
+			//printf("cycle %d\n", cycle);	
 			if(i == 4 && entry.get_error(0))
 				error_dump_output(0);
 
@@ -34,7 +40,13 @@ namespace Simulator{
 			if(i == 2 && entry.get_error(1))
 				error_dump_output(1);
 		}
-*/
+
+	/***************************************/
+		if(to_be_flushed){
+			fprintf(IOfunction::snapshot, "flushed!!\n");
+			stage.flush_replace();
+		}
+				
 	}
 	
 	void error_dump_output(int i){

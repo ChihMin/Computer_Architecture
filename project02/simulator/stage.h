@@ -36,7 +36,7 @@ public :
 	void update_reg(const int reg[]);
 	void update_error(const bool error[]);
 	void insert_nop();
-	void flush_replace(const Entry &ins);
+	void flush_replace();
 	Entry get_entry(int current);
 	Instruction get_NOP();
 private :

@@ -5,6 +5,8 @@
 namespace Simulator{
 	FILE *ERR;
 	bool is_halt = 0;
+	bool is_stall = 0;
+	bool to_be_flushed = 0;
 	bool error[4] = {0};
 	u32 PC, SP, cycle, VPC;
 	u32 iimage_words;
@@ -45,7 +47,7 @@ namespace Simulator{
 		decode_instruction();	
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
-		//check_image();
+		check_image();
 		//testbench();
 		//test_seed();  // seed mode 
 		bool test_mode = false;
@@ -71,7 +73,7 @@ namespace Simulator{
 			std::cout << std::hex << std::setfill('0') << std::setw(8) << iimage[i+2] << std::endl; 
 		}*/
 		printf("iimage_words = %d\n", iimage_words);
-		printf("PC = %d, SP = %d\n", PC, reg[29]);
+		printf("PC = %X, SP = %d\n", PC, reg[29]);
 		std::cout  << "opcode" << '\t' 
 					<< "rs" << '\t'
 					<< "rt" << '\t' 
@@ -80,7 +82,7 @@ namespace Simulator{
 					<< "funct" << std::endl;
 
 		for(int i = 0; i < iimage_words; ++i){
-			std::cout << i+1 << ' '; 	
+			std::cout << i * 4 << ' '; 	
 			ins[i].print();
 		}
 		for(int i = 0; i < dimage_words + 10; ++i)

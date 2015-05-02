@@ -119,6 +119,7 @@ namespace Simulator{
 	}
 
 	void jr_funct(u32 rs){
+		to_be_flushed = true;
 		PC = reg[rs];		
 	}
 }

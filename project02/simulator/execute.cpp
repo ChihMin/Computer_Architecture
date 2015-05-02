@@ -17,37 +17,42 @@ namespace Simulator{
 
 		while( PC < 1024){
 			memset(error, 0, sizeof(error));
+			to_be_flushed = false;
 			int *output_reg = stage.get_entry(4).get_reg();
 			write_snapshot(output_reg);
 
 			cycle++ ;	// CPU Cycle
 				
-			/* Push the instruction to IF*/	
-			stage.push_ins(Entry(ins[VPC], reg, error));
+			/* Push the instruction to IF NO stall happends */	
 			
-			/* Execute the instruction in ID */ 
-			Instruction cur_ins = stage.get_entry(1).get_ins();
-			u32 opcode = cur_ins.get_opcode();
-			add_program_counter();
+			printf("cycle = %d, now PC = 0x%08X, VPC = %d\n", cycle-1, PC, VPC);
+			if(!is_stall){
+				stage.push_ins(Entry(ins[VPC], reg, error));
+			
+				/* Execute the instruction in ID */ 
+				Instruction cur_ins = stage.get_entry(1).get_ins();
+				u32 opcode = cur_ins.get_opcode();
+				add_program_counter();
 
-			if(mode){
-				fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
+				if(mode){
+					fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
+				}
+			
+				switch(opcode){
+					case HALT:
+						return;
+						break;
+
+					case R_TYPE:
+						R_Type_Calculator(cur_ins);				
+						break;
+						
+					default:
+						I_Type_and_J_Type_Calculator(cur_ins);
+						//printf("opcode = 0x%02X\n", opcode); 
+				}
 			}
-		
-			switch(opcode){
-				case HALT:
-					return;
-					break;
-
-				case R_TYPE:
-					R_Type_Calculator(cur_ins);				
-					break;
-					
-				default:
-					I_Type_and_J_Type_Calculator(cur_ins);
-					//printf("opcode = 0x%02X\n", opcode); 
-			}
-
+			is_stall = false;
 			print_stage_state();
 
 			if( is_halt )	return;

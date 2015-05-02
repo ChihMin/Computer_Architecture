@@ -71,8 +71,10 @@ void Stage::push_ins(Entry ins){
 	for(int i = 4; i >= 1; i--)
 		this->stage[i] = this->stage[i-1];	// Shift the state
 	this->stage[0] = ins;					// push ins
+/*	
 	for(int i = 0; i < 5; ++i)
 		printf("%d -> %X & %p\n", i, this->stage[i].get_ins().get_opcode(), &this->stage[i]);
+*/
 }
 
 void Stage::insert_nop(){
@@ -81,13 +83,8 @@ void Stage::insert_nop(){
 	this->stage[2].set_ins(this->NOP);		// Conserve and insert NOP to EX
 }
 
-void Stage::flush_replace(const Entry &ins){
-	for(int i = 4; i >=2; i--)
-		this->stage[i] = this->stage[i-1];	
-	this->stage[1].set_ins(NOP);
-	this->stage[0].set_fake_ins(
-		this->stage[0].get_ins().get_instruction()
-	);
+void Stage::flush_replace(){
+	this->stage[0].set_ins(NOP);
 }
 
 void Stage::update_reg(const int reg[]){
@@ -99,7 +96,7 @@ void Stage::update_error(const bool error[]){
 }
 
 Entry Stage::get_entry(int current){
-	printf("get_entry_location : %d -----> %p\n",current,  &this->stage[current]);
+	//printf("get_entry_location : %d -----> %p\n",current,  &this->stage[current]);
 	return this->stage[current];
 }
 
