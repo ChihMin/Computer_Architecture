@@ -9,6 +9,7 @@ Entry::Entry(const Instruction &_ins, u32 _fake_ins, const int _reg[], const boo
 		this->reg[i] = _reg[i];
 	for(int i = 0; i < 4; ++i)
 		this->error[i] = _error[i];
+	this->insert = false;
 }
 Entry::Entry(Instruction _ins, const int _reg[], const bool _error[]){
 	this->ins = _ins;
@@ -16,6 +17,7 @@ Entry::Entry(Instruction _ins, const int _reg[], const bool _error[]){
 		this->reg[i] = _reg[i];
 	for(int i = 0; i < 4; ++i)
 		this->error[i] = _error[i];
+	this->insert = false;
 }
 
 Entry::Entry(){}
@@ -31,6 +33,10 @@ u32 Entry::get_fake_ins(){
 
 bool Entry::get_error(int i){
 	return this->error[i];
+}
+
+bool Entry::is_insert(){
+	return this->insert;
 }
 
 int *Entry::get_reg(){
@@ -51,6 +57,10 @@ void Entry::set_ins(Instruction ins){
 	this->ins = ins;
 }
 
+
+void Entry::set_insert(){
+	this->insert = true;
+}
 
 void Entry::set_fake_ins(u32 ins){
 	this->fake_ins = ins;
@@ -85,6 +95,7 @@ void Stage::insert_nop(){
 
 void Stage::flush_replace(){
 	this->stage[0].set_ins(NOP);
+	this->stage[0].set_insert();
 }
 
 void Stage::update_reg(const int reg[]){

@@ -19,6 +19,11 @@ namespace Simulator{
 			memset(error, 0, sizeof(error));
 			to_be_flushed = false;
 			int *output_reg = stage.get_entry(4).get_reg();
+			
+			if(mode){
+				Instruction cur_ins = stage.get_entry(4).get_ins();
+				fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
+			}
 			write_snapshot(output_reg);
 
 			cycle++ ;	// CPU Cycle
@@ -32,11 +37,8 @@ namespace Simulator{
 				/* Execute the instruction in ID */ 
 				Instruction cur_ins = stage.get_entry(1).get_ins();
 				u32 opcode = cur_ins.get_opcode();
-				add_program_counter();
+				
 
-				if(mode){
-					fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
-				}
 			
 				switch(opcode){
 					case HALT:
@@ -50,6 +52,10 @@ namespace Simulator{
 					default:
 						I_Type_and_J_Type_Calculator(cur_ins);
 						//printf("opcode = 0x%02X\n", opcode); 
+				}
+				if(!stage.get_entry(1).is_insert()){
+					if(!to_be_flushed)
+						add_program_counter();
 				}
 			}
 			is_stall = false;

@@ -47,10 +47,10 @@ namespace Simulator{
 		decode_instruction();	
 		
 	/********** WARNING !!!!! This Block is used to TEST ***********/
-		check_image();
+		//check_image();
 		//testbench();
 		//test_seed();  // seed mode 
-		bool test_mode = false;
+		bool test_mode = true;
 	/***************************************************************/
 		execute(test_mode);
 
@@ -62,7 +62,7 @@ namespace Simulator{
 		fprintf(W, "cycle %d\n", cycle);
 		for(int i = 0; i < 32; ++i)
 			fprintf(W, "$%02d: 0x%08X\n",i, output_reg[i]);
-		fprintf(W, "PC: 0x%08X\n\n\n", PC);		
+		fprintf(W, "PC: 0x%08X\n", PC);		
 	}
 
 	void check_image(){
