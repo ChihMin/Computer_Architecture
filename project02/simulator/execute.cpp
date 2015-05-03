@@ -17,29 +17,19 @@ namespace Simulator{
 
 		while(true){
 			memset(error, 0, sizeof(error));
-			to_be_flushed = false;
-			is_halt = false;
 			int *output_reg = stage.get_entry(4).get_reg();
-			
-			if(mode){
-				Instruction cur_ins = stage.get_entry(4).get_ins();
-				fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X C_shamt = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct(), cur_ins.get_C_shamt());	
-			}
 			write_snapshot(output_reg);
 
 			cycle++ ;	// CPU Cycle
 				
 			/* Push the instruction to IF NO stall happends */	
-			
-			//printf("cycle = %d, now PC = 0x%08X, VPC = %d\n", cycle-1, PC, VPC);
 			if(!is_stall){
+				to_be_flushed = false;
 				stage.push_ins(Entry(ins[VPC], reg, error));
 			
 				/* Execute the instruction in ID */ 
 				Instruction cur_ins = stage.get_entry(1).get_ins();
 				u32 opcode = cur_ins.get_opcode();
-				
-
 			
 				switch(opcode){
 					case R_TYPE:
@@ -48,7 +38,6 @@ namespace Simulator{
 						
 					default:
 						I_Type_and_J_Type_Calculator(cur_ins);
-						//printf("opcode = 0x%02X\n", opcode); 
 				}
 				if(!to_be_flushed)
 					add_program_counter();

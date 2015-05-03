@@ -18,13 +18,11 @@ namespace Simulator{
 			if(i == 3 && entry.get_error(2)){
 				error_dump_output(2);
 				is_terminated = true;
-				printf("here!!!\n");
 			}
 
 			if(i == 3 && entry.get_error(3)){
 				error_dump_output(3);
 				is_terminated = true;
-				printf("here !!!\n");
 			}
 
 			if(i == 2 && entry.get_error(1))
@@ -43,6 +41,57 @@ namespace Simulator{
 		}
 		if(halt_cnt == 5)
 			is_terminated = true;
+	}
+	
+	void handle_stall(){
+		/******* STALL DETECTION *****
+			Must handle NOP instruction
+			For 2 parts : 'Branch' and 'NOT Branch'
+			LW in EX, LW in DM detect ID stage
+			
+		*****************************/
+
+		Instruction ID = stage.get_entry(1).get_ins();
+		Instruction EX = stage.get_entry(2).get_ins();
+		Instruction DM = stage.get_entry(3).get_ins();
+		
+		if(ID.is_nop())	return;	
+		if(!EX.is_nop()){
+			int target = -1;
+			if(EX.is_rt_dist())	
+				target = EX.get_rt();
+
+			else if(EX.is_rd_dist())
+				target = EX.get_rd();
+
+			if(target != -1){
+				if(ID.is_branch()){
+					if(ID.is_rs_source() && ID.get_rs() == target)
+						is_stall = true;
+					
+					if(ID.is_rt_source() && ID.get_rt() == target)
+						is_stall = true;			
+				}
+				else if(EX.is_load_ins()){
+					if(ID.is_rs_source() && ID.get_rs() == target)
+						is_stall = true;
+					
+					if(ID.is_rt_source() && ID.get_rt() == target)
+						is_stall = true;			
+				}
+			}
+		}
+		
+		if(DM.is_load_ins() && ID.is_branch()){
+			if(ID.get_rs() == DM.get_rt())
+				is_stall = true;
+			
+			else if(ID.get_rt() == DM.get_rt())
+				is_stall = true;			
+		}
+
+		if(is_stall) 
+			stage.insert_nop();
 	}
 
 	void print_IF(Entry IF){	
@@ -77,12 +126,7 @@ namespace Simulator{
 		FILE *SNAP = IOfunction::snapshot;
 		char ins_str[10];
 		get_ins_string(ins_str, EX.get_ins());	
-
 		fprintf(SNAP, "EX: %s", ins_str);
-		if(is_stall){
-			fprintf(SNAP, " to_be_stalled");	
-		}
-
 		fprintf(SNAP, "\n");
 	
 	}
@@ -90,20 +134,14 @@ namespace Simulator{
 		FILE *SNAP = IOfunction::snapshot;
 		char ins_str[10];
 		get_ins_string(ins_str, DM.get_ins());	
-
 		fprintf(SNAP, "DM: %s", ins_str);
-
 		fprintf(SNAP, "\n");
 	}
 	void print_WB(Entry WB){
 		FILE *SNAP = IOfunction::snapshot;
 		char ins_str[10];
 		get_ins_string(ins_str, WB.get_ins());	
-
 		fprintf(SNAP, "WB: %s", ins_str);
-		if(is_stall){
-			fprintf(SNAP, " to_be_stalled");	
-		}
 		fprintf(SNAP, "\n");
 	}
 
@@ -117,6 +155,8 @@ namespace Simulator{
 		Entry DM = stage.get_entry(3);
 		Entry WB = stage.get_entry(4);
 		
+		handle_stall();
+			
 		/* IF Stage */
 		print_IF(IF);
 		print_ID(ID);

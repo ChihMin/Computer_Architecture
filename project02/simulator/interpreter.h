@@ -66,7 +66,19 @@ class Instruction{
 		
 		u32 get_C_address();
 	
-		bool is_nop();		
+		bool is_nop();
+		
+		bool is_load_ins();
+		
+		bool is_rt_dist();
+		
+		bool is_rd_dist();	
+		
+		bool is_rt_source();
+
+		bool is_rs_source();
+		
+		bool is_branch();
 	/*************************************/
 
 	/***** TEST DIRECT SET INSTRUCTION ***/
