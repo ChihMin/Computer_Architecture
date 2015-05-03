@@ -5,6 +5,7 @@
 namespace Simulator{
 	FILE *ERR;
 	bool is_halt = 0;
+	bool is_terminated = false;
 	bool is_stall = 0;
 	bool to_be_flushed = 0;
 	bool error[4] = {0};

@@ -15,9 +15,10 @@ namespace Simulator{
 		stage = Stage(Entry(ins_nop, 0, reg, error));
 
 
-		while( PC < 1024){
+		while(true){
 			memset(error, 0, sizeof(error));
 			to_be_flushed = false;
+			is_halt = false;
 			int *output_reg = stage.get_entry(4).get_reg();
 			
 			if(mode){
@@ -41,10 +42,6 @@ namespace Simulator{
 
 			
 				switch(opcode){
-					case HALT:
-						return;
-						break;
-
 					case R_TYPE:
 						R_Type_Calculator(cur_ins);				
 						break;
@@ -59,7 +56,7 @@ namespace Simulator{
 			is_stall = false;
 			print_stage_state();
 
-			if( is_halt )	return;
+			if( is_terminated )	return;
 			
 			print_dimage(mode);
 			update_VPC();

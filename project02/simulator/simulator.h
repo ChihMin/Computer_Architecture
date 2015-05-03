@@ -67,6 +67,7 @@ namespace Simulator{
 	extern Instruction ins[];
 	extern Stage stage; 
 	extern bool is_halt;
+	extern bool is_terminated;
 	extern bool error[4];
 	extern bool is_stall;
 	extern bool to_be_flushed;

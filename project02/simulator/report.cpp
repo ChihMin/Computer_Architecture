@@ -15,11 +15,17 @@ namespace Simulator{
 			if(i == 4 && entry.get_error(0))
 				error_dump_output(0);
 
-			if(i == 3 && entry.get_error(2))
+			if(i == 3 && entry.get_error(2)){
 				error_dump_output(2);
+				is_terminated = true;
+				printf("here!!!\n");
+			}
 
-			if(i == 3 && entry.get_error(3))
+			if(i == 3 && entry.get_error(3)){
 				error_dump_output(3);
+				is_terminated = true;
+				printf("here !!!\n");
+			}
 
 			if(i == 2 && entry.get_error(1))
 				error_dump_output(1);
@@ -47,7 +53,7 @@ namespace Simulator{
 		char ins_str[10];
 		get_ins_string(ins_str, ID.get_ins());	
 
-		fprintf(SNAP, "IF: %s", ins_str);
+		fprintf(SNAP, "ID: %s", ins_str);
 		if(is_stall){
 			fprintf(SNAP, " to_be_stalled");	
 		}
