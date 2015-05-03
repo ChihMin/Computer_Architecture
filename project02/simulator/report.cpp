@@ -111,7 +111,7 @@ namespace Simulator{
 */
 		if(to_be_flushed)
 			stage.flush_replace();
-
+		detect_stage_error();
 		fprintf(IOfunction::snapshot, "\n\n");
 	}
 	

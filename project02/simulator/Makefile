@@ -76,4 +76,4 @@ translate.o:
 	g++ -c translate.cpp
 
 clean:
-	rm *.o pipeline test *.rpt *.bin
+	rm *.o pipeline test *.rpt
