@@ -33,6 +33,17 @@ namespace Simulator{
 
 		/***************************************/
 	}
+	
+	void detect_halt(){
+		int halt_cnt = 0;
+		for(int i = 0; i < 5; ++i){
+			u32 opcode = stage.get_entry(i).get_ins().get_opcode();
+			if(opcode == HALT)
+				halt_cnt++;
+		}
+		if(halt_cnt == 5)
+			is_terminated = true;
+	}
 
 	void print_IF(Entry IF){	
 		FILE *SNAP = IOfunction::snapshot;
@@ -115,6 +126,7 @@ namespace Simulator{
 /*
 	next have to do forwarding
 */
+		detect_halt();
 		if(to_be_flushed)
 			stage.flush_replace();
 		detect_stage_error();
