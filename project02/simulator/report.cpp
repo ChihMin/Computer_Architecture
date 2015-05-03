@@ -89,9 +89,6 @@ namespace Simulator{
 			else if(ID.get_rt() == DM.get_rt())
 				is_stall = true;			
 		}
-
-		if(is_stall) 
-			stage.insert_nop();
 	}
 
 	void print_IF(Entry IF){	

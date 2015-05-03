@@ -42,6 +42,9 @@ namespace Simulator{
 				if(!to_be_flushed)
 					add_program_counter();
 			}
+			else
+				stage.insert_nop();
+
 			is_stall = false;
 			print_stage_state();
 

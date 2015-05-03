@@ -135,6 +135,9 @@ namespace Simulator{
 				case JAL:
 					INS = "JAL";
 					break;
+				case HALT:
+					INS = "HALT";
+					break;
 			}		
 		}
 		int len = INS.length();
