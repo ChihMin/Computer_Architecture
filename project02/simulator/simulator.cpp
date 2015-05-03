@@ -50,7 +50,7 @@ namespace Simulator{
 		//check_image();
 		//testbench();
 		//test_seed();  // seed mode 
-		bool test_mode = true;
+		bool test_mode = false;
 	/***************************************************************/
 		execute(test_mode);
 

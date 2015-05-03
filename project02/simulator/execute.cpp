@@ -53,10 +53,8 @@ namespace Simulator{
 						I_Type_and_J_Type_Calculator(cur_ins);
 						//printf("opcode = 0x%02X\n", opcode); 
 				}
-				if(!stage.get_entry(1).is_insert()){
-					if(!to_be_flushed)
-						add_program_counter();
-				}
+				if(!to_be_flushed)
+					add_program_counter();
 			}
 			is_stall = false;
 			print_stage_state();

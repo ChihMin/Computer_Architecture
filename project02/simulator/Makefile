@@ -1,13 +1,14 @@
 simulator:IOfunction.o main.o interpreter.o \
 			getins.o execute.o simulator.o \
 			error.o testbench.o RType.o \
-			alloc.o IType.o stage.o report.o
+			alloc.o IType.o stage.o \
+			report.o translate.o
 	g++ -o pipeline \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
 	error.o alloc.o RType.o IType.o \
-	stage.o report.o main.o
+	stage.o translate.o report.o main.o
 
 test:IOfunction.o test.o interpreter.o \
 			getins.o execute.o simulator.o \
@@ -70,6 +71,9 @@ stage.o:
 
 report.o:
 	g++ -c report.cpp
+
+translate.o:
+	g++ -c translate.cpp
 
 clean:
 	rm *.o pipeline test *.rpt *.bin

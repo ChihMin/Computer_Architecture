@@ -28,26 +28,86 @@ namespace Simulator{
 		/***************************************/
 	}
 
+	void print_IF(Entry IF){	
+		FILE *SNAP = IOfunction::snapshot;
+		fprintf(SNAP, "IF: 0x%08X", IF.get_ins().get_instruction());
+		
+		if(is_stall)
+			fprintf(SNAP, " to_be_stalled");	
+		
+		else if(to_be_flushed)
+			fprintf(SNAP, " to_be_flushed");
+			
+					
+		fprintf(SNAP, "\n");
+	}
+
+	void print_ID(Entry ID){
+		FILE *SNAP = IOfunction::snapshot;
+		char ins_str[10];
+		get_ins_string(ins_str, ID.get_ins());	
+
+		fprintf(SNAP, "IF: %s", ins_str);
+		if(is_stall){
+			fprintf(SNAP, " to_be_stalled");	
+		}
+
+		fprintf(SNAP, "\n");
+	
+	}
+
+	void print_EX(Entry EX){
+		FILE *SNAP = IOfunction::snapshot;
+		char ins_str[10];
+		get_ins_string(ins_str, EX.get_ins());	
+
+		fprintf(SNAP, "EX: %s", ins_str);
+		if(is_stall){
+			fprintf(SNAP, " to_be_stalled");	
+		}
+
+		fprintf(SNAP, "\n");
+	
+	}
+	void print_DM(Entry DM){
+		FILE *SNAP = IOfunction::snapshot;
+		char ins_str[10];
+		get_ins_string(ins_str, DM.get_ins());	
+
+		fprintf(SNAP, "DM: %s", ins_str);
+
+		fprintf(SNAP, "\n");
+	}
+	void print_WB(Entry WB){
+		FILE *SNAP = IOfunction::snapshot;
+		char ins_str[10];
+		get_ins_string(ins_str, WB.get_ins());	
+
+		fprintf(SNAP, "WB: %s", ins_str);
+		if(is_stall){
+			fprintf(SNAP, " to_be_stalled");	
+		}
+		fprintf(SNAP, "\n");
+	}
+
 	void print_stage_state(){
 		stage.update_error(error);
 		stage.update_reg(reg);
 	
-		u32 opcode = stage.get_entry(1).get_ins().get_opcode();
-		u32 funct = stage.get_entry(1).get_ins().get_opcode();
+		Entry IF = stage.get_entry(0);
+		Entry ID = stage.get_entry(1);
+		Entry EX = stage.get_entry(2);
+		Entry DM = stage.get_entry(3);
+		Entry WB = stage.get_entry(4);
 		
-		
-		//printf("cicle = %d\n", cycle);	
-		for(int i = 0; i < 5; ++i){
-			u32 opcode = stage.get_entry(i).get_ins().get_opcode();
-			u32 funct = stage.get_entry(i).get_ins().get_funct();
-			fprintf(IOfunction::snapshot, "stage %d = op : %X, funct : %X\n", i, opcode, funct);
-		}
-		fprintf(IOfunction::snapshot, "\n");
-		if(to_be_flushed){
-			fprintf(IOfunction::snapshot, "flushed!!\n");
-			stage.flush_replace();
-		}
-				
+		/* IF Stage */
+		print_IF(IF);
+		print_ID(ID);
+		print_EX(EX);
+		print_DM(DM);
+		print_WB(WB);
+
+		fprintf(IOfunction::snapshot, "\n\n");
 	}
 	
 	void error_dump_output(int i){

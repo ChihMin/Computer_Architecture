@@ -93,7 +93,6 @@ namespace Simulator{
 /******************************/
 
 
-
 /******* R_TYPE_FUNCTION ******/
 	void add_funct(u32 rd, u32 rs, u32 rt);
 	void sub_funct(u32 rd, u32 rs, u32 rt);
@@ -154,6 +153,14 @@ namespace Simulator{
 	void print_dimage(bool mode);
 	void error_dump_output(int i);
 	void print_stage_state();
+/******************************/
+
+
+/******* STAGE PROCESS ********/
+
+	void get_ins_string(char ins_str[], Instruction ins);
+	void print_IF(Entry IF);
+	void print_ID(Entry ID);
 /******************************/
 
 }
