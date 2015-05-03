@@ -30,7 +30,7 @@ namespace Simulator{
 				
 			/* Push the instruction to IF NO stall happends */	
 			
-			printf("cycle = %d, now PC = 0x%08X, VPC = %d\n", cycle-1, PC, VPC);
+			//printf("cycle = %d, now PC = 0x%08X, VPC = %d\n", cycle-1, PC, VPC);
 			if(!is_stall){
 				stage.push_ins(Entry(ins[VPC], reg, error));
 			

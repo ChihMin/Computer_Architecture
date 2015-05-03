@@ -124,7 +124,7 @@ namespace Simulator{
 					break;
 
 				case BNE:
-					INS = "BNR";
+					INS = "BNE";
 					break;
 				/* J TYPE */
 				

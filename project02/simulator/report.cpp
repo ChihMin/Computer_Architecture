@@ -106,6 +106,11 @@ namespace Simulator{
 		print_EX(EX);
 		print_DM(DM);
 		print_WB(WB);
+/*
+	next have to do forwarding
+*/
+		if(to_be_flushed)
+			stage.flush_replace();
 
 		fprintf(IOfunction::snapshot, "\n\n");
 	}
