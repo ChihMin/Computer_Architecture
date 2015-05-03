@@ -39,14 +39,19 @@ namespace Simulator{
 					default:
 						I_Type_and_J_Type_Calculator(cur_ins);
 				}
-				if(!to_be_flushed)
+				is_stall = false;
+				print_stage_state();
+				if(!to_be_flushed && !is_stall)
 					add_program_counter();
 			}
-			else
+			else{
 				stage.insert_nop();
+				is_stall = false;
+				print_stage_state();
+				if(!to_be_flushed && !is_stall)
+					add_program_counter();
+			}
 
-			is_stall = false;
-			print_stage_state();
 
 			if( is_terminated )	return;
 			
