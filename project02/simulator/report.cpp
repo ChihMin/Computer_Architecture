@@ -125,10 +125,10 @@ namespace Simulator{
 			else if(DM.is_rt_dist())
 				tar = DM.get_rt();
 			
-			if(rs == tar)
+			if(tar != 0 && rs == tar)
 				fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
 
-			if(rt == tar)
+			if(tar != 0 && rt == tar)
 				fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
 		}
 		fprintf(SNAP, "\n");
@@ -145,7 +145,7 @@ namespace Simulator{
 		get_ins_string(ins_str, EX.get_ins());	
 		fprintf(SNAP, "EX: %s", ins_str);
 		
-		if(!EX.get_ins().is_nop()){
+		if(!is_stall && !EX.get_ins().is_nop()){
 			if(EX.get_ins().is_rs_source()){
 				u32 rs = EX.get_ins().get_rs();
 
@@ -158,7 +158,7 @@ namespace Simulator{
 					else if(DM.is_rt_dist())
 						tar = DM.get_rt();
 					
-					if(tar == rs){
+					if(tar != 0 && tar == rs){
 						fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);	
 						is_fwd = true;
 					}
@@ -170,7 +170,7 @@ namespace Simulator{
 					else if(WB.is_rt_dist())
 						tar = WB.get_rt();
 					
-					if(tar == rs){
+					if(tar != 0 && tar == rs){
 						fprintf(SNAP, " fwd_DM-WB_rs_$%d", rs);	
 						is_fwd = true;
 					}
@@ -188,7 +188,7 @@ namespace Simulator{
 					else if(DM.is_rt_dist())
 						tar = DM.get_rt();
 					
-					if(tar == rt){
+					if(tar != 0 && tar == rt){
 						fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);	
 						is_fwd = true;
 					}
@@ -200,7 +200,7 @@ namespace Simulator{
 					else if(WB.is_rt_dist())
 						tar = WB.get_rt();
 					
-					if(tar == rt){
+					if(tar != 0 && tar == rt){
 						fprintf(SNAP, " fwd_DM-WB_rt_$%d", rt);	
 						is_fwd = true;
 					}
