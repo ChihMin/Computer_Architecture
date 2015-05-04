@@ -1,6 +1,10 @@
 #include "simulator.h"
 
 namespace Simulator{
+
+	void update_OUTPUT_PC(){
+		OUTPUT_PC = PC;
+	}
 	
 	u32 PC_Begin; 
 	void execute(bool mode){
@@ -18,12 +22,15 @@ namespace Simulator{
 		while(true){
 			memset(error, 0, sizeof(error));
 			int *output_reg = stage.get_entry(4).get_reg();
+			if(!is_stall)
+				update_OUTPUT_PC();
 			write_snapshot(output_reg);
 
 			cycle++ ;	// CPU Cycle
 				
 			/* Push the instruction to IF NO stall happends */	
 			if(!is_stall){
+
 				to_be_flushed = false;
 				stage.push_ins(Entry(ins[VPC], reg, error));
 			
@@ -41,15 +48,17 @@ namespace Simulator{
 				}
 				is_stall = false;
 				print_stage_state();
-				if(!to_be_flushed && !is_stall)
+				if(!to_be_flushed && !is_stall){
 					add_program_counter();
+				}
 			}
 			else{
 				stage.insert_nop();
 				is_stall = false;
 				print_stage_state();
-				if(!to_be_flushed && !is_stall)
+				if(!to_be_flushed && !is_stall){
 					add_program_counter();
+				}
 			}
 
 

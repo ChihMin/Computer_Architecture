@@ -9,6 +9,7 @@ namespace Simulator{
 	bool is_stall = 0;
 	bool to_be_flushed = 0;
 	bool error[4] = {0};
+	u32 OUTPUT_PC;
 	u32 PC, SP, cycle, VPC;
 	u32 iimage_words;
 	u32 dimage_words;
@@ -63,7 +64,7 @@ namespace Simulator{
 		fprintf(W, "cycle %d\n", cycle);
 		for(int i = 0; i < 32; ++i)
 			fprintf(W, "$%02d: 0x%08X\n",i, output_reg[i]);
-		fprintf(W, "PC: 0x%08X\n", PC);		
+		fprintf(W, "PC: 0x%08X\n", OUTPUT_PC);		
 	}
 
 	void check_image(){
@@ -92,6 +93,7 @@ namespace Simulator{
 	 
 	void decode_instruction(){
 		int current = PC / 4;
+		OUTPUT_PC = PC;
 		for(int i = 0; i < iimage_words; ++i)
 			ins[current++].decode(iimage[i+2]);
 	}

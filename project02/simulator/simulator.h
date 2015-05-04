@@ -70,6 +70,7 @@ namespace Simulator{
 	extern bool is_terminated;
 	extern bool error[4];
 	extern bool is_stall;
+	extern u32 OUTPUT_PC;
 	extern bool to_be_flushed;
 /***************************************/
 
