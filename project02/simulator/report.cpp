@@ -108,13 +108,29 @@ namespace Simulator{
 	void print_ID(Entry ID){
 		FILE *SNAP = IOfunction::snapshot;
 		char ins_str[10];
+		Instruction DM = stage.get_entry(3).get_ins();
 		get_ins_string(ins_str, ID.get_ins());	
-
 		fprintf(SNAP, "ID: %s", ins_str);
+		
 		if(is_stall){
 			fprintf(SNAP, " to_be_stalled");	
 		}
+		else if(ID.get_ins().is_branch() && !DM.is_nop()){
+			int tar = -1;
+			u32 rs = ID.get_ins().get_rs();
+			u32 rt = ID.get_ins().get_rt();
+			if(DM.is_rd_dist())
+				tar = DM.get_rd();
 
+			else if(DM.is_rt_dist())
+				tar = DM.get_rt();
+			
+			if(rs == tar)
+				fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+
+			if(rt == tar)
+				fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
+		}
 		fprintf(SNAP, "\n");
 	
 	}
@@ -122,10 +138,76 @@ namespace Simulator{
 	void print_EX(Entry EX){
 		FILE *SNAP = IOfunction::snapshot;
 		char ins_str[10];
+		
+		Instruction DM = stage.get_entry(3).get_ins();
+		Instruction WB = stage.get_entry(4).get_ins();
+		
 		get_ins_string(ins_str, EX.get_ins());	
 		fprintf(SNAP, "EX: %s", ins_str);
+		
+		if(!EX.get_ins().is_nop()){
+			if(EX.get_ins().is_rs_source()){
+				u32 rs = EX.get_ins().get_rs();
+
+				int tar = -1;
+				bool is_fwd = false;
+				if(!DM.is_nop()){			
+					if(DM.is_rd_dist())
+						tar = DM.get_rd();
+
+					else if(DM.is_rt_dist())
+						tar = DM.get_rt();
+					
+					if(tar == rs){
+						fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);	
+						is_fwd = true;
+					}
+				}
+				if(!is_fwd && !WB.is_nop()){
+					if(WB.is_rd_dist())
+						tar = WB.get_rd();
+
+					else if(WB.is_rt_dist())
+						tar = WB.get_rt();
+					
+					if(tar == rs){
+						fprintf(SNAP, " fwd_DM-WB_rs_$%d", rs);	
+						is_fwd = true;
+					}
+				}
+			}
+			if(EX.get_ins().is_rt_source()){
+				u32 rt = EX.get_ins().get_rt();
+
+				int tar = -1;
+				bool is_fwd = false;
+				if(!DM.is_nop()){			
+					if(DM.is_rd_dist())
+						tar = DM.get_rd();
+
+					else if(DM.is_rt_dist())
+						tar = DM.get_rt();
+					
+					if(tar == rt){
+						fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);	
+						is_fwd = true;
+					}
+				}
+				if(!is_fwd && !WB.is_nop()){
+					if(WB.is_rd_dist())
+						tar = WB.get_rd();
+
+					else if(WB.is_rt_dist())
+						tar = WB.get_rt();
+					
+					if(tar == rt){
+						fprintf(SNAP, " fwd_DM-WB_rt_$%d", rt);	
+						is_fwd = true;
+					}
+				}
+			}
+		}
 		fprintf(SNAP, "\n");
-	
 	}
 	void print_DM(Entry DM){
 		FILE *SNAP = IOfunction::snapshot;
@@ -142,6 +224,16 @@ namespace Simulator{
 		fprintf(SNAP, "\n");
 	}
 
+	
+	void handle_forward(u32 ){
+		Instruction ID = stage.get_entry(1).get_ins();
+		Instruction EX = stage.get_entry(2).get_ins();
+		Instruction DM = stage.get_entry(3).get_ins();
+		Instruction WB = stage.get_entry(4).get_ins();
+	
+				
+	}
+	 
 	void print_stage_state(){
 		stage.update_error(error);
 		stage.update_reg(reg);
