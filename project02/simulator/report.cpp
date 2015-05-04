@@ -131,6 +131,15 @@ namespace Simulator{
 			if(tar != 0 && rt == tar)
 				fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
 		}
+		else if(ID.get_ins().is_branch() && DM.get_opcode() == JAL){
+			u32 rs = ID.get_ins().get_rs();
+			u32 rt = ID.get_ins().get_rt();
+			if(rs == 31)
+				fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+
+			if(rt == 31)
+				fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
+		}
 		fprintf(SNAP, "\n");
 	
 	}
@@ -175,6 +184,12 @@ namespace Simulator{
 						is_fwd = true;
 					}
 				}
+
+				if(WB.get_opcode() == JAL){
+					if(31 == rs)
+						fprintf(SNAP, " fwd_DM-WB_rs_$%d", rs);	
+				}
+				
 			}
 			if(EX.get_ins().is_rt_source()){
 				u32 rt = EX.get_ins().get_rt();
@@ -204,6 +219,10 @@ namespace Simulator{
 						fprintf(SNAP, " fwd_DM-WB_rt_$%d", rt);	
 						is_fwd = true;
 					}
+				}
+				if(WB.get_opcode() == JAL){
+					if(31 == rt)
+						fprintf(SNAP, " fwd_DM-WB_rs_$%d", rt);	
 				}
 			}
 		}
