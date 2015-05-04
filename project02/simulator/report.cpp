@@ -145,7 +145,7 @@ namespace Simulator{
 		get_ins_string(ins_str, EX.get_ins());	
 		fprintf(SNAP, "EX: %s", ins_str);
 		
-		if(!is_stall && !EX.get_ins().is_nop()){
+		if(!is_stall && !EX.get_ins().is_nop() && !EX.get_ins().is_branch()){
 			if(EX.get_ins().is_rs_source()){
 				u32 rs = EX.get_ins().get_rs();
 
