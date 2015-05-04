@@ -255,9 +255,10 @@ namespace Simulator{
 /*
 	next have to do forwarding
 */
-		detect_halt();
-		if(to_be_flushed)
+		
+		if(!is_stall && to_be_flushed)
 			stage.flush_replace();
+		detect_halt();
 		detect_stage_error();
 		fprintf(IOfunction::snapshot, "\n\n");
 	}
