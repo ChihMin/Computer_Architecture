@@ -113,12 +113,18 @@ bool Instruction::is_rt_dist(){
 	const u32 HALT = 0x3F;
 	const u32 J = 0x02;
 	const u32 JAL = 0x03;
+	const u32 SW = 0x2B;
+	const u32 SH = 0x29;
+	const u32 SB = 0x28;
 	return this->opcode != 0 &&	
 		   this->opcode != BEQ &&
 		   this->opcode != BNE &&
 		   this->opcode != HALT &&
 		   this->opcode != J &&
-		   this->opcode != JAL;
+		   this->opcode != JAL && 
+		   this->opcode != SW &&
+		   this->opcode != SH &&
+		   this->opcode != SB;
 }
 
 bool Instruction::is_branch(){
