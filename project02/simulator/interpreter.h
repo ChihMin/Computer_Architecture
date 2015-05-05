@@ -79,6 +79,8 @@ class Instruction{
 		bool is_rs_source();
 		
 		bool is_branch();
+
+		bool is_jr();
 	/*************************************/
 
 	/***** TEST DIRECT SET INSTRUCTION ***/

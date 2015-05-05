@@ -123,6 +123,10 @@ bool Instruction::is_rt_dist(){
 		   this->opcode != SB;
 }
 
+bool Instruction::is_jr(){
+	return this->opcode == 0x00 && this->funct == 0x08;
+}
+
 bool Instruction::is_branch(){
 	const u32 BEQ = 0x04;
 	const u32 BNE = 0x05;

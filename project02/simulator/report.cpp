@@ -82,12 +82,16 @@ namespace Simulator{
 			}
 		}
 		
-		if(DM.is_load_ins() && ID.is_branch()){
-			if(ID.get_rs() == DM.get_rt())
-				is_stall = true;
-			
-			else if(ID.get_rt() == DM.get_rt())
-				is_stall = true;			
+		if(DM.is_load_ins()){
+			if(DM.get_rt() != 0){
+				if(ID.is_branch() || ID.is_jr()){
+					if(ID.get_rs() == DM.get_rt())
+						is_stall = true;
+					
+					else if(ID.get_rt() == DM.get_rt())
+						is_stall = true;
+				}
+			}
 		}
 	}
 
