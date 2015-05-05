@@ -20,7 +20,6 @@ namespace Simulator{
 
 
 		while(true){
-			memset(error, 0, sizeof(error));
 			int *output_reg = stage.get_entry(4).get_reg();
 			if(!is_stall)
 				update_OUTPUT_PC();
@@ -31,6 +30,7 @@ namespace Simulator{
 			/* Push the instruction to IF NO stall happends */	
 			if(!is_stall){
 
+				memset(error, 0, sizeof(error));
 				to_be_flushed = false;
 				stage.push_ins(Entry(ins[VPC], reg, error));
 			

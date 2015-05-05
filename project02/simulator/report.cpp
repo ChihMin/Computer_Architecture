@@ -260,7 +260,8 @@ namespace Simulator{
 	void print_stage_state(){
 		stage.update_error(error);
 		stage.update_reg(reg);
-	
+		detect_stage_error();
+
 		Entry IF = stage.get_entry(0);
 		Entry ID = stage.get_entry(1);
 		Entry EX = stage.get_entry(2);
@@ -282,7 +283,6 @@ namespace Simulator{
 		if(!is_stall && to_be_flushed)
 			stage.flush_replace();
 		detect_halt();
-		detect_stage_error();
 		fprintf(IOfunction::snapshot, "\n\n");
 	}
 	
