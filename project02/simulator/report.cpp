@@ -64,7 +64,7 @@ namespace Simulator{
 			else if(EX.is_rd_dist())
 				target = EX.get_rd();
 
-			if(target != -1 && target != 0){
+			if(target != -1){
 				if(ID.is_branch()){
 					if(ID.is_rs_source() && ID.get_rs() == target)
 						is_stall = true;
@@ -83,10 +83,10 @@ namespace Simulator{
 		}
 		
 		if(DM.is_load_ins() && ID.is_branch()){
-			if(ID.get_rs() == DM.get_rt() && ID.get_rs() != 0)
+			if(ID.get_rs() == DM.get_rt())
 				is_stall = true;
 			
-			else if(ID.get_rt() == DM.get_rt()&& ID.get_rs() != 0) 
+			else if(ID.get_rt() == DM.get_rt())
 				is_stall = true;			
 		}
 	}
