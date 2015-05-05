@@ -57,14 +57,14 @@ namespace Simulator{
 		
 		if(ID.is_nop())	return;	
 		if(!EX.is_nop()){
-			int target = -1;
+			int target = 0;
 			if(EX.is_rt_dist())	
 				target = EX.get_rt();
 
 			else if(EX.is_rd_dist())
 				target = EX.get_rd();
 
-			if(target != -1){
+			if(target != 0){
 				if(ID.is_branch()){
 					if(ID.is_rs_source() && ID.get_rs() == target)
 						is_stall = true;
@@ -154,7 +154,7 @@ namespace Simulator{
 		get_ins_string(ins_str, EX.get_ins());	
 		fprintf(SNAP, "EX: %s", ins_str);
 		
-		if(!is_stall && !EX.get_ins().is_nop() && !EX.get_ins().is_branch()){
+		if(!EX.get_ins().is_nop() && !EX.get_ins().is_branch()){
 			if(EX.get_ins().is_rs_source()){
 				u32 rs = EX.get_ins().get_rs();
 
