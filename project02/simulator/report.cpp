@@ -65,7 +65,7 @@ namespace Simulator{
 				target = EX.get_rd();
 
 			if(target != 0){
-				if(ID.is_branch()){
+				if(ID.is_branch() || ID.is_jr()){
 					if(ID.is_rs_source() && ID.get_rs() == target)
 						is_stall = true;
 					
@@ -119,30 +119,46 @@ namespace Simulator{
 		if(is_stall){
 			fprintf(SNAP, " to_be_stalled");	
 		}
-		else if(ID.get_ins().is_branch() && !DM.is_nop()){
-			int tar = -1;
-			u32 rs = ID.get_ins().get_rs();
-			u32 rt = ID.get_ins().get_rt();
-			if(DM.is_rd_dist())
-				tar = DM.get_rd();
+		else if(ID.get_ins().is_branch() || ID.get_ins().is_jr()){
+			if(!DM.is_nop()){
+				int tar = 0;
+				u32 rs = ID.get_ins().get_rs();
+				u32 rt = ID.get_ins().get_rt();
+				if(DM.is_rd_dist())
+					tar = DM.get_rd();
 
-			else if(DM.is_rt_dist())
-				tar = DM.get_rt();
+				else if(DM.is_rt_dist())
+					tar = DM.get_rt();
+				
+				if(ID.get_ins().is_branch()){
+					if(tar != 0 && rs == tar)
+						fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+
+					if(tar != 0 && rt == tar)
+						fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
+				}
+				else if(ID.get_ins().is_jr()){
+					if(tar != 0 && rs == tar)
+						fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+				}
 			
-			if(tar != 0 && rs == tar)
-				fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+				if(DM.get_opcode() == JAL){
+					u32 rs = ID.get_ins().get_rs();
+					u32 rt = ID.get_ins().get_rt();
+					if(ID.get_ins().is_branch()){
+						if(rs == 31)
+							fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
 
-			if(tar != 0 && rt == tar)
-				fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
-		}
-		else if(ID.get_ins().is_branch() && DM.get_opcode() == JAL){
-			u32 rs = ID.get_ins().get_rs();
-			u32 rt = ID.get_ins().get_rt();
-			if(rs == 31)
-				fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+						if(rt == 31)
+							fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
+					}
 
-			if(rt == 31)
-				fprintf(SNAP, " fwd_EX-DM_rt_$%d", rt);
+					else if(ID.get_ins().is_jr()){
+						if(rs == 31)
+							fprintf(SNAP, " fwd_EX-DM_rs_$%d", rs);
+					}
+				}
+			}
 		}
 		fprintf(SNAP, "\n");
 	
@@ -158,11 +174,11 @@ namespace Simulator{
 		get_ins_string(ins_str, EX.get_ins());	
 		fprintf(SNAP, "EX: %s", ins_str);
 		
-		if(!EX.get_ins().is_nop() && !EX.get_ins().is_branch()){
+		if(!EX.get_ins().is_nop() && !EX.get_ins().is_branch() && !EX.get_ins().is_jr()){
 			if(EX.get_ins().is_rs_source()){
 				u32 rs = EX.get_ins().get_rs();
 
-				int tar = -1;
+				int tar = 0;
 				bool is_fwd = false;
 				if(!DM.is_nop()){			
 					if(DM.is_rd_dist())
