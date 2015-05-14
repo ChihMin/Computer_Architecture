@@ -200,13 +200,13 @@ int main(){
 	IType(LW, 16, 9, 20);
 	IType(LW, 17, 9, 24);
 	IType(LW, 18, 9, 28);
-	for(int i = 255; i >= 83; --i)
+	for(int i = 255; i >= 91; --i)
 		IType(LW, 19, 9, i * 4);
 	IType(LW, 0, 10, -1);  //halt
 
 	for(int i = 0; i < 100000; ++i){
 		u32 tmp = rand();
-		write_ins(tmp);
+		IType(ADDI, 13, 11, 1);
 	}
 
 	
