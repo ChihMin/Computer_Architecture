@@ -2,7 +2,7 @@ simulator:IOfunction.o main.o interpreter.o \
 			getins.o execute.o simulator.o \
 			error.o testbench.o RType.o \
 			alloc.o IType.o
-	g++ -o single_cycle \
+	g++ -o CMP \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
@@ -54,4 +54,4 @@ alloc.o:
 	g++ -c alloc.cpp
 
 clean:
-	rm *.o single_cycle test *.rpt *.bin
+	rm *.o CMP test *.rpt *.bin
