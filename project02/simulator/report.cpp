@@ -242,7 +242,7 @@ namespace Simulator{
 				}
 				if(WB.get_opcode() == JAL){
 					if(31 == rt)
-						fprintf(SNAP, " fwd_DM-WB_rs_$%d", rt);	
+						fprintf(SNAP, " fwd_DM-WB_rt_$%d", rt);	
 				}
 			}
 		}
