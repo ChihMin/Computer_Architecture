@@ -1,79 +1,69 @@
+CXX = clang++
+CXXFLAGS = -c
+
+all: simulator
+
+debug: CXXFLAGS += -g
+debug: simulator
+ 
 simulator:IOfunction.o main.o interpreter.o \
 			getins.o execute.o simulator.o \
 			error.o testbench.o RType.o \
 			alloc.o IType.o stage.o \
 			report.o translate.o
-	g++ -o pipeline \
+	$(CXX) -o pipeline \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
 	error.o alloc.o RType.o IType.o \
 	stage.o translate.o report.o main.o
 
-test:IOfunction.o test.o interpreter.o \
-			getins.o execute.o simulator.o \
-			testbench.o RType.o
-	g++ -o test \
-	interpreter.o getins.o \
-	IOfunction.o testbench.o \
-	execute.o simulator.o \
-	error.o alloc.o RType.o IType.o test.o
 
-debug:IOfunction.o main.o interpreter.o \
-			getins.o execute.o simulator.o \
-			error.o testbench.o RType.o \
-			alloc.o IType.o stage.o report.o
-	g++ -o debug -g \
-	interpreter.o getins.o \
-	IOfunction.o testbench.o \
-	execute.o simulator.o \
-	error.o alloc.o RType.o IType.o \
-	stage.o report.o main.o
 
 test.o:
-	g++ -c test.cpp
+	$(CXX) $(CXXFLAGS) test.cpp
 
 main.o:
-	g++ -c main.cpp
+	$(CXX) $(CXXFLAGS) main.cpp
 
 interpreter.o:
-	g++ -c interpreter.cpp
+	$(CXX) $(CXXFLAGS) interpreter.cpp
 
 simulator.o:
-	g++ -c simulator.cpp
+	$(CXX) $(CXXFLAGS) simulator.cpp
 
 IOfunction.o:
-	g++ -c IOfunction.cpp
+	$(CXX) $(CXXFLAGS) IOfunction.cpp
 
 getins.o:
-	g++ -c getins.cpp
+	$(CXX) $(CXXFLAGS) getins.cpp
 
 execute.o:
-	g++ -c execute.cpp
+	$(CXX) $(CXXFLAGS) execute.cpp
 
 testbench.o:
-	g++ -c testbench.cpp
+	$(CXX) $(CXXFLAGS) testbench.cpp
 
 RType.o:
-	g++ -c RType.cpp
+	$(CXX) $(CXXFLAGS) RType.cpp
 
 IType.o:
-	g++ -c IType.cpp
+	$(CXX) $(CXXFLAGS) IType.cpp
 
 error.o:
-	g++ -c error.cpp
+	$(CXX) $(CXXFLAGS) error.cpp
 
 alloc.o:
-	g++ -c alloc.cpp
+	$(CXX) $(CXXFLAGS) alloc.cpp
 
 stage.o:
-	g++ -c stage.cpp
+	$(CXX) $(CXXFLAGS) stage.cpp
 
 report.o:
-	g++ -c report.cpp
+	$(CXX) $(CXXFLAGS) report.cpp
 
 translate.o:
-	g++ -c translate.cpp
+	$(CXX) $(CXXFLAGS) translate.cpp
 
 clean:
-	rm *.o pipeline test *.rpt
+	rm *.o debug pipeline test *.rpt *.bin
