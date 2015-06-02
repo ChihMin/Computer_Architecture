@@ -61,6 +61,8 @@ namespace Simulator{
 		
 	extern u32 iimage[];
 	extern u32 dimage[]; 
+	const char iimagePath[] = "iimage.bin";
+	const char dimagePath[] = "dimage.bin";
 	
 	extern int reg[];
 	extern Instruction ins[]; 
@@ -70,6 +72,7 @@ namespace Simulator{
 /******** HOST CPU PROCESS ******/
 	void initialize();
 	void run();
+	void statistic(int argc, int *argv);
 	void execute(bool mode);
 	void test_seed();
 	void decode_instruction();
@@ -149,6 +152,19 @@ namespace Simulator{
 	void print_dimage(bool mode);	
 /******************************/
 
+
+/******* MEMORY CONFIRUE ******/
+	extern int I_MEM_SIZE;
+	extern int D_MEM_SIZE;
+	extern int I_PAGE_SIZE;
+	extern int D_PAGE_SIZE;
+	extern int I_CACHE_SIZE;
+	extern int I_BLOCK_SIZE;
+	extern int I_SET;
+	extern int D_CACHE_SIZE;
+	extern int D_BLOCK_SIZE;
+	extern int D_SET;
+/******************************/
 }
 
 #endif

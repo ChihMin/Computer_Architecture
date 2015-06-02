@@ -1,21 +1,23 @@
 CXX = g++
 CXXFLAGS = -c
+TARGET = CMP
 
 all: simulator
 
 debug: CXXFLAGS += -g
 debug: simulator
- 
+debug: TARGET = debug
+
 simulator:IOfunction.o main.o interpreter.o \
 			getins.o execute.o simulator.o \
 			error.o testbench.o RType.o \
-			alloc.o IType.o
-	$(CXX) -o CMP \
+			alloc.o IType.o statistic.o
+	$(CXX) -o $(TARGET) \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
 	error.o alloc.o RType.o IType.o \
-	main.o
+	statistic.o main.o
 
 
 
@@ -55,5 +57,8 @@ error.o:
 alloc.o:
 	$(CXX) $(CXXFLAGS) alloc.cpp
 
+statistic.o:
+	$(CXX) $(CXXFLAGS) statistic.cpp
+
 clean:
-	rm *.o debug pipeline test *.rpt *.bin
+	rm *.o debug CMD

@@ -15,15 +15,15 @@ namespace Simulator{
 
 	int reg[40];
 
-	char iimagePath[] = "iimage.bin";
-	char dimagePath[] = "dimage.bin";
-
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
 		IOfunction::error_dump = fopen("error_dump.rpt", "w");
 		ERR = IOfunction::error_dump;
 		
 		PC = INF;
+		is_halt = false;
+		cycle = 0;
+		
 		memset(reg, 0, sizeof( reg ) );
 		memset(iimage, 0, sizeof( iimage ) );
 		memset(dimage, 0, sizeof( dimage ) );
@@ -90,5 +90,6 @@ namespace Simulator{
 
 	void destruct(){
 		fclose(IOfunction::snapshot);	
+		fclose(IOfunction::error_dump);
 	}
 }
