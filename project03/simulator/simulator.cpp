@@ -84,8 +84,9 @@ namespace Simulator{
 	}
 	 
 	void decode_instruction(){
+		int j = PC / 4;
 		for(int i = 0; i < iimage_words; ++i)
-			ins[i].decode(iimage[i+2]);
+			ins[j++].decode(iimage[i+2]);
 	}
 
 	void destruct(){
