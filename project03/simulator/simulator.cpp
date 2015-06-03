@@ -4,6 +4,7 @@
 
 namespace Simulator{
 	FILE *ERR;
+	FILE *fptr_report;
 	bool is_halt = 0;
 	u32 PC, SP, cycle, VPC;
 	u32 iimage_words;
@@ -19,6 +20,18 @@ namespace Simulator{
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
 		IOfunction::error_dump = fopen("error_dump.rpt", "w");
 		ERR = IOfunction::error_dump;
+		
+		PC = INF;
+		is_halt = false;
+		cycle = 0;
+		
+		memset(reg, 0, sizeof( reg ) );
+		memset(iimage, 0, sizeof( iimage ) );
+		memset(dimage, 0, sizeof( dimage ) );
+	}
+	void initialize(bool statistic_mode){
+		IOfunction::report = fopen("report.rpt", "w");
+		fptr_report = IOfunction::report;
 		
 		PC = INF;
 		is_halt = false;

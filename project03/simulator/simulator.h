@@ -58,7 +58,8 @@ namespace Simulator{
 	extern u32 dimage_words;
 	
 	extern FILE *ERR;
-		
+	extern FILE *fptr_report;
+
 	extern u32 iimage[];
 	extern u32 dimage[]; 
 	const char iimagePath[] = "iimage.bin";
@@ -71,6 +72,7 @@ namespace Simulator{
 
 /******** HOST CPU PROCESS ******/
 	void initialize();
+	void initialize(bool statistic_mode);
 	void run();
 	void statistic(int argc, int *argv);
 	void execute(bool mode);
@@ -78,6 +80,7 @@ namespace Simulator{
 	void decode_instruction();
 	void check_image();
 	void write_snapshot();
+	void write_report();
 	void destruct();
 /*******************************/
 

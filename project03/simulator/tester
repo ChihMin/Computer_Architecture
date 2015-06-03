@@ -1,0 +1,5 @@
+#!/bin/bash
+make -j
+cp CMP student/
+cd student
+./cmp.sh

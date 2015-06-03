@@ -1,21 +1,33 @@
 #include "simulator.h"
-
+#include <cstring>
 namespace Simulator{
-	void statistic(int argc, int *argv){
-		
 
-		initialize();
+	int I_MEM_SIZE;
+	int D_MEM_SIZE;
+	int I_PAGE_SIZE;
+	int D_PAGE_SIZE;
+	int I_CACHE_SIZE;
+	int I_BLOCK_SIZE;
+	int I_SET;
+	int D_CACHE_SIZE;
+	int D_BLOCK_SIZE;
+	int D_SET;
+	int hits, misses, hitNum, missNum;
+	
+
+	void statistic(int argc, int *argv){
+		initialize(true);
 		
-		int I_MEM_SIZE = argv[0];
-		int D_MEM_SIZE = argv[1];
-		int I_PAGE_SIZE = argv[2];
-		int D_PAGE_SIZE = argv[3];
-		int I_CACHE_SIZE = argv[4];
-		int I_BLOCK_SIZE = argv[5];
-		int I_SET = argv[6];
-		int D_CACHE_SIZE = argv[7];
-		int D_BLOCK_SIZE = argv[8];
-		int D_SET = argv[9];
+		I_MEM_SIZE = argv[0];
+		D_MEM_SIZE = argv[1];
+		I_PAGE_SIZE = argv[2];
+		D_PAGE_SIZE = argv[3];
+		I_CACHE_SIZE = argv[4];
+		I_BLOCK_SIZE = argv[5];
+		I_SET = argv[6];
+		D_CACHE_SIZE = argv[7];
+		D_BLOCK_SIZE = argv[8];
+		D_SET = argv[9];
 
 
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
@@ -31,9 +43,30 @@ namespace Simulator{
 		//test_seed();  // seed mode 
 		bool test_mode = false;
 	/***************************************************************/
-		write_snapshot();
-		execute(test_mode);
+		write_report();
+		//execute(test_mode);
 
-		destruct();	
+		//destruct();	
+	}
+
+	void write_report(){
+		fprintf( fptr_report, "ICache :\n");
+		fprintf( fptr_report, "# hits: %u\n", hits );
+		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "DCache :\n");
+		fprintf( fptr_report, "# hits: %u\n", hits );
+		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "ITLB :\n");
+		fprintf( fptr_report, "# hits: %u\n", hits );
+		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "DTLB :\n");
+		fprintf( fptr_report, "# hits: %u\n", hits );
+		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "IPageTable :\n");
+		fprintf( fptr_report, "# hits: %u\n", hitNum ); 
+		fprintf( fptr_report, "# misses: %u\n\n", missNum );
+		fprintf( fptr_report, "DPageTable :\n");
+		fprintf( fptr_report, "# hits: %u\n", hitNum ); 
+		fprintf( fptr_report, "# misses: %u\n\n", missNum );
 	}
 }

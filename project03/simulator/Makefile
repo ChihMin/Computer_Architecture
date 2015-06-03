@@ -61,4 +61,6 @@ statistic.o:
 	$(CXX) $(CXXFLAGS) statistic.cpp
 
 clean:
-	rm *.o debug CMD
+	rm *.o debug CMD *.rpt
+
+

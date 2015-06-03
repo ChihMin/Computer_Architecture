@@ -4,6 +4,7 @@ namespace IOfunction{
 
 	FILE *snapshot;
 	FILE *error_dump;
+	FILE *report;
 
 	void load_binary(u32 *iimage, const char *iimage_file, u32 *dimage, const char *dimage_file){
 		u32 in;
