@@ -11,13 +11,14 @@ debug: TARGET = debug
 simulator:IOfunction.o main.o interpreter.o \
 			getins.o execute.o simulator.o \
 			error.o testbench.o RType.o \
-			alloc.o IType.o statistic.o
+			alloc.o IType.o statistic.o \
+			hitmiss.o memory.o
 	$(CXX) -o $(TARGET) \
 	interpreter.o getins.o \
 	IOfunction.o testbench.o \
 	execute.o simulator.o \
 	error.o alloc.o RType.o IType.o \
-	statistic.o main.o
+	statistic.o hitmiss.o memory.o main.o
 
 
 
@@ -59,6 +60,12 @@ alloc.o:
 
 statistic.o:
 	$(CXX) $(CXXFLAGS) statistic.cpp
+
+hitmiss.o:
+	$(CXX) $(CXXFLAGS) hitmiss.cpp
+
+memory.o:
+	$(CXX) $(CXXFLAGS) memory.cpp
 
 clean:
 	rm *.o debug CMD *.rpt

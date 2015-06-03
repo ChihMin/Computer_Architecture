@@ -5,6 +5,8 @@
 #include <iomanip>
 
 #include "IOfunction.h"
+#include "memory.h"
+
 
 namespace Simulator{
 
@@ -168,10 +170,16 @@ namespace Simulator{
 	extern int D_BLOCK_SIZE;
 	extern int D_SET;
 
+	extern int I_V_PAGE_NUM;
+	extern int D_V_PAGE_NUM;
 	extern int I_BLOCK_NUM;
 	extern int I_PAGE_NUM;
 	extern int D_BLOCK_NUM;
 	extern int D_PAGE_NUM;
+/******************************/
+
+/***** MEMORY FUNCTION ********/
+	void hit_miss_calculator(u32 address, int type);
 /******************************/
 }
 

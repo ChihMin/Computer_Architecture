@@ -9,10 +9,9 @@ namespace Simulator{
 		VPC = get_VPC();
 		while( PC < 1024){
 			
-			if(can_write_snapshot){
+			if(!can_write_snapshot){
 				/* Here is hits/misses statistic*/
-				
-				
+				hit_miss_calculator(PC, 0);
 			}
 			
 			cycle++ ;	// CPU Cycle

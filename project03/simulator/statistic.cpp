@@ -13,11 +13,13 @@ namespace Simulator{
 	int D_BLOCK_SIZE;
 	int D_SET;
 
+	int I_V_PAGE_NUM;
+	int D_V_PAGE_NUM;
 	int D_BLOCK_NUM;
 	int D_PAGE_NUM;
-	
 	int I_BLOCK_NUM;
 	int I_PAGE_NUM;
+	
 
 	int I_TLB_hits, D_TLB_hits;
 	int I_TLB_miss, D_TLB_miss;
@@ -40,6 +42,15 @@ namespace Simulator{
 		D_CACHE_SIZE = argv[7];
 		D_BLOCK_SIZE = argv[8];
 		D_SET = argv[9];
+
+
+		I_V_PAGE_NUM = 1024 / I_PAGE_SIZE;
+		D_V_PAGE_NUM = 1024 / D_PAGE_SIZE;
+		I_PAGE_NUM = I_MEM_SIZE / I_PAGE_SIZE;
+		D_PAGE_NUM = D_MEM_SIZE / D_PAGE_SIZE;
+		I_BLOCK_NUM = I_CACHE_SIZE / I_BLOCK_SIZE;
+		D_BLOCK_NUM = D_CACHE_SIZE / D_BLOCK_SIZE;
+		
 
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
