@@ -75,7 +75,7 @@ namespace Simulator{
 	void initialize(bool statistic_mode);
 	void run();
 	void statistic(int argc, int *argv);
-	void execute(bool mode);
+	void execute(bool mode, bool can_write_snapshot);
 	void test_seed();
 	void decode_instruction();
 	void check_image();
@@ -167,6 +167,11 @@ namespace Simulator{
 	extern int D_CACHE_SIZE;
 	extern int D_BLOCK_SIZE;
 	extern int D_SET;
+
+	extern int I_BLOCK_NUM;
+	extern int I_PAGE_NUM;
+	extern int D_BLOCK_NUM;
+	extern int D_PAGE_NUM;
 /******************************/
 }
 

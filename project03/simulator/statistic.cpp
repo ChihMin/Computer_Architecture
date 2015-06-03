@@ -12,8 +12,20 @@ namespace Simulator{
 	int D_CACHE_SIZE;
 	int D_BLOCK_SIZE;
 	int D_SET;
-	int hits, misses, hitNum, missNum;
+
+	int D_BLOCK_NUM;
+	int D_PAGE_NUM;
 	
+	int I_BLOCK_NUM;
+	int I_PAGE_NUM;
+
+	int I_TLB_hits, D_TLB_hits;
+	int I_TLB_miss, D_TLB_miss;
+	int I_PAGE_hits, D_PAGE_hits;
+	int I_PAGE_miss, D_PAGE_miss;
+	int I_CACHE_hits, D_CACHE_hits;
+	int I_CACHE_miss, D_CACHE_miss;
+		
 
 	void statistic(int argc, int *argv){
 		initialize(true);
@@ -29,14 +41,11 @@ namespace Simulator{
 		D_BLOCK_SIZE = argv[8];
 		D_SET = argv[9];
 
-
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
 		IOfunction::dump_data(reg[29], dimage_words, dimage);	
-			
-		decode_instruction();	
-
 		
+		decode_instruction();	
 	/********** WARNING !!!!! This Block is used to TEST ***********/
 		//check_image();
 		//testbench();
@@ -44,29 +53,29 @@ namespace Simulator{
 		bool test_mode = false;
 	/***************************************************************/
 		write_report();
-		//execute(test_mode);
+		execute(test_mode, false);
 
 		//destruct();	
 	}
 
 	void write_report(){
 		fprintf( fptr_report, "ICache :\n");
-		fprintf( fptr_report, "# hits: %u\n", hits );
-		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "# hits: %u\n", I_CACHE_hits );
+		fprintf( fptr_report, "# misses: %u\n\n", I_CACHE_miss );
 		fprintf( fptr_report, "DCache :\n");
-		fprintf( fptr_report, "# hits: %u\n", hits );
-		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "# hits: %u\n", D_CACHE_hits );
+		fprintf( fptr_report, "# misses: %u\n\n", D_CACHE_miss );
 		fprintf( fptr_report, "ITLB :\n");
-		fprintf( fptr_report, "# hits: %u\n", hits );
-		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "# hits: %u\n", I_TLB_hits );
+		fprintf( fptr_report, "# misses: %u\n\n", I_TLB_miss );
 		fprintf( fptr_report, "DTLB :\n");
-		fprintf( fptr_report, "# hits: %u\n", hits );
-		fprintf( fptr_report, "# misses: %u\n\n", misses );
+		fprintf( fptr_report, "# hits: %u\n", D_TLB_hits );
+		fprintf( fptr_report, "# misses: %u\n\n", D_TLB_miss );
 		fprintf( fptr_report, "IPageTable :\n");
-		fprintf( fptr_report, "# hits: %u\n", hitNum ); 
-		fprintf( fptr_report, "# misses: %u\n\n", missNum );
+		fprintf( fptr_report, "# hits: %u\n", I_PAGE_hits ); 
+		fprintf( fptr_report, "# misses: %u\n\n", I_PAGE_miss );
 		fprintf( fptr_report, "DPageTable :\n");
-		fprintf( fptr_report, "# hits: %u\n", hitNum ); 
-		fprintf( fptr_report, "# misses: %u\n\n", missNum );
+		fprintf( fptr_report, "# hits: %u\n", D_PAGE_hits ); 
+		fprintf( fptr_report, "# misses: %u\n\n", D_PAGE_miss );
 	}
 }

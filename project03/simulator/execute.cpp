@@ -3,20 +3,23 @@
 namespace Simulator{
 	
 	u32 PC_Begin; 
-	void execute(bool mode){
+	void execute(bool mode, bool can_write_snapshot){
 			
 		PC_Begin = PC;		
 		VPC = get_VPC();
 		while( PC < 1024){
-
-			//printf("PC = 0x%08X\n",PC);
-
+			
+			if(can_write_snapshot){
+				/* Here is hits/misses statistic*/
+				
+				
+			}
+			
 			cycle++ ;	// CPU Cycle
 			Instruction cur_ins = ins[VPC];
 			//if(mode){
 		//		fprintf(IOfunction::snapshot, "opcode = %X rd = %d rs = %d rt = %d funct = %X\n", cur_ins.get_opcode(), cur_ins.get_rd(), cur_ins.get_rs(), cur_ins.get_rt(), cur_ins.get_funct());	
 		//	}
-
 
 			u32 opcode = cur_ins.get_opcode();
 			add_program_counter();
@@ -37,7 +40,8 @@ namespace Simulator{
 			if( is_halt )	return;
 			
 			print_dimage(mode);
-			write_snapshot();
+			if(can_write_snapshot)
+				write_snapshot();
 			update_VPC();
 		}
 	}

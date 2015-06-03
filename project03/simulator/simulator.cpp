@@ -59,7 +59,7 @@ namespace Simulator{
 		bool test_mode = false;
 	/***************************************************************/
 		write_snapshot();
-		execute(test_mode);
+		execute(test_mode, true);
 
 		destruct();	
 	}
@@ -105,5 +105,6 @@ namespace Simulator{
 	void destruct(){
 		fclose(IOfunction::snapshot);	
 		fclose(IOfunction::error_dump);
+		fclose(IOfunction::report);
 	}
 }
