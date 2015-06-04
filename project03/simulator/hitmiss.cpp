@@ -170,7 +170,7 @@ namespace Simulator{
 			bool find_page = false;
 			for(int j = 0; j < V_PAGE_NUM; ++j){
 				if(pte[j].is_valid()){
-					if(pte[j].get_PA() == i){
+					if(pte[j].get_PP() == i){
 						find_page = true;
 						break;
 					}
@@ -210,7 +210,7 @@ namespace Simulator{
 			for(int i = 0; i < V_PAGE_NUM; ++i){
 				if(pte[i].is_valid()){
 					if(time > pte[i].get_time()){
-						swap_in_page = pte[i].get_PA(); 
+						swap_in_page = pte[i].get_PP(); 
 						time = pte[i].get_time();
 						swap_out_page = i;
 					}
