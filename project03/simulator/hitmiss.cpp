@@ -98,7 +98,6 @@ namespace Simulator{
 		Memory entry;
 
 		bool is_hit = false;
-		int tlb_first_invalid = -1; // is used to find invalid index 
 		for(int i = 0; i < TLB_NUM; ++i){
 			/* If TLB is valid and has entry */
 			if(tlb[i].is_valid()){
@@ -113,8 +112,23 @@ namespace Simulator{
 		
 		if(!is_hit){	// If TLB miss, then query page table
 			(*TLB_miss)++;	// TLB miss add
-			entry =  PTE_PASS(V_address);		
+			entry =  PTE_PASS(V_address);
+			
+			// is used to find invalid index 
+			int swap_in = -1; 
+			int time = (int)1e9;
+			for(int i = 0; i < TLB_NUM; ++i){
+				if (!tlb[i].is_valid()){
+					swap_in = i;
+					break;
+				}
+				else if(time > tlb[i].get_time()){
+					time = tlb[i].get_time();
+					swap_in = i;
+				}
+			}
 		}
+		
 	}
 
 	Memory PTE_PASS(u32 V_address){
@@ -128,32 +142,27 @@ namespace Simulator{
 			 * 
 			 * and transfer pte[V_page] data to TLB 
 			 */
-			
 			(*PAGE_hits)++;
 			return pte[V_page];
 		}
 
-		/**** BELOW ARE PAGE MISS BLOCKS ****/
-
+		/********* BELOW ARE PAGE MISS BLOCKS *************\
+		 * This block is used to find invalid block       *
+		 * Or the LRU Page to replace                     *
+		 **************************************************
+		 ** IF SWAP ACTION HAPPENDS, UPDATE TLB AND CACHE *
+		 ** This  way  is to prevent that data is not in  *
+		 ** Physical page, but in cache or TLB.           * 
+		\**************************************************/
+		
 		(*PAGE_miss)++;
 
-		/*
-		 * This block is used to find invalid block
-		 * Or the LRU Page to replace
-		 * *************************************************
-		 * * IF SWAP ACTION HAPPENDS, UPDATE TLB AND CACHE *
-		 * * This  way  is to prevent that data is not in  *
-		 * * Physical page, but in cache or TLB.           * 
-		 * *************************************************
-		 *
-		 */
-		
 		int first_invalid_page = -1;
 		for(int i = 0; i < PAGE_NUM; ++i){
 			/* i is physical page number */
 
 			/* 
-			 * Need to find invalid page *
+			 * Need to find invalid page 
 			 * Just search each entry in PTE
 			 */
 
@@ -187,6 +196,42 @@ namespace Simulator{
 			pte[V_page].set_valid(true);
 		}
 		else{
+			/*
+			 * 1. This block is used to find LRU entry
+			 * 2. And swap out LRU and swap in 
+			 * 3. Update cache and TLB block
+			 *	  (valid ----> invalid)
+			 */
+			
+			int swap_out_page = -1;
+			int swap_in_page = -1;
+			int time = (int)1e9;
+			for(int i = 0; i < V_PAGE_NUM; ++i){
+				if(pte[i].is_valid()){
+					if(time > pte[i].get_time()){
+						swap_in_page = pte[i].get_PA(); 
+						time = pte[i].get_time();
+						swap_out_page = i;
+					}
+				}
+			}
+			
+			// Let pte be invalid
+			pte[swap_out_page].set_valid(false);
+
+			pte[V_page].set_VA(V_address);
+			pte[V_page].set_VP(V_page);
+			pte[V_page].set_PP(swap_in_page);
+			pte[V_page].set_time(cycle);
+			pte[V_page].set_valid(true);
+
+			
+			/* update TLB entry */
+
+			for(int i = 0; i < TLB_NUM; ++i)
+				if(tlb[i].get_VP() == swap_out_page)
+					tlb[i].set_valid(false);
 		}
+		return pte[V_page];
 	}
 }
