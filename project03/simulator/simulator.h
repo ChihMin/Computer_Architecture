@@ -188,10 +188,17 @@ namespace Simulator{
 	extern Memory I_pte[];
 	extern Memory D_pte[];
 		
+	extern int I_TLB_hits, D_TLB_hits;
+	extern int I_TLB_miss, D_TLB_miss;
+	extern int I_PAGE_hits, D_PAGE_hits;
+	extern int I_PAGE_miss, D_PAGE_miss;
+	extern int I_CACHE_hits, D_CACHE_hits;
+	extern int I_CACHE_miss, D_CACHE_miss;
 /******************************/
 
 /***** MEMORY FUNCTION ********/
 	void hit_miss_calculator(u32 address, int type);
+	void TLB_PASS(u32 address);
 /******************************/
 }
 

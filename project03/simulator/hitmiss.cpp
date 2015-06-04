@@ -17,6 +17,12 @@ namespace Simulator{
 	Memory *tlb;
 	Memory *pte;
 	
+	int *TLB_hits;
+	int *TLB_miss;
+	int *PAGE_hits;
+	int *PAGE_miss;
+	int *CACHE_hits;
+	int *CACHE_miss;
 
 	void init_memory(int type){
 		/*	
@@ -62,16 +68,37 @@ namespace Simulator{
 	
 		tlb = !type ? I_tlb : D_tlb;
 		pte = !type ? I_pte : D_pte;
+		
+		/*
+			int *TLB_hits;
+			int *TLB_miss;
+			int *PAGE_hits;
+			int *PAGE_miss;
+			int *CACHE_hits;
+			int *CACHE_miss;
+		 */ 
+
+		TLB_hits = !type ? &I_TLB_hits : &D_TLB_hits;
+		TLB_miss = !type ? &I_TLB_miss : &D_TLB_miss;
+		PAGE_hits = !type ? &I_PAGE_hits : &D_PAGE_hits;
+		PAGE_miss = !type ? &I_PAGE_miss : &D_PAGE_miss;
+		CACHE_hits = !type ? &I_CACHE_hits : &D_CACHE_hits;
+		CACHE_miss = !type ? &I_CACHE_miss : &D_CACHE_miss;
 	}
 	
-	void hit_miss_calculator(u32 address, int type){
+	void hit_miss_calculator(u32 V_address, int type){
 		init_memory(type);
-		TLB(address);
+		TLB_PASS(V_address);
 	}
 
-	void TLB(u32 address){
+	void TLB_PASS(u32 V_address){
+		u32 V_page = V_address / PAGE_SIZE; // Get Virtual Page
+		
 		for(int i = 0; i < TLB_NUM; ++i){
-			
+			/* If TLB is valid and has entry */
+			if(tlb[i].is_valid()){
+					
+			}
 		}
 	}
 }
