@@ -55,8 +55,8 @@ namespace Simulator{
 		D_SET = argv[9];
 
 
-		I_V_PAGE_NUM = iimage_words * 4 / I_PAGE_SIZE;
-		D_V_PAGE_NUM = dimage_words * 4 / D_PAGE_SIZE;
+		I_V_PAGE_NUM = 1024 / I_PAGE_SIZE;
+		D_V_PAGE_NUM = 1024 / D_PAGE_SIZE;
 		I_TLB_NUM = I_V_PAGE_NUM / 4;
 		D_TLB_NUM = D_V_PAGE_NUM / 4;
 		I_PAGE_NUM = I_MEM_SIZE / I_PAGE_SIZE;
@@ -64,6 +64,8 @@ namespace Simulator{
 		I_BLOCK_NUM = I_CACHE_SIZE / I_BLOCK_SIZE;
 		D_BLOCK_NUM = D_CACHE_SIZE / D_BLOCK_SIZE;
 		
+		printf("(%d %d) <-> (%d %d) <-> (%d %d)\n", I_V_PAGE_NUM, D_V_PAGE_NUM, I_PAGE_NUM, D_PAGE_NUM, I_PAGE_SIZE, D_PAGE_SIZE);
+
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
 		IOfunction::dump_data(reg[29], dimage_words, dimage);	
@@ -75,9 +77,8 @@ namespace Simulator{
 		//test_seed();  // seed mode 
 		bool test_mode = false;
 	/***************************************************************/
-		write_report();
 		execute(test_mode, I_MODE);
-
+		write_report();
 		//destruct();	
 	}
 

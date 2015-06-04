@@ -127,6 +127,7 @@ namespace Simulator{
 					swap_in = i;
 				}
 			}
+			tlb[swap_in] = entry;
 		}
 		
 	}
