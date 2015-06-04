@@ -55,8 +55,8 @@ namespace Simulator{
 		D_SET = argv[9];
 
 
-		I_V_PAGE_NUM = 1024 / I_PAGE_SIZE;
-		D_V_PAGE_NUM = 1024 / D_PAGE_SIZE;
+		I_V_PAGE_NUM = iimage_words * 4 / I_PAGE_SIZE;
+		D_V_PAGE_NUM = dimage_words * 4 / D_PAGE_SIZE;
 		I_TLB_NUM = I_V_PAGE_NUM / 4;
 		D_TLB_NUM = D_V_PAGE_NUM / 4;
 		I_PAGE_NUM = I_MEM_SIZE / I_PAGE_SIZE;

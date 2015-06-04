@@ -93,12 +93,100 @@ namespace Simulator{
 
 	void TLB_PASS(u32 V_address){
 		u32 V_page = V_address / PAGE_SIZE; // Get Virtual Page
-		
+		u32 P_address;
+		u32 P_page;
+		Memory entry;
+
+		bool is_hit = false;
+		int tlb_first_invalid = -1; // is used to find invalid index 
 		for(int i = 0; i < TLB_NUM; ++i){
 			/* If TLB is valid and has entry */
 			if(tlb[i].is_valid()){
-					
+				if(tlb[i].get_VP() == V_page){
+					is_hit = true;
+					(*TLB_hits)++;		// TLB hits add	
+					tlb[i].set_time(cycle);
+					break;
+				}
 			}
+		}
+		
+		if(!is_hit){	// If TLB miss, then query page table
+			(*TLB_miss)++;	// TLB miss add
+			entry =  PTE_PASS(V_address);		
+		}
+	}
+
+	Memory PTE_PASS(u32 V_address){
+		u32 V_page = V_address / PAGE_SIZE; // GET virtual page
+		if(pte[V_page].is_valid()){
+			/*
+			 * PTE valid bit is used to record 
+			 * 
+			 * IF data is valid in pte
+			 *		then add page hits
+			 * 
+			 * and transfer pte[V_page] data to TLB 
+			 */
+			
+			(*PAGE_hits)++;
+			return pte[V_page];
+		}
+
+		/**** BELOW ARE PAGE MISS BLOCKS ****/
+
+		(*PAGE_miss)++;
+
+		/*
+		 * This block is used to find invalid block
+		 * Or the LRU Page to replace
+		 * *************************************************
+		 * * IF SWAP ACTION HAPPENDS, UPDATE TLB AND CACHE *
+		 * * This  way  is to prevent that data is not in  *
+		 * * Physical page, but in cache or TLB.           * 
+		 * *************************************************
+		 *
+		 */
+		
+		int first_invalid_page = -1;
+		for(int i = 0; i < PAGE_NUM; ++i){
+			/* i is physical page number */
+
+			/* 
+			 * Need to find invalid page *
+			 * Just search each entry in PTE
+			 */
+
+			bool find_page = false;
+			for(int j = 0; j < V_PAGE_NUM; ++j){
+				if(pte[j].is_valid()){
+					if(pte[j].get_PA() == i){
+						find_page = true;
+						break;
+					}
+				}
+			}
+
+			if(!find_page){
+				/* If cannot find page */
+				first_invalid_page = i;
+				break;
+			}
+		}
+
+		if(first_invalid_page != -1){
+			/*
+			 * Here can find invalid entry
+			 * Just set page information to PTE
+			 */
+
+			pte[V_page].set_VA(V_address);
+			pte[V_page].set_VP(V_page);
+			pte[V_page].set_PP(first_invalid_page);
+			pte[V_page].set_time(cycle);
+			pte[V_page].set_valid(true);
+		}
+		else{
 		}
 	}
 }

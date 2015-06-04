@@ -199,6 +199,7 @@ namespace Simulator{
 /***** MEMORY FUNCTION ********/
 	void hit_miss_calculator(u32 address, int type);
 	void TLB_PASS(u32 address);
+	Memory PTE_PASS(u32 address);
 /******************************/
 }
 
