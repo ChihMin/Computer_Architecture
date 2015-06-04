@@ -176,6 +176,18 @@ namespace Simulator{
 	extern int I_PAGE_NUM;
 	extern int D_BLOCK_NUM;
 	extern int D_PAGE_NUM;
+	extern int I_TLB_NUM;
+	extern int D_TLB_NUM;
+
+	extern Memory D_cache[][300];
+	extern Memory I_cache[][300];
+	
+	extern Memory I_tlb[];
+	extern Memory D_tlb[];
+	
+	extern Memory I_pte[];
+	extern Memory D_pte[];
+		
 /******************************/
 
 /***** MEMORY FUNCTION ********/

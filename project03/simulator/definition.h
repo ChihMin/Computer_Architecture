@@ -13,5 +13,7 @@ typedef long long int s64;
 typedef unsigned short u16;
 
 #define INF 0xFFFFFFFF
+#define I_MODE 0
+#define D_MODE 1
 
 #endif

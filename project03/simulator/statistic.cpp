@@ -1,5 +1,6 @@
 #include "simulator.h"
 #include <cstring>
+
 namespace Simulator{
 
 	int I_MEM_SIZE;
@@ -19,7 +20,17 @@ namespace Simulator{
 	int D_PAGE_NUM;
 	int I_BLOCK_NUM;
 	int I_PAGE_NUM;
+	int D_TLB_NUM;
+	int I_TLB_NUM;
 	
+	Memory I_cache[300][300];
+	Memory D_cache[300][300];
+	
+	Memory I_tlb[300];
+	Memory D_tlb[300];
+
+	Memory I_pte[300];
+	Memory D_pte[300];
 
 	int I_TLB_hits, D_TLB_hits;
 	int I_TLB_miss, D_TLB_miss;
@@ -27,7 +38,7 @@ namespace Simulator{
 	int I_PAGE_miss, D_PAGE_miss;
 	int I_CACHE_hits, D_CACHE_hits;
 	int I_CACHE_miss, D_CACHE_miss;
-		
+
 
 	void statistic(int argc, int *argv){
 		initialize(true);
@@ -46,12 +57,13 @@ namespace Simulator{
 
 		I_V_PAGE_NUM = 1024 / I_PAGE_SIZE;
 		D_V_PAGE_NUM = 1024 / D_PAGE_SIZE;
+		I_TLB_NUM = I_V_PAGE_NUM / 4;
+		D_TLB_NUM = D_V_PAGE_NUM / 4;
 		I_PAGE_NUM = I_MEM_SIZE / I_PAGE_SIZE;
 		D_PAGE_NUM = D_MEM_SIZE / D_PAGE_SIZE;
 		I_BLOCK_NUM = I_CACHE_SIZE / I_BLOCK_SIZE;
 		D_BLOCK_NUM = D_CACHE_SIZE / D_BLOCK_SIZE;
 		
-
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
 		IOfunction::dump_data(reg[29], dimage_words, dimage);	
@@ -64,7 +76,7 @@ namespace Simulator{
 		bool test_mode = false;
 	/***************************************************************/
 		write_report();
-		execute(test_mode, false);
+		execute(test_mode, I_MODE);
 
 		//destruct();	
 	}
