@@ -42,7 +42,9 @@ namespace Simulator{
 
 	void statistic(int argc, int *argv){
 		initialize(true);
-		
+		REPORT_MODE = true;
+
+
 		I_MEM_SIZE = argv[0];
 		D_MEM_SIZE = argv[1];
 		I_PAGE_SIZE = argv[2];

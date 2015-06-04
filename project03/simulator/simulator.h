@@ -159,6 +159,8 @@ namespace Simulator{
 
 
 /******* MEMORY CONFIRUE ******/
+	extern bool REPORT_MODE;
+
 	extern int I_MEM_SIZE;
 	extern int D_MEM_SIZE;
 	extern int I_PAGE_SIZE;

@@ -88,6 +88,10 @@ namespace Simulator{
 	s64 compute_location(u32 rt, u32 rs, short C, s64 bytes){
 		int s = reg[rs];
 		s64 sum = (s64)s + (s64)C;
+
+		if(REPORT_MODE)
+			hit_miss_calculator(sum, 1);
+
 		detect_overflow(sum, s, (int)C);
 		detect_memory_address_overflow(sum + bytes - 1);
 		if(!is_halt)

@@ -15,6 +15,8 @@ namespace Simulator{
 	u32 dimage[300];
 
 	int reg[40];
+	bool REPORT_MODE = false;
+
 
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
