@@ -68,7 +68,10 @@ namespace Simulator{
 	
 		tlb = !type ? I_tlb : D_tlb;
 		pte = !type ? I_pte : D_pte;
-		
+
+		for(int i = 0; i < 300; ++i)
+			cache[i] = !type ? I_cache[i] : D_cache[i];
+
 		/*
 			int *TLB_hits;
 			int *TLB_miss;
@@ -87,11 +90,67 @@ namespace Simulator{
 	}
 	
 	void hit_miss_calculator(u32 V_address, int type){
+		
 		init_memory(type);
-		TLB_PASS(V_address);
+		Memory entry = TLB_PASS(V_address);
+		CACHE_PASS(entry);
 	}
 
-	void TLB_PASS(u32 V_address){
+	void CACHE_PASS(Memory entry){
+		u32 V_page = entry.get_VP();
+		u32 V_address = entry.get_VA();
+		u32 P_page = entry.get_PP();
+		u32 P_address = P_page * PAGE_SIZE + V_address % PAGE_SIZE ;
+		/* ^^^^^^^^^^ This guy is physical address in memory */
+		
+		entry.set_PA(P_address);
+		entry.set_time(cycle);
+		
+		printf("v address : %d, set : %d\n", V_page, SET);
+		
+		u32 block_index = (P_address / BLOCK_SIZE) % BLOCK_NUM;
+		
+
+		/* BELOW is cahce hit if find entry */
+		for(int set = 0; set < SET; ++set){
+			if(cache[block_index][set].is_valid()){
+				if(cache[block_index][set].get_PA() == P_address){
+					(*CACHE_hits)++;
+					cache[block_index][set].set_time(cycle);
+					// ^^^^^^^^  update hit time
+					return;
+				}
+			}
+		}
+		
+		/* BELOW is cache miss situation */
+		
+		(*CACHE_miss)++;
+
+		/* Find invalid block */
+		for(int set = 0; set < SET; ++set){
+			if(!cache[block_index][set].is_valid()){
+				cache[block_index][set] = entry;
+				return;
+			}
+		}
+
+		/* Find LRU entry to swap out */
+		int time = (int)1e9;
+		int target_set = 0;
+		for(int set = 0; set < SET; ++set){
+			if(entry.get_time() < time){
+				time = entry.get_time();
+				target_set = set;
+			}
+		}
+		cache[block_index][target_set] = entry;
+
+		/***** REMEMBER TO DEAL WITH PAGE SWAP OUT PROBLEM ****/
+	}
+
+
+	Memory TLB_PASS(u32 V_address){
 		u32 V_page = V_address / PAGE_SIZE; // Get Virtual Page
 		u32 P_address;
 		u32 P_page;
@@ -105,30 +164,30 @@ namespace Simulator{
 					is_hit = true;
 					(*TLB_hits)++;		// TLB hits add	
 					tlb[i].set_time(cycle);
-					break;
+					return tlb[i];
 				}
 			}
 		}
 		
-		if(!is_hit){	// If TLB miss, then query page table
-			(*TLB_miss)++;	// TLB miss add
-			entry =  PTE_PASS(V_address);
-			
-			// is used to find invalid index 
-			int swap_in = -1; 
-			int time = (int)1e9;
-			for(int i = 0; i < TLB_NUM; ++i){
-				if (!tlb[i].is_valid()){
-					swap_in = i;
-					break;
-				}
-				else if(time > tlb[i].get_time()){
-					time = tlb[i].get_time();
-					swap_in = i;
-				}
+		// If TLB miss, then query page table
+		(*TLB_miss)++;	// TLB miss add
+		entry =  PTE_PASS(V_address);
+		
+		// is used to find invalid index 
+		int swap_in = -1; 
+		int time = (int)1e9;
+		for(int i = 0; i < TLB_NUM; ++i){
+			if (!tlb[i].is_valid()){
+				swap_in = i;
+				break;
 			}
-			tlb[swap_in] = entry;
+			else if(time > tlb[i].get_time()){
+				time = tlb[i].get_time();
+				swap_in = i;
+			}
 		}
+		tlb[swap_in] = entry;
+		return entry;
 		
 	}
 
@@ -144,6 +203,7 @@ namespace Simulator{
 			 * and transfer pte[V_page] data to TLB 
 			 */
 			(*PAGE_hits)++;
+			pte[V_page].set_time(cycle);
 			return pte[V_page];
 		}
 
@@ -219,6 +279,7 @@ namespace Simulator{
 			
 			// Let pte be invalid
 			pte[swap_out_page].set_valid(false);
+			
 
 			pte[V_page].set_VA(V_address);
 			pte[V_page].set_VP(V_page);
@@ -232,6 +293,19 @@ namespace Simulator{
 			for(int i = 0; i < TLB_NUM; ++i)
 				if(tlb[i].get_VP() == swap_out_page)
 					tlb[i].set_valid(false);
+		
+			/* update cache */
+			
+			for(int i = 0; i < BLOCK_NUM; ++i)
+				for(int j = 0; j < SET; ++j){
+					u32 page = swap_out_page;
+					printf("traverse cache page : %d vs %d\n", swap_out_page, cache[i][j].get_VP());
+					if(cache[i][j].get_VP() == page){
+						cache[i][j].set_valid(false);
+						printf("here !!!!!\n");
+					}
+				}
+			
 		}
 		return pte[V_page];
 	}

@@ -63,10 +63,10 @@ namespace Simulator{
 		D_TLB_NUM = D_V_PAGE_NUM / 4;
 		I_PAGE_NUM = I_MEM_SIZE / I_PAGE_SIZE;
 		D_PAGE_NUM = D_MEM_SIZE / D_PAGE_SIZE;
-		I_BLOCK_NUM = I_CACHE_SIZE / I_BLOCK_SIZE;
-		D_BLOCK_NUM = D_CACHE_SIZE / D_BLOCK_SIZE;
+		I_BLOCK_NUM = I_CACHE_SIZE / I_BLOCK_SIZE / I_SET;
+		D_BLOCK_NUM = D_CACHE_SIZE / D_BLOCK_SIZE / D_SET;
 		
-		printf("(%d %d) <-> (%d %d) <-> (%d %d)\n", I_V_PAGE_NUM, D_V_PAGE_NUM, I_PAGE_NUM, D_PAGE_NUM, I_PAGE_SIZE, D_PAGE_SIZE);
+		printf("(%d %d)\n", I_BLOCK_NUM, D_BLOCK_NUM);
 
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
