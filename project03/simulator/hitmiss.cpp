@@ -94,6 +94,7 @@ namespace Simulator{
 		init_memory(type);
 		Memory entry = TLB_PASS(V_address);
 		CACHE_PASS(entry, V_address);
+	/*	
 		if(type){
 			printf("--------------------------\n");
 			printf("SET  VALID VA VP PA PP TIME\n"); 
@@ -104,9 +105,11 @@ namespace Simulator{
 				}
 			printf("---------------------------\n");
 		}
+	*/
 	}
 
 	void CACHE_PASS(Memory entry, u32 V_address){
+		V_address = (V_address / 4) * 4;
 		u32 V_page = entry.get_VP();
 		u32 P_page = entry.get_PP();
 		u32 P_address = P_page * PAGE_SIZE + V_address % PAGE_SIZE ;
@@ -130,7 +133,7 @@ namespace Simulator{
 					cache[block_index][set].set_time(cycle);
 					// ^^^^^^^^  update hit time
 					
-					printf("%d -> %d in %d : %d : %d, %d\n", cycle, set, SET, block_index, P_address, V_address);
+					//printf("%d -> %d in %d : %d : %d, %d\n", cycle, set, SET, block_index, P_address, V_address);
 					return;
 				}
 			}
@@ -138,7 +141,7 @@ namespace Simulator{
 		
 		/* BELOW is cache miss situation */
 		
-		printf("SET : %d --> circle %d miss\n", SET, cycle);
+		//printf("SET : %d --> circle %d miss\n", SET, cycle);
 		(*CACHE_miss)++;
 
 		/* Find invalid block */
@@ -316,7 +319,7 @@ namespace Simulator{
 					u32 page = swap_out_page;
 					if(cache[i][j].get_VP() == page){
 						cache[i][j].set_valid(false);
-						printf("here !!!!!\n");
+						//printf("here !!!!!\n");
 					}
 				}
 			
