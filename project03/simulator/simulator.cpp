@@ -20,7 +20,7 @@ namespace Simulator{
 
 	void initialize(){
 		IOfunction::snapshot = fopen("snapshot.rpt", "w");
-		IOfunction::error_dump = fopen("error_dump.rpt", "w");
+		//IOfunction::error_dump = fopen("error_dump.rpt", "w");
 		ERR = IOfunction::error_dump;
 		
 		PC = INF;
@@ -106,7 +106,7 @@ namespace Simulator{
 
 	void destruct(){
 		fclose(IOfunction::snapshot);	
-		fclose(IOfunction::error_dump);
+		//fclose(IOfunction::error_dump);
 		fclose(IOfunction::report);
 	}
 }

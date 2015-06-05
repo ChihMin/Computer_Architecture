@@ -3,6 +3,7 @@
 namespace Simulator{
 	
 	void detect_overflow(s64 sum, int x, int y){
+/*
 		if( x < 0 && y < 0 && sum < MIN)
 			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
 		else if( x > 0 && y > 0 && sum > MAX)
@@ -12,19 +13,22 @@ namespace Simulator{
 		else if( x <= 0 && y >= 0 && sum < MIN)
 			fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);
 
+*/
 	}
 	
 	void detect_overflow(int A, int B){
+/*
 		int sum = A + B;
 		int mask = (1<<31);
 		if( (A & mask) == (B & mask) )
 			if((sum & mask) != (A & mask))
 				fprintf(ERR, "In cycle %d: Number Overflow\n", cycle);	 
+*/
 	}
 
 	bool detect_memory_address_overflow(s64 address){
 		if( address >= 1024 ||  address < 0 ){
-			fprintf(ERR, "In cycle %d: Address Overflow\n", cycle);
+//			fprintf(ERR, "In cycle %d: Address Overflow\n", cycle);
 			is_halt = true;
 			return true;
 		}
@@ -32,7 +36,7 @@ namespace Simulator{
 	}
 
 	void data_misaligned(s64 address){
-		fprintf(ERR, "In cycle %d: Misalignment Error\n", cycle);	
+//		fprintf(ERR, "In cycle %d: Misalignment Error\n", cycle);	
 		is_halt = true;
 	}
 
@@ -50,7 +54,7 @@ namespace Simulator{
 			if( rd == 0 ){
 				if( funct == SLL && rt == 0 && rd == 0 && C_shamt == 0)
 					return false;
-				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
+//				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
 				return true;
 			}
 		}
@@ -64,7 +68,7 @@ namespace Simulator{
 			if( opcode == JAL )	return false;
 	
 			if( rt == 0 ){
-				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
+//				fprintf(ERR, "In cycle %d: Write $0 Error\n", cycle);
 				return true;
 			}
 		}
