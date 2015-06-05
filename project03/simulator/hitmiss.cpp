@@ -128,7 +128,7 @@ namespace Simulator{
 		/* BELOW is cahce hit if find entry */
 		for(int set = 0; set < SET; ++set){
 			if(cache[block_index][set].is_valid()){
-				if(cache[block_index][set].get_PA() == P_address){
+				if(cache[block_index][set].get_PA()/BLOCK_SIZE == P_address/BLOCK_SIZE){
 					(*CACHE_hits)++;
 					cache[block_index][set].set_time(cycle);
 					// ^^^^^^^^  update hit time
