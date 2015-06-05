@@ -66,7 +66,7 @@ namespace Simulator{
 		I_BLOCK_NUM = I_CACHE_SIZE / I_BLOCK_SIZE / I_SET;
 		D_BLOCK_NUM = D_CACHE_SIZE / D_BLOCK_SIZE / D_SET;
 		
-		printf("(%d %d)\n", I_BLOCK_NUM, D_BLOCK_NUM);
+		//printf("(%d %d)\n", I_BLOCK_NUM, D_BLOCK_NUM);
 
 		IOfunction::load_binary(iimage, iimagePath, dimage, dimagePath);
 		IOfunction::dump_instruction(PC, iimage_words, iimage, ins); 	
