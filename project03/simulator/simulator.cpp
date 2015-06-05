@@ -107,6 +107,6 @@ namespace Simulator{
 	void destruct(){
 		fclose(IOfunction::snapshot);	
 		//fclose(IOfunction::error_dump);
-		fclose(IOfunction::report);
+		//fclose(IOfunction::report);
 	}
 }
