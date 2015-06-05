@@ -89,23 +89,31 @@ namespace Simulator{
 		CACHE_miss = !type ? &I_CACHE_miss : &D_CACHE_miss;
 	}
 	
+
+	void debugger(int type){
+		
+		if(!type){
+		
+			printf("----- CYCLE %d --------------\n", cycle);
+			for(int i = 0; i < BLOCK_NUM; ++i){
+				printf("SET  VALID VA VP PA PP TIME\n"); 
+				for(int j = 0; j < SET; ++j){
+					printf("%d : ", j);
+					cache[i][j].print();
+				}
+			}
+			printf("---------------------------\n");
+		
+		}
+	}
+
 	void hit_miss_calculator(u32 V_address, int type){
 		
 		init_memory(type);
 		Memory entry = TLB_PASS(V_address);
 		CACHE_PASS(entry, V_address);
-	/*	
-		if(type){
-			printf("--------------------------\n");
-			printf("SET  VALID VA VP PA PP TIME\n"); 
-			for(int i = 0; i < BLOCK_NUM; ++i)
-				for(int j = 0; j < SET; ++j){
-					printf("%d : ", j);
-					cache[i][j].print();
-				}
-			printf("---------------------------\n");
-		}
-	*/
+		//debugger(type);
+	
 	}
 
 	void CACHE_PASS(Memory entry, u32 V_address){
@@ -122,8 +130,15 @@ namespace Simulator{
 		
 		//printf("v address : %d, set : %d\n", V_page, SET);
 		
-		u32 block_index = (P_address / BLOCK_SIZE / SET) % BLOCK_NUM;
 		
+		
+		/*
+			BLOCK_NUM is NUMBER of SETS!!!!!!!!
+			index = BLOCK_NUMBER % (BLOCK_SIZE / SET)
+		*/
+
+
+		u32 block_index = ((P_address / BLOCK_SIZE) % (BLOCK_NUM));
 
 		/* BELOW is cahce hit if find entry */
 		for(int set = 0; set < SET; ++set){
