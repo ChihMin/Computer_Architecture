@@ -16,6 +16,8 @@ class Memory{
 		void set_valid(bool valid);
 		void set_ins(Instruction ins);
 		
+		void print();
+
 		u32 get_time();
 		u32 get_VA();
 		u32 get_VP();

@@ -1,5 +1,5 @@
 #!/bin/bash
-file=example3
+file=example1
 make clean
 make -j
 cp open_testcase/$file/*.bin .

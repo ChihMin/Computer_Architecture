@@ -202,7 +202,7 @@ namespace Simulator{
 	void hit_miss_calculator(u32 address, int type);
 	Memory TLB_PASS(u32 address);
 	Memory PTE_PASS(u32 address);
-	void CACHE_PASS(Memory entry);
+	void CACHE_PASS(Memory entry, u32 address);
 	
 /******************************/
 }

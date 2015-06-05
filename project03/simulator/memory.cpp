@@ -32,6 +32,10 @@ void Memory::set_ins(Instruction ins){
 	this->ins = ins;
 }
 
+void Memory::print(){
+	printf("%3d %3d %3d %3d %3d %3d\n", valid, VirtualAddress, VirtualPage, PhysicalAddress, PhysicalPage, Time);
+}
+
 u32 Memory::get_time(){
 	return this->Time;
 }

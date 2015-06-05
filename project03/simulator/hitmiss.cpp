@@ -93,22 +93,33 @@ namespace Simulator{
 		
 		init_memory(type);
 		Memory entry = TLB_PASS(V_address);
-		CACHE_PASS(entry);
+		CACHE_PASS(entry, V_address);
+		if(type){
+			printf("--------------------------\n");
+			printf("SET  VALID VA VP PA PP TIME\n"); 
+			for(int i = 0; i < BLOCK_NUM; ++i)
+				for(int j = 0; j < SET; ++j){
+					printf("%d : ", j);
+					cache[i][j].print();
+				}
+			printf("---------------------------\n");
+		}
 	}
 
-	void CACHE_PASS(Memory entry){
+	void CACHE_PASS(Memory entry, u32 V_address){
 		u32 V_page = entry.get_VP();
-		u32 V_address = entry.get_VA();
 		u32 P_page = entry.get_PP();
 		u32 P_address = P_page * PAGE_SIZE + V_address % PAGE_SIZE ;
 		/* ^^^^^^^^^^ This guy is physical address in memory */
 		
 		entry.set_PA(P_address);
 		entry.set_time(cycle);
+		entry.set_VP(V_address / PAGE_SIZE);
+		entry.set_VA(V_address);
 		
-		printf("v address : %d, set : %d\n", V_page, SET);
+		//printf("v address : %d, set : %d\n", V_page, SET);
 		
-		u32 block_index = (P_address / BLOCK_SIZE) % BLOCK_NUM;
+		u32 block_index = (P_address / BLOCK_SIZE / SET) % BLOCK_NUM;
 		
 
 		/* BELOW is cahce hit if find entry */
@@ -118,6 +129,8 @@ namespace Simulator{
 					(*CACHE_hits)++;
 					cache[block_index][set].set_time(cycle);
 					// ^^^^^^^^  update hit time
+					
+					printf("%d -> %d in %d : %d : %d, %d\n", cycle, set, SET, block_index, P_address, V_address);
 					return;
 				}
 			}
@@ -125,6 +138,7 @@ namespace Simulator{
 		
 		/* BELOW is cache miss situation */
 		
+		printf("SET : %d --> circle %d miss\n", SET, cycle);
 		(*CACHE_miss)++;
 
 		/* Find invalid block */
@@ -139,8 +153,8 @@ namespace Simulator{
 		int time = (int)1e9;
 		int target_set = 0;
 		for(int set = 0; set < SET; ++set){
-			if(entry.get_time() < time){
-				time = entry.get_time();
+			if(cache[block_index][set].get_time() < time){
+				time = cache[block_index][set].get_time();
 				target_set = set;
 			}
 		}
@@ -186,6 +200,7 @@ namespace Simulator{
 				swap_in = i;
 			}
 		}
+		
 		tlb[swap_in] = entry;
 		return entry;
 		
@@ -299,7 +314,6 @@ namespace Simulator{
 			for(int i = 0; i < BLOCK_NUM; ++i)
 				for(int j = 0; j < SET; ++j){
 					u32 page = swap_out_page;
-					printf("traverse cache page : %d vs %d\n", swap_out_page, cache[i][j].get_VP());
 					if(cache[i][j].get_VP() == page){
 						cache[i][j].set_valid(false);
 						printf("here !!!!!\n");
