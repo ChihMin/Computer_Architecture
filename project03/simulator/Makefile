@@ -68,6 +68,6 @@ memory.o:
 	$(CXX) $(CXXFLAGS) memory.cpp
 
 clean:
-	rm *.o debug CMP *.rpt
+	rm *.o debug CMP *.rpt *.bin
 
 
