@@ -28,7 +28,7 @@
 
 
 * 由Input的計算方式可以猜測，Machine 是採用 Harvard Architecture（如圖，by wikipedia）
-![圖一](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Harvard_architecture.svg/450px-Harvard_architecture.svg.png)
+![archi](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Harvard_architecture.svg/450px-Harvard_architecture.svg.png)
 
 * 因為$Total\_Cache\_size = D\_Cache\_size + I\_cache\_size$ ，所以 D Cache & I Cache 分別放在不同的地方，而不是在同一個區塊上
 
@@ -95,17 +95,17 @@ Testcase的設計偏向Machine A 的 D cache size 永遠小於 I Cache size，Ma
 | ![img](./Dcache.png) | ![img](./bzip2.png) |
 
 
-### Comparasion
+### Comparison
 
 我從五種benchmark中挑出三種benchmark跑出來的結果：GCC, PerlBench, bzip2，並且挑選$Totcal\_cache\_size=130kB$的Machine A,B 與Baseline做比較 
 
 * 測量得到的結果
 
-	| Machine  | DCache(kB) | ICache(kB) | GCC(Ticks)           | PerlBench(ticks) | bzip2(ticks)        |
-	| -------: | :---------: | :---------: | :-----------------:  | :--------------: | :---------:         | 
+	| Machine  | DCache(kB)  | ICache(kB)  | GCC(Ticks)           | PerlBench(ticks) | bzip2(ticks)        |
+	| -------: | :---------: | :---------: | :-----------------:  | :--------------: | :-----------------: | 
 	| Baseline | 64          | 32          |  16401167000(1)      |     306285000(1) | 59848220000(1)      |
-	| MachineA| 2           | 128         |  29552917000(1.8019) |442313000(1.4441) | 59323032000(0.9912) |
-	| MachineB| 128         | 2           |  38108051000(2.3235) |716877000(2.3406) | 59858215000(1.0002) |
+	| MachineA | 2           | 128         |  29552917000(1.8019) |442313000(1.4441) | 59323032000(0.9912) |
+	| MachineB | 128         | 2           |  38108051000(2.3235) |716877000(2.3406) | 59858215000(1.0002) |
 
 * 平均三個benchmark所得到的結果，Ratio 則是以normalize 到 baseline machine為主 
 	
@@ -119,36 +119,28 @@ Ticks 越小，顯示出來的效能越好。使用這三者來比較，均會�
 
 ### Analysis
 
-將22組測試資料丟進simulator，並且把五種benchmark跑過一遍，把資料彙整並畫出圖表。前面的 **Testase Table** 會在這裡以圖鳥的形式呈現。
+將 ***22組測試資料*** 丟進simulator，並且把五種benchmark跑過一遍，把資料彙整並畫出圖表。
+
+前面的 **Testase Table** 會在這裡以圖鳥的形式呈現。
 
 |   DCache Size        |         ICahce Size  |
 | :------------------: | :------------------: |
 | ![img](./Dcache.png) | ![img](./Icache.png) |
 
+下面是把22組input testcase丟進simulator，並且用了五個benchmark，對五個結果做Geometry mean，並且把它畫成圖表：
 
+<center>![geomean](./GeoMean.png)</center>
 
+<style>
+img[alt=geomean] {
+	width: 500pt;
+};
+</style>
 
+**從這三張折線圖，可以猜測：**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. ICache size 比較大的MachineA，他的ticks數比MachineB還少，量出來的performance也比較好。
+2. ICache 或 DCache 變得較小的時候，performance會降低（折線圖上尖部分）
+3. ICache size 變小，Ticks 數量上升幅度比 DCache變小的上升幅度還來的大，推測ICache影響效能程度比DCache大
+4. DCache + ICache總數變大，對於整體效能沒有太大的影響
+5. Dcache 與 ICache大小越接近，Ticks數越小，效能越好
