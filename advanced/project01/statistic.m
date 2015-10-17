@@ -36,26 +36,27 @@ for i = 1:10:testcase,
     com_sum_A = [com_sum_A sum(ticks(i:i+4))];
     com_sum_B = [com_sum_B sum(ticks(i+5:i+9))];  
     
-    
     com_prod_A = [com_prod_A prod(ticks(i:i+4)) .^ (1/5)];
     com_prod_B = [com_prod_B prod(ticks(i+5:i+9)) .^ (1/5)];
 end
  
 
-subplot(2,2,1);
+% subplot(2,2,1);
 plot(x, com_sum_A, 'b-o', x, com_sum_B, 'r-o');
 legend('machine A', 'machine B');
 title('Arithmetic mean', 'FontSize', 16);
 xlabel('Round', 'FontSize', 16); ylabel('Ticks(seconds x freq)', 'FontSize', 16);
 
-subplot(2,2,2);
+% subplot(2,2,2);
+figure;
 plot(x, com_prod_A, 'b-o', x, com_prod_B, 'r-o');
 legend('machine A', 'machine B');
 title('Geometry mean', 'FontSize', 16);
 xlabel('Round', 'FontSize', 16); ylabel('Ticks(seconds x freq)', 'FontSize', 16);
 
 
-subplot(2,2,3);
+% subplot(2,2,3);
+figure;
 plot(x, com_d_A, 'b--o', x, com_d_B, 'r--o', x, com_total, 'm--o');
 title('D Cache Size', 'FontSize', 16);
 hleg1 = legend('machine A', 'machine B', 'Total cache size');
@@ -63,7 +64,8 @@ set(hleg1,'Location','NorthWest');
 xlabel('Round', 'FontSize', 16); ylabel('Size(kB)', 'FontSize', 16);
 
 
-subplot(2,2,4);
+% subplot(2,2,4);
+figure;
 plot(x, com_i_A, 'b--o', x, com_i_B, 'r--o', x, com_total, 'm--o');
 title('I Cache Size', 'FontSize', 16);
 hleg1 = legend('machine A', 'machine B', 'Total cache size');
@@ -73,11 +75,63 @@ xlabel('Round', 'FontSize', 16); ylabel('Size(kB)', 'FontSize', 16);
 %%
 figure;
 for i = 0:4,
-    com_A_bench = [];
-    com_B_bench = [];
-    for j = 1:10:testcase,
-        
-    end
-    
+    com_A_bench = ticks(1+i:10:testcase);
+    com_B_bench = ticks(6+i:10:testcase);
+    subplot(2,3,i+1);
+    % figure;
+    plot(x, com_A_bench, 'b--o', x, com_B_bench, 'r--o');
+    title(benchmark{i+1}, 'FontSize', 16);
+    legend('machine A', 'machine B');
+    xlabel('Round', 'FontSize', 16); ylabel('Ticks(seconds x freq)', 'FontSize', 16);
 end
+
+%% Create testcase MARKDOWN table for machine A
+
+fptr = fopen('cache_table_A.txt', 'w');
+for i = 1:testcase/10,
+    fprintf(fptr, '| %d ', com_total(i));
+end
+fprintf(fptr, '| \n');
+
+for i = 1:testcase/10,
+    fprintf(fptr, '|:---:');
+end
+fprintf(fptr, '| \n');
+
+for i = 1:testcase/10,
+    fprintf(fptr, '| %d ', com_d_A(i));
+end
+fprintf(fptr, '| \n');
+
+for i = 1:testcase/10,
+    fprintf(fptr, '| %d ', com_i_A(i));
+end
+fprintf(fptr, '| \n');
+fclose(fptr);
+
+%% Create testcase MARKDOWN table for machine B
+
+fptr = fopen('cache_table_B.txt', 'w');
+for i = 1:testcase/10,
+    fprintf(fptr, '| %d ', com_total(i));
+end
+fprintf(fptr, '| \n');
+
+for i = 1:testcase/10,
+    fprintf(fptr, '|:---:');
+end
+fprintf(fptr, '| \n');
+
+for i = 1:testcase/10,
+    fprintf(fptr, '| %d ', com_d_B(i));
+end
+fprintf(fptr, '| \n');
+
+for i = 1:testcase/10,
+    fprintf(fptr, '| %d ', com_i_B(i));
+end
+fprintf(fptr, '| \n');
+fclose(fptr);
+
+
        
