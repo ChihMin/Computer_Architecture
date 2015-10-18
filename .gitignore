@@ -8,4 +8,7 @@
 *.swn
 *.bin
 *.rpt
+*.m~
+*.tar.gz
+out
 .DS_Store
