@@ -1,0 +1,33 @@
+Command line:
+./run.sh perlbench /home/chihmin/gem5/out 128 8 136
+================= Hardcoded directories ==================
+GEM5_DIR:                                     /home/chihmin/gem5
+SPEC_DIR:                                     /home/chihmin/gem5/GEM5_SPEC2006
+==================== Script inputs =======================
+BENCHMARK:                                    perlbench
+OUTPUT_DIR:                                   /home/chihmin/gem5/out
+==========================================================
+Changing to SPEC benchmark runtime directory: /home/chihmin/gem5/GEM5_SPEC2006/bin
+
+
+--------- Here goes nothing! Starting gem5! ------------
+
+
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Oct  4 2015 10:57:13
+gem5 started Oct 16 2015 23:06:06
+gem5 executing on vditest0
+command line: /home/chihmin/gem5/build/ALPHA_MOESI_CMP_directory/gem5.fast --outdir=/home/chihmin/gem5/out /home/chihmin/gem5/configs/example/spec06_config.py --cpu-type=timing --cpu-clock 2GHz --mem-size=1024MB --caches --l1d_size=128kB --l1i_size=8kB --benchmark=perlbench --benchmark_stdout=/home/chihmin/gem5/out/perlbench_128kB_8kB.out --benchmark_stderr=/home/chihmin/gem5/out/perlbench_128kB_8kB.err
+
+Selected SPEC_CPU2006 benchmark
+--> perlbench
+Process stdout file: /home/chihmin/gem5/out/perlbench_128kB_8kB.out
+Process stderr file: /home/chihmin/gem5/out/perlbench_128kB_8kB.err
+['400.perlbench_base.alpha-gem5', '-I./lib', 'checkspam.pl', '2500', '5', '25', '11', '150', '1', '1', '1', '1']
+Global frequency set at 1000000000000 ticks per second
+**** REAL SIMULATION ****
+info: Entering event queue @ 0.  Starting simulation...
+info: Increasing stack size by one page.
+Exiting @ tick 438071000 because target called exit()

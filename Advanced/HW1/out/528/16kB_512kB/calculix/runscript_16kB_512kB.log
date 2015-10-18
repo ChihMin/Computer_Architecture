@@ -1,0 +1,34 @@
+Command line:
+./run.sh calculix /home/chihmin/gem5/out 16 512 528
+================= Hardcoded directories ==================
+GEM5_DIR:                                     /home/chihmin/gem5
+SPEC_DIR:                                     /home/chihmin/gem5/GEM5_SPEC2006
+==================== Script inputs =======================
+BENCHMARK:                                    calculix
+OUTPUT_DIR:                                   /home/chihmin/gem5/out
+==========================================================
+Changing to SPEC benchmark runtime directory: /home/chihmin/gem5/GEM5_SPEC2006/bin
+
+
+--------- Here goes nothing! Starting gem5! ------------
+
+
+gem5 Simulator System.  http://gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 compiled Oct  4 2015 10:57:13
+gem5 started Oct 16 2015 23:19:03
+gem5 executing on vditest0
+command line: /home/chihmin/gem5/build/ALPHA_MOESI_CMP_directory/gem5.fast --outdir=/home/chihmin/gem5/out /home/chihmin/gem5/configs/example/spec06_config.py --cpu-type=timing --cpu-clock 2GHz --mem-size=1024MB --caches --l1d_size=16kB --l1i_size=512kB --benchmark=calculix --benchmark_stdout=/home/chihmin/gem5/out/calculix_16kB_512kB.out --benchmark_stderr=/home/chihmin/gem5/out/calculix_16kB_512kB.err
+
+Selected SPEC_CPU2006 benchmark
+--> calculix
+Process stdout file: /home/chihmin/gem5/out/calculix_16kB_512kB.out
+Process stderr file: /home/chihmin/gem5/out/calculix_16kB_512kB.err
+['454.calculix_base.alpha-gem5', '-i', 'hyperviscoplastic']
+Global frequency set at 1000000000000 ticks per second
+**** REAL SIMULATION ****
+info: Entering event queue @ 0.  Starting simulation...
+info: Increasing stack size by one page.
+info: Increasing stack size by one page.
+Exiting @ tick 130017000 because target called exit()

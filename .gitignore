@@ -1,7 +1,6 @@
 *.swp
 *.swo
 *.o
-*.pdf
 *.pptx
 *.smw
 *.swn
@@ -9,5 +8,4 @@
 *.rpt
 *.m~
 *.tar.gz
-out
 .DS_Store
