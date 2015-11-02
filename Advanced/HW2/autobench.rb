@@ -74,6 +74,8 @@ class BenchMark
     
     amp = Array.new
     amp[1] = 10 + 150.0 * l2_miss_rate
+    puts "L2 miss_rate = #{l2_miss_rate}, L2 AMP = #{amp[1]}"
+
     amp[0] = 1 + amp[1] * l1_miss_rate
 
     table = "|#{l2_cache} | #{d_access} | #{d_miss_rate} | #{i_access} | #{i_miss_rate}| #{l1_miss_rate.round(8)} | #{amp[0]} |"
