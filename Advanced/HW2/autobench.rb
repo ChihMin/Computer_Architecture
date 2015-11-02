@@ -46,26 +46,27 @@ class BenchMark
     ret_arr
   end
   
-  def parse(l2_cache)
-    l2_miss_rate = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+  def parse(l2_cache, set)
+    stat_file = "out_assoc/#{l2_cache}MB/#{set}_SET/stats_#{l2_cache}MB_#{set}_SET.txt"
+    l2_miss_rate = `cat #{stat_file} \
                     | grep -i l2.overall_miss_rate::total`.split(' ')[1].to_f
 
-    d_access = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+    d_access = `cat #{stat_file} \
                 | grep -i dcache.overall_accesses::total`.split(' ')[1].to_f
     
-    i_access = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+    i_access = `cat #{stat_file} \
                 | grep -i icache.overall_accesses::total`.split(' ')[1].to_f
     
-    d_latency = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+    d_latency = `cat #{stat_file} \
                 | grep -i dcache.overall_avg_miss_latency::total`.split(' ')[1]
     
-    i_latency = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+    i_latency = `cat #{stat_file} \
                 | grep -i icache.overall_avg_miss_latency::total`.split(' ')[1]
     
-    d_miss_rate = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+    d_miss_rate = `cat #{stat_file} \
                 | grep -i dcache.overall_miss_rate::total`.split(' ')[1].to_f
     
-    i_miss_rate = `cat out/#{l2_cache}MB/stats_#{l2_cache}MB.txt \
+    i_miss_rate = `cat #{stat_file} \
                 | grep -i icache.overall_miss_rate::total`.split(' ')[1].to_f
 
     l1_miss_rate = (d_access * d_miss_rate + \
@@ -74,11 +75,9 @@ class BenchMark
     
     amp = Array.new
     amp[1] = 10 + 150.0 * l2_miss_rate
-    puts "L2 miss_rate = #{l2_miss_rate}, L2 AMP = #{amp[1]}"
-
     amp[0] = 1 + amp[1] * l1_miss_rate
 
-    table = "|#{l2_cache} | #{d_access} | #{d_miss_rate} | #{i_access} | #{i_miss_rate}| #{l1_miss_rate.round(8)} | #{amp[0]} |"
+    table = "|#{set} | #{d_access} | #{d_miss_rate} | #{i_access} | #{i_miss_rate}| #{l1_miss_rate.round(8)} | #{l2_miss_rate} | #{amp[0]} |"
     puts table
    - 
     @f.write(table << "\n")
@@ -92,11 +91,14 @@ class BenchMark
   end
 
   def run_parse
-    @f.write("|L2 cache(MB)|d_access|d_miss_rate|i_access|i_miss_rate|L1_miss_rate|AMAT|\n")
-    @f.write("|:----------:|:------:|:---------:|:------:|:---------:|:----------:|:----:|\n")
     
-    for i in 0..10
-      parse(2**i)
+    for size in [1, 2, 4, 8]
+      @f.write("**L2 Cache #{size}MB**\n\n") 
+      @f.write("|set         |d_access|d miss rate|i_access|i miss rate|L1 miss rate|L2 miss rate|AMAT|\n")
+      @f.write("|:----------:|:------:|:---------:|:------:|:---------:|:----------:|:----------:|:----:|\n")
+      for i in 0..7
+        parse(size, 2**i)
+      end
     end
     @f.close
     `open table.md`
