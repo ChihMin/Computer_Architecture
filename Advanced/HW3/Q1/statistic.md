@@ -91,3 +91,4 @@ assembly 的部分，loop body當然多出四個運算的部分，迭代一次�
 
 對這兩個program做 `-O2` 之後，發現兩個program的loop直接消失了，目前猜測是因為某些變數用不到，經過control flow analysis，直接被當作dead code消滅掉了。以下是跑出來的結果：
 ![img](./unroll_o2.png)
+
