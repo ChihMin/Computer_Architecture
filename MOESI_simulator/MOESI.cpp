@@ -55,6 +55,10 @@ struct InputFormat {
            return this->time < tar.time;
         return this->pid < tar.pid;
     }
+
+    void print() {
+        printf("%d %d %d 0x%08x\n", this->time, this->RW, this->pid, this->addr);
+    }
 };
 
 Processor CPU[4];
@@ -62,30 +66,88 @@ Processor CPU[4];
 void printResult();
 
 bool isValidBlock(int tag, const Cache *cache) {
+    // Check if current block has been used
     if (!cache->isValidate)
         return false;
 
+    // Check whether current block is same or not
     if (cache->tag != tag)
         return false;
     
+    // tag point to same block 
     return true;
 }
 
-bool isWriteMiss(int tag, const Cache * cache) {
+bool isMiss(int tag, const Cache * cache) {
+    // The tage is different from cuurent block
     return cache->isValidate &&
                 cache->tag != tag;
+}
+
+void read(int blockNum, int tag, int pid) {
+    Processor * currentCPU = &CPU[pid];
+    Cache *block = &CPU[pid].block[blockNum];
+   
+    /* If it happends read miss, */ 
+    if (isMiss(tag, block)) {
+        // This block will be swapped 
+        State state = block->state;
+        block->isValidate = false; 
+        if (state == M || state == O) {
+            // If current block is MODIFIED or OWN state,
+            // then write back to memory
+            currentCPU->writeBack++;
+        }
+    }
+
+    /* Here is read hit */
+    bool findOtherBlock = false;
+    for (int i = 0; i < PROCNUM; ++i) {
+        if (i == pid) 
+            continue;
+        
+        Processor * otherCPU = &CPU[i];
+        Cache *otherBlock = &otherCPU->block[blockNum];
+        if (!isValidBlock(tag, otherBlock)) {
+            // If there's no block in cache
+            // or tag value is not the same,
+            // then it will continue to find next CPU
+            continue;
+        }
+        
+        State state = otherBlock->state;
+        // If current block is invalid(not used or just swapped)
+        // then we discuss two cases:
+        // (1) If other block is MODIFIED, then trans it to OWN
+        // (2) If other block is OWN, just transfer data
+        if (!block->isValidate || block->state == I) {
+            if (state == M || state == O) {
+                otherBlock->state = O;   
+                otherCPU->transfer[pid]++;   
+            }
+        }
+        // If we can find other block,
+        // then we set current state as SHARED.
+        // or we set it as EXCLUSIVE
+        findOtherBlock = true;
+        if (otherBlock->state == E)
+            otherBlock->state = S;  
+    }
+    
+    if (!findOtherBlock) 
+        block->state = E;
+    else
+        block->state = S;
+    block->tag = tag;
+    block->isValidate = true;
 }
 
 void write(int blockNum, int tag, int pid) {
     Processor * currentCPU = &CPU[pid];
     Cache *block = &CPU[pid].block[blockNum]; 
-    if (!block->isValidate) 
-        block->isValidate = true;
-        
-    bool findOwnBlock = false;
-
+    
     /* Here is write miss */
-    if (isWriteMiss(tag, block)) {
+    if (isMiss(tag, block)) {
         // This block will be swapped 
         State state = block->state;
         block->isValidate = false; 
@@ -121,7 +183,7 @@ void write(int blockNum, int tag, int pid) {
         }
         
         // If block is not on INVALID state 
-        if(state != I) {
+        if (state != I) {
             otherBlock->state = I;  //Set other block INVALID
             otherCPU->invalidation[state]++; // count invalidation
         }
@@ -144,9 +206,15 @@ void run(const vector<InputFormat>&inputData) {
         /* Above is directed map from memory to cache */
         
         switch(RW) {
+        case READ:
+            read(blockIndex, tag, pid);
+            break;
+
         case WRITE:
             write(blockIndex, tag, pid);
+            break;
         }
+        inData.print();
     }
 
     // Write back all the dirty lines
@@ -187,9 +255,13 @@ int main(int argc, char **argv) {
         }
     }
     
+    /* First sort timestamp, secondary sort processor ID */ 
     sort(inputData.begin(), inputData.end());
     
+    /* Start Simulation */ 
     run(inputData);
+
+    /* Output result */
     printResult();
     
     return 0;
