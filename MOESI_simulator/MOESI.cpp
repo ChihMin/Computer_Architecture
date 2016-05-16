@@ -15,8 +15,8 @@
 using namespace std;
 
 enum State {
-    O = 0,
-    M,
+    M = 0,
+    O,
     E,
     S,
     I
@@ -58,6 +58,8 @@ struct InputFormat {
 };
 
 Processor CPU[4];
+
+void printResult();
 
 bool isValidBlock(int tag, const Cache *cache) {
     if (!cache->isValidate)
@@ -141,7 +143,23 @@ void run(const vector<InputFormat>&inputData) {
         uint32_t blockIndex = addr % BLOCKNUM;   
         /* Above is directed map from memory to cache */
         
-         
+        switch(RW) {
+        case WRITE:
+            write(blockIndex, tag, pid);
+        }
+    }
+
+    // Write back all the dirty lines
+    for (int i = 0; i < PROCNUM; ++i) {
+        for (int j = 0; j < BLOCKNUM; ++j) {
+            State state = CPU[i].block[j].state;
+            if (state == M || state == O) {
+                // If state is MODIFIED or OWN,
+                // then writeBack to memory 'cause
+                // they are dirty blocks.
+                CPU[i].writeBack++;
+            }
+        }
     }
 }
 
@@ -170,10 +188,47 @@ int main(int argc, char **argv) {
     }
     
     sort(inputData.begin(), inputData.end());
-    //memset(CPU, 0, sizeof(CPU));
-
-     
+    
+    run(inputData);
+    printResult();
     
     return 0;
 }
 
+void printResult() {
+    for (int i = 0; i < PROCNUM; ++i) {
+        printf("P%d cache transfers: ", i);
+        for (int j = 0; j < PROCNUM; ++j)
+            printf("%7d", CPU[i].transfer[j]);
+        printf("\n");
+    }
+    
+    printf("\n");
+    
+    for (int i = 0; i < PROCNUM; ++i) {
+        int *inv = CPU[i].invalidation;
+        printf("P%d Invalidation: m=%d o=%d e=%d s=%d\n", 
+                    i, inv[0], inv[1], inv[2], inv[3]);
+    }
+    printf("\n");
+    
+    for (int i = 0; i < PROCNUM; ++i) {
+        printf("P%d WriteBack Number: %d\n", i, CPU[i].writeBack);
+    } 
+    printf("\n");
+
+    for (int i = 0; i < PROCNUM; ++i) {
+        Cache *block = CPU[i].block;
+        int statistic[6];
+        memset(statistic, 0, sizeof(statistic));
+        for (int j = 0; j < BLOCKNUM; ++j) {
+            State state = block[j].state;
+            statistic[state]++;
+        }
+         
+        int *inv = statistic;
+        printf("P%d statistic: M=%d O=%d E=%d S=%d I=%d\n", 
+                    i, inv[0], inv[1], inv[2], inv[3], inv[4]);
+    }
+    printf("\n");
+}
