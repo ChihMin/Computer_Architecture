@@ -1,0 +1,7 @@
+1. make
+
+2. ./MOESI ${INPUT_FOLDER}
+   INPUT_FOLDER is the directory containing p0.tr ~ p3.tr
+   e.g. ./MOESI testcase/trace2
+
+3. Result will be shown on screen.
