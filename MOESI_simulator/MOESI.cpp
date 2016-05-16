@@ -214,7 +214,6 @@ void run(const vector<InputFormat>&inputData) {
             write(blockIndex, tag, pid);
             break;
         }
-        inData.print();
     }
 
     // Write back all the dirty lines
