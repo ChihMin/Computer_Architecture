@@ -296,8 +296,10 @@ void printResult() {
         int statistic[6];
         memset(statistic, 0, sizeof(statistic));
         for (int j = 0; j < BLOCKNUM; ++j) {
-            State state = block[j].state;
-            statistic[state]++;
+            if (block[j].isValidate){
+                State state = block[j].state;
+                statistic[state]++;
+            }
         }
          
         int *inv = statistic;
