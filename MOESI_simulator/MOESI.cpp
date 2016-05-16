@@ -220,6 +220,9 @@ void run(const vector<InputFormat>&inputData) {
     for (int i = 0; i < PROCNUM; ++i) {
         for (int j = 0; j < BLOCKNUM; ++j) {
             State state = CPU[i].block[j].state;
+            if (!CPU[i].block[j].isValidate) 
+                continue;
+
             if (state == M || state == O) {
                 // If state is MODIFIED or OWN,
                 // then writeBack to memory 'cause
